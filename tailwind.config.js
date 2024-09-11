@@ -7,8 +7,10 @@ export default {
   theme: {
     colors: {
       main: '#5453EE',
-      sub:'#B0B0EE',
+      purple:'#B0B0EE',
       yellow: '#FCEF7B',
+      green: '#9DF4B6',
+      blue: '#7DDFF9',
       gray900: '#171D24',
       gray800: '#2A303A',
       gray700: '#373D49',
@@ -22,10 +24,16 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Pretendard Variable"],
+        display: ["Pretendard"],
       },
       fontSize:{
-        
+        22: ["22px"],
+        18: ["18px"],
+        16: ['16px'],
+        14: ['14px'],
+        12: ['12px'],
+        10: ['10px'],
+        8: ['8px']
       }
     },
   },

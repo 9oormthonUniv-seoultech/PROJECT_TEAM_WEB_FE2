@@ -3,7 +3,7 @@ import tw from 'twin.macro'
 import styled from 'styled-components'
 
 const Button = styled.button`
-  ${tw`text-red-400`}
+  ${tw`text-22 font-display font-semibold`}
 `
 
 function Home() {
@@ -12,7 +12,7 @@ function Home() {
 
   return (
     <div>
-        <h1 tw="text-red-400">Hello, Twin.macro!</h1>
+        <h1 tw="text-main">Hello, Twin.macro!</h1>
         <Button>Styled Button with Tailwind</Button>
         <span>Home</span>
     </div>
