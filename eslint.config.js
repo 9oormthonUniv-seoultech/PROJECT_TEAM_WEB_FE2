@@ -6,21 +6,23 @@ import prettierConfig from "eslint-config-prettier";
 import prettierPlugin from "eslint-plugin-prettier";
 
 export default [
-  {files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"]},
-  {languageOptions: { globals: globals.browser }},
+  { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
+  { languageOptions: { globals: globals.browser } },
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   pluginReact.configs.flat.recommended,
 
   // Prettier 설정 추가
-  prettierConfig,  // Prettier 설정이 ESLint 포맷 규칙을 덮어씌움
+  prettierConfig, // Prettier 설정이 ESLint 포맷 규칙을 덮어씌움
   {
     plugins: {
-      prettier: prettierPlugin
+      prettier: prettierPlugin,
     },
     rules: {
       "react/react-in-jsx-scope": "off", //React를 import하지 않아도 react를 사용 가능
-      "prettier/prettier": "error",  // Prettier 규칙을 ESLint 오류로 표시
-    }
-  }
+      "prettier/prettier": ["error", { endOfLine: "auto" }], // Prettier 규칙을 ESLint 오류로 표시
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
 ];
