@@ -3,6 +3,7 @@ import Home from "./pages/Home";
 import SplashScreen from "./pages/SplashScreen";
 import Album from "./pages/Album";
 import My from "./pages/My";
+import PhotoUpload from "./pages/PhotoUpload";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/album" element={<Album />} />
         <Route path="/my" element={<My />} />
+        <Route path="/photo-upload" element={<PhotoUpload />} />
       </Routes>
     </BrowserRouter>
   );
