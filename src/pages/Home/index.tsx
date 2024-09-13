@@ -1,12 +1,12 @@
 // import tw from "twin.macro";
 // import styled from "styled-components";
 import NavBar from "../../components/Common/NavBar";
+import MapContainer from "../../components/Common/MapContainer";
 
 function Home() {
-  console.log("Home component rendered"); // 디버깅용 로그
-
   return (
     <div>
+      <MapContainer></MapContainer>
       <NavBar />
     </div>
   );
