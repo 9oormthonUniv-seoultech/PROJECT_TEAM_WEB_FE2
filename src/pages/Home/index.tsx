@@ -4,6 +4,7 @@ import NavBar from "../../components/Common/NavBar";
 import MapContainer from "../../components/Common/MapContainer";
 import Search from "../../components/Home/Search";
 import AddBtn from "../../components/Home/AddBtn";
+import BoothSlide from "../../components/Home/BoothSlide";
 
 function Home() {
   return (
@@ -11,6 +12,7 @@ function Home() {
       <main className="w-full relative">
         <MapContainer></MapContainer>
         <Search />
+        <BoothSlide />
         <AddBtn />
       </main>
       <NavBar />
