@@ -4,10 +4,13 @@ import KaKaoImg from "../assets/images/kakao.svg?react";
 import tw from "twin.macro";
 import styled from "styled-components";
 function LoginPage() {
+  const handleLogin = () => {
+    window.location.href = "https://pocket4cut.link/oauth2/authorization/kakao";
+  };
   return (
     <Container>
       <LoginBanner />
-      <LoginBtn>
+      <LoginBtn onClick={handleLogin}>
         <KaKaoImg />
         <span>카카오톡으로 계속하기</span>
       </LoginBtn>

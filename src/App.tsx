@@ -5,6 +5,7 @@ import Album from "./pages/Album";
 import My from "./pages/My";
 import PhotoUpload from "./pages/PhotoUpload";
 import LoginPage from "./pages/LoginPage";
+import Token from "./pages/Token";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/my" element={<My />} />
         <Route path="/photo-upload" element={<PhotoUpload />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/token" element={<Token />} />
       </Routes>
     </BrowserRouter>
   );
