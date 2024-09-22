@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Map } from "react-kakao-maps-sdk";
-import { getLocation } from "../../hooks/getLocation";
+import { getCurrentLocation } from "../../hooks/getLocation";
 
 type MapContainerProps = {
   lat?: number;
@@ -19,13 +19,12 @@ function MapContainer({ lat, lng, children }: MapContainerProps) {
         setGeo({ lat, lng });
       } else {
         // 전달되지 않으면 현재 위치 가져오기
-        const res = await getLocation();
+        const res = await getCurrentLocation();
         if (res) {
           setGeo(res);
         }
       }
     };
-    console.log(geo);
 
     fetchLocation();
   }, [lat, lng]);
