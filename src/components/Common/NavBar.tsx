@@ -21,15 +21,15 @@ function NavBar() {
     <Container>
       <MenuBtn onClick={() => navigate("/home")} disabled={locationNow.pathname === "/home"}>
         <HomeIcon color={isActive("/home")} />
-        <Text active={locationNow.pathname === "/home"}>홈</Text>
+        <Text $active={locationNow.pathname === "/home"}>홈</Text>
       </MenuBtn>
       <MenuBtn onClick={() => navigate("/album")} disabled={locationNow.pathname === "/album"}>
         <AlbumIcon color={isActive("/album")} />
-        <Text active={locationNow.pathname === "/album"}>앨범</Text>
+        <Text $active={locationNow.pathname === "/album"}>앨범</Text>
       </MenuBtn>
       <MenuBtn onClick={() => navigate("/my")} disabled={locationNow.pathname === "/my"}>
         <MyIcon color={isActive("/my")} />
-        <Text active={locationNow.pathname === "/my"}>MY</Text>
+        <Text $active={locationNow.pathname === "/my"}>MY</Text>
       </MenuBtn>
     </Container>
   );
@@ -45,7 +45,7 @@ const MenuBtn = styled.button`
   ${tw`flex flex-col items-center w-[25px]`}
 `;
 
-const Text = styled.span<{ active: boolean }>`
+const Text = styled.span<{ $active: boolean }>`
   ${tw`font-display font-medium text-[9px] mt-0.5`}
-  ${(props) => (props.active ? tw`text-main` : tw`text-gray200`)}
+  ${(props) => (props.$active ? tw`text-main` : tw`text-gray200`)}
 `;
