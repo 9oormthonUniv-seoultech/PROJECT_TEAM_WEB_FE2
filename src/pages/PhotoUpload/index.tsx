@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import tw from 'twin.macro';
 import styled from 'styled-components';
+import { useNavigate } from "react-router-dom";
+import CloseIcon from "../../assets/icons/close-icon";
 
 interface OptionProps {
   onClick: () => void;
@@ -12,7 +14,7 @@ interface OptionProps {
 const OptionComponent = ({ onClick, isActive, label, subLabel }: OptionProps) => {
   return (
     <Option onClick={onClick} isActive={isActive} label={label} subLabel={subLabel}>
-      <div css={tw`flex items-center gap-3`}>
+      <div className="flex items-center gap-3">
         <CircleContainer>
           <CircleBorder isActive={isActive} />
           {isActive && <CircleInner />}
@@ -26,6 +28,7 @@ const OptionComponent = ({ onClick, isActive, label, subLabel }: OptionProps) =>
 
 function PhotoUpload() {
   const [activeOption, setActiveOption] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleOptionClick = (option: string) => {
     setActiveOption(option);
@@ -33,62 +36,56 @@ function PhotoUpload() {
   };
 
   const handleNext = () => {
-    console.log("gogo");
+    navigate("/qr-scan");
   };
+
+  const handleClose = () => {
+    navigate("/home");
+  }
 
   return (
     <Container>
-      <div className="w-[390px] h-[146px] relative bg-white mb-12">
+      <header className="w-[390px] h-[146px] relative bg-white mb-12">
         <div className="left-[150px] top-[82px] absolute text-[#171d24] text-2xl font-semibold font-['Pretendard']">
           사진 등록
         </div>
-        <div className="w-6 h-6 p-0.5 left-[345px] top-[85px] absolute justify-center items-center gap-2.5 inline-flex">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <g id="Frame">
-              <path
-                  id="Vector"
-                  d="M2.5 2.5L21.5 21.5"
-                  stroke="#676F7B"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-              />
-              <path
-                  id="Vector_2"
-                  d="M21.5 2.5L2.5 21.5"
-                  stroke="#676F7B"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-              />
-            </g>
-          </svg>
-        </div>
-      </div>
+        <CloseButton onClick={handleClose}>
+          <CloseIcon color={"default"}/>
+        </CloseButton>
+        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0">
+          <path
+            d="M-6 1C-2.4 1 267.167 1 401.5 1"
+            stroke="#E9EAEE"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </header>
+
       <OptionContainer>
         <OptionComponent
-            onClick={() => handleOptionClick("QR 인식")}
-            isActive={activeOption === "QR 인식"}
-            label="QR 인식"
-            subLabel="QR 인식은 하루필름 매장만 가능해요"
+          onClick={() => handleOptionClick("QR 인식")}
+          isActive={activeOption === "QR 인식"}
+          label="QR 인식"
+          subLabel="QR 인식은 하루필름 매장만 가능해요"
         />
         <OptionComponent
-            onClick={() => handleOptionClick("내 사진첩 불러오기")}
-            isActive={activeOption === "내 사진첩 불러오기"}
-            label="내 사진첩 불러오기"
+          onClick={() => handleOptionClick("내 사진첩 불러오기")}
+          isActive={activeOption === "내 사진첩 불러오기"}
+          label="내 사진첩 불러오기"
         />
       </OptionContainer>
       <ButtonContainer onClick={() => handleNext()}>
-        <button className="text-center text-white text-[22px] font-semibold font-['Pretendard']">
-          다음
-        </button>
+        <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
     </Container>
   );
 }
 
 const Container = styled.div`
-  ${tw`flex flex-1 flex-col justify-center items-center min-h-screen`}
+  ${tw`bg-background flex flex-col items-center min-h-screen w-full`}
+  overflow-x: hidden;
 `;
 
 const OptionContainer = styled.div`
@@ -97,14 +94,14 @@ const OptionContainer = styled.div`
 
 const Option = styled.button<OptionProps>`
   ${tw`w-[267px] h-[90px] rounded-lg border mb-4 cursor-pointer transition-colors duration-200`}
-  padding: ${({ isActive }) => (isActive ? '23px 12px' : '8px 12px')};
-  background-color: ${({ isActive }) => (isActive ? '#e1e0ff' : 'transparent')};
-  border-color: ${({ isActive }) => (isActive ? '#5453ee' : '#c7c9ce')};
+  padding: ${({ isActive }) => (isActive ? "23px 12px" : "8px 12px")};
+  background-color: ${({ isActive }) => (isActive ? "#e1e0ff" : "transparent")};
+  border-color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
   display: flex;
-  flex-direction: ${({ isActive }) => (isActive ? 'column' : 'row')};
+  flex-direction: ${({ isActive }) => (isActive ? "column" : "row")};
   justify-content: center;
   align-items: center;
-  gap: ${({ isActive }) => (isActive ? '10px' : '12px')};
+  gap: ${({ isActive }) => (isActive ? "10px" : "12px")};
 `;
 
 const CircleContainer = styled.div`
@@ -131,8 +128,12 @@ const SubLabel = styled.div`
   ${tw`text-[#5453ee] text-xs font-medium font-['Pretendard']`}
 `;
 
-const ButtonContainer = styled.div`
+const ButtonContainer = styled.button`
   ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-12 flex justify-center items-center`}
+`;
+
+const CloseButton = styled.button`
+  ${tw`w-6 h-6 p-0.5 left-[345px] top-[85px] absolute justify-center items-center gap-2.5 inline-flex`}
 `;
 
 export default PhotoUpload;
