@@ -1,6 +1,6 @@
-import { IconProps } from "../../@types/icon";
 
-function ProgressIcon({ width, height, color }: IconProps) {
+
+function ProgressIcon() {
   return (
     <svg width="225" height="225" viewBox="0 0 225 225" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="112.5" cy="112.5" r="96.3043" stroke="#C7C7C7" stroke-width="11.4138"/>
