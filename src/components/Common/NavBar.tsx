@@ -10,7 +10,8 @@ function NavBar() {
   const navigate = useNavigate();
 
   const isActive = (menu: string) => {
-    if (locationNow.pathname === menu) {
+    // 하위 경로도 포함하여 활성화 확인
+    if (locationNow.pathname.startsWith(menu)) {
       return "#5453EE";
     } else {
       return "#C7C9CE";
@@ -21,15 +22,15 @@ function NavBar() {
     <Container>
       <MenuBtn onClick={() => navigate("/home")} disabled={locationNow.pathname === "/home"}>
         <HomeIcon color={isActive("/home")} />
-        <Text $active={locationNow.pathname === "/home"}>홈</Text>
+        <Text $active={locationNow.pathname.startsWith("/home")}>홈</Text>
       </MenuBtn>
       <MenuBtn onClick={() => navigate("/album")} disabled={locationNow.pathname === "/album"}>
         <AlbumIcon color={isActive("/album")} />
-        <Text $active={locationNow.pathname === "/album"}>앨범</Text>
+        <Text $active={locationNow.pathname.startsWith("/album")}>앨범</Text>
       </MenuBtn>
       <MenuBtn onClick={() => navigate("/my")} disabled={locationNow.pathname === "/my"}>
         <MyIcon color={isActive("/my")} />
-        <Text $active={locationNow.pathname === "/my"}>MY</Text>
+        <Text $active={locationNow.pathname.startsWith("/my")}>MY</Text>
       </MenuBtn>
     </Container>
   );
@@ -38,7 +39,7 @@ function NavBar() {
 export default NavBar;
 
 const Container = styled.nav`
-  ${tw`fixed bottom-0 flex flex-row [max-width: 480px] w-full h-[60px] px-[53px] items-center justify-between bg-background`}
+  ${tw`fixed bottom-0 flex flex-row [max-width: 480px] w-full h-[60px] px-[53px] items-center justify-between bg-background z-30`}
 `;
 
 const MenuBtn = styled.button`
