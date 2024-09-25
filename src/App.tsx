@@ -6,6 +6,7 @@ import My from "./pages/My";
 import PhotoUpload from "./pages/PhotoUpload";
 import LoginPage from "./pages/LoginPage";
 import Token from "./pages/Token";
+import Booth from "./pages/Booth";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/photo-upload" element={<PhotoUpload />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/token" element={<Token />} />
+        <Route path="/home/booth" element={<Booth />} />
       </Routes>
     </BrowserRouter>
   );
