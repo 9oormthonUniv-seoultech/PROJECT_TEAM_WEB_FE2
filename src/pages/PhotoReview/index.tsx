@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import Search from "../../assets/images/search.svg?react";
+import BackIcon from "../../assets/icons/back-icon";
 import { useNavigate } from "react-router-dom";
 
 function PhotoReview() {
@@ -19,22 +20,9 @@ function PhotoReview() {
         <div className="relative flex flex-row w-full justify-center items-center">
           <Title>리뷰 작성</Title>
           <button onClick={handleBack}>
-            <svg
-              className="absolute left-0"
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M17 2L7 11.7561L17 22"
-                stroke="#676F7B"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-              />
-            </svg>
+            <div className="absolute left-0">
+              <BackIcon color="grey"/>
+            </div>
           </button>
         </div>
         <DateText>2024년 8월 3일</DateText>
