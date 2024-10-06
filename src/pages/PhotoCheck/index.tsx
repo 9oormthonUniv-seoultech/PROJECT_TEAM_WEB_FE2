@@ -3,9 +3,19 @@ import ShareComplete from '../../assets/images/share-complete.png';
 import PhotoCheck1 from "./step1.tsx";
 import PhotoCheck2 from "./step2.tsx";
 import PhotoCheck3 from "./step3.tsx";
+import { useLocation } from "react-router-dom";
+
+interface InfoState {
+  year: string;
+  month: string;
+  day: string;
+  boothLocation: string;
+}
 
 function PhotoCheck() {
-
+  const location = useLocation();
+  const { year, month, day, boothLocation } = location.state as InfoState || {};
+  const dateInfo = year + "년 " + month + "월 " + day + "일 " + boothLocation;
   // State to track the current step
   const [step, setStep] = useState(1);
 
@@ -21,15 +31,26 @@ function PhotoCheck() {
   return (
     <>
       {step === 1 && (
-        <PhotoCheck1 handleNextClick={handleNextClick} />
+        <PhotoCheck1
+          handleNextClick={handleNextClick}
+          dateInfo={dateInfo}
+        />
       )}
 
       {step === 2 && (
-        <PhotoCheck2 handleNextClick={handleNextClick} handleBackStep={handleBackStep} />
+        <PhotoCheck2
+          handleNextClick={handleNextClick}
+          handleBackStep={handleBackStep}
+          dateInfo={dateInfo}
+        />
       )}
 
       {step === 3 && (
-        <PhotoCheck3 handleNextClick={handleNextClick} handleBackStep={handleBackStep} />
+        <PhotoCheck3
+          handleNextClick={handleNextClick}
+          handleBackStep={handleBackStep}
+          dateInfo={dateInfo}
+        />
       )}
 
       {step === 4 && (
