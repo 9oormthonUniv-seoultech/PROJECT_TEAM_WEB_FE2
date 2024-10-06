@@ -5,9 +5,10 @@ import BackIcon from "../../assets/icons/back-icon.tsx";
 
 interface Step1Props {
   handleNextClick: () => void;
+  dateInfo : string;
 }
 
-function PhotoCheck1({ handleNextClick } : Step1Props) {
+function PhotoCheck1({ handleNextClick, dateInfo } : Step1Props) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -25,7 +26,7 @@ function PhotoCheck1({ handleNextClick } : Step1Props) {
             </div>
           </button>
         </div>
-        <DateText>2024년 8월 3일</DateText>
+        <DateText>{dateInfo}</DateText>
         <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-5">
           <path
             d="M-6 1C-2.4 1 267.167 1 401.5 1"
