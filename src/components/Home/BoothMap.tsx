@@ -5,17 +5,13 @@ import { BoothLogoUrl } from "../../data/booth-categories";
 import { useState } from "react";
 import ActiveCustomMarker from "../../assets/icons/active-booth-marker";
 import BoothModal from "./BoothModal";
+import { getLogoUrl } from "../../hooks/getLogoUrl";
 
 function BoothMap() {
   const center = { lat: 37.6315083, lng: 127.0760196 };
   const [activeId, setActiveId] = useState<number>(0);
   const dummyData = [{ id: 1, type: "PLANB_STUDIO", lat: 37.6315083, lng: 127.0760196 }];
 
-  // BoothLogoUrl에서 type에 맞는 url 찾기
-  const getLogoUrl = (type: string) => {
-    const logo = BoothLogoUrl.find((item) => item.id === type);
-    return logo!.url; // 해당 type에 맞는 로고 URL 반환
-  };
   const handleClick = (id: number) => {
     if (activeId === id) {
       setActiveId(0);
