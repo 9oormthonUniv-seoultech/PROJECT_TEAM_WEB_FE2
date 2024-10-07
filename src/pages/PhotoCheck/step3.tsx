@@ -1,8 +1,10 @@
 import {useNavigate} from "react-router-dom";
 import ShareLogo from "../../assets/images/share-logo.svg?react";
+import Checked from "../../assets/images/checked.svg?react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
+import {useState} from "react";
 
 interface Step3Props {
   handleNextClick : () => void;
@@ -12,7 +14,8 @@ interface Step3Props {
 
 function PhotoCheck3({handleNextClick,handleBackStep, dateInfo}: Step3Props) {
   const navigate = useNavigate();
-
+  const [clicked, setClicked] = useState(false);
+  
   return (
     <Container>
       <Header>
@@ -37,7 +40,12 @@ function PhotoCheck3({handleNextClick,handleBackStep, dateInfo}: Step3Props) {
       </Header>
       <ShareLogo className="mt-3"></ShareLogo>
       <div className="relative mt-6 justify-start items-center gap-2.5 inline-flex">
-        <div className="w-6 h-6 bg-[#e9eaee] rounded-[3px] border border-black" />
+        <button
+          className="w-6 h-6 bg-[#e9eaee] rounded-[3px]"
+          onClick={() => setClicked((prev) => !prev)}
+        >
+          {clicked ? <Checked /> : null}
+        </button>
         <div className="text-white text-lg font-normal font-['Pretendard']">해시태그, 사진 기록까지 공유하기</div>
       </div>
       <ButtonContainer onClick={() => handleNextClick()}>

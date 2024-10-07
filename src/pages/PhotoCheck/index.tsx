@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ShareComplete from '../../assets/images/share-complete.png';
 import PhotoCheck1 from "./step1.tsx";
 import PhotoCheck2 from "./step2.tsx";
 import PhotoCheck3 from "./step3.tsx";
 import { useLocation } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 interface InfoState {
   year: string;
@@ -18,6 +19,7 @@ function PhotoCheck() {
   const dateInfo = year + "년 " + month + "월 " + day + "일 " + boothLocation;
   // State to track the current step
   const [step, setStep] = useState(1);
+  const navigate = useNavigate();
 
   // Function to handle the next button click
   const handleNextClick = () => {
@@ -27,6 +29,15 @@ function PhotoCheck() {
   const handleBackStep = () => {
     setStep((prevStep) => prevStep - 1);
   }
+  
+  useEffect(() => {
+    if (step === 4) {
+      const timeout = setTimeout(() => {
+        navigate('/home'); // 2초 후에 home으로 리디렉션
+      }, 2000);
+      return () => clearTimeout(timeout);
+    }
+  }, [step]);
 
   return (
     <>

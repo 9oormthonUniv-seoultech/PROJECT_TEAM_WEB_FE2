@@ -14,7 +14,7 @@ function RecordModal({ closeModal, setRecords }: ModalProps) {
     setRecords(words);
     closeModal();
   }
-
+  
   return (
     <ModalOverlay>
       <ModalContent>
@@ -23,17 +23,15 @@ function RecordModal({ closeModal, setRecords }: ModalProps) {
         <CloseButton onClick={closeModal}>
           <X />
         </CloseButton>
-        <HashtagContainer>
-          <div className="flex items-center">
-            <div className="h-[49px] p-[15px] bg-[#e9eaee] rounded-lg justify-start items-start gap-[15px] inline-flex">
-              <StyledInput
-                placeholder="기념일"
-                value={words}
-                onChange={(e) => setWords(e.target.value)}
-              />
-            </div>
+        <RecordContainer>
+          <div className="h-[49px] p-[5px] bg-[#e9eaee] rounded-lg justify-start items-start gap-[15px] inline-flex">
+            <StyledInput
+              placeholder="기념일"
+              value={words}
+              onChange={(e) => setWords(e.target.value)}
+            />
           </div>
-        </HashtagContainer>
+        </RecordContainer>
       <ConfirmButton onClick={confirm}>확인</ConfirmButton>
     </ModalContent>
 </ModalOverlay>
@@ -64,7 +62,7 @@ const CloseButton = styled.button`
     ${tw`absolute top-4 right-4 w-[26px] h-[26px] bg-[#e9eaee] rounded-full`}
 `;
 
-const HashtagContainer = styled.div`
+const RecordContainer = styled.div`
     ${tw`space-y-4 my-4 flex flex-col items-start`}
 `;
 
@@ -73,5 +71,5 @@ const ConfirmButton = styled.button`
 `;
 
 const StyledInput = styled.input`
-  ${tw`w-full h-full rounded-lg text-main bg-gray100`}
+  ${tw`w-full h-full rounded-lg text-gray400 bg-gray100 flex-grow`}
 `;
