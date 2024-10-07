@@ -19,7 +19,7 @@ function PhotoReview() {
         year: year,
         month: month,
         day: day,
-        boothLocation: boothLocation
+        boothLocation: boothLocation,
       },
     });
   };
@@ -30,26 +30,18 @@ function PhotoReview() {
 
   return (
     <Container>
-      <Header>
-        <div className="relative flex flex-row w-full justify-between items-center">
-          <button onClick={handleBack}>
+      <header className="relative w-full  flex flex-col items-center mb-12">
+        <div className="flex items-center h-[60px]">
+          <span className="font-semibold text-gray700 text-[22px]">사진 설명</span>
+          <button onClick={handleBack} className="absolute left-[10px]">
             <div>
               <BackIcon color="grey" />
             </div>
           </button>
-          <Title className="flex-grow text-center">사진 설명</Title>
-          <div className="w-8" />
         </div>
-        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-5">
-          <path
-            d="M-6 1C-2.4 1 267.167 1 401.5 1"
-            stroke="#E9EAEE"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      </Header>
+        <hr className="h-[1.5px] w-full bg-gray200 " />
+      </header>
+
       <ContentContainer>
         <LabelContainer>
           <Label>언제 사진을 찍으셨나요?</Label>
@@ -120,9 +112,7 @@ function PhotoReview() {
         </InputContainer>
       </ContentContainer>
       <ButtonContainer onClick={() => handleNext()}>
-        <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">
-          다음
-        </div>
+        <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
     </Container>
   );
@@ -137,9 +127,9 @@ const Container = styled.div`
   -ms-overflow-style: none;
 `;
 
-const Header = styled.header`
-  ${tw`w-full flex flex-col place-items-center p-6 relative`}
-`;
+// const Header = styled.header`
+//   ${tw`w-full flex flex-col place-items-center p-6 relative`}
+// `;
 
 const Title = styled.div`
   ${tw`text-[#171d24] text-2xl font-semibold font-['Pretendard']`}

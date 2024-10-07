@@ -1,49 +1,35 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ShareLogo from "../../assets/images/share-logo.svg?react";
 import Checked from "../../assets/images/checked.svg?react";
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
-import {useState} from "react";
+import { useState } from "react";
 
 interface Step3Props {
-  handleNextClick : () => void;
-  handleBackStep : () => void;
-  dateInfo : string;
+  handleNextClick: () => void;
+  handleBackStep: () => void;
+  dateInfo: string;
 }
 
-function PhotoCheck3({handleNextClick,handleBackStep, dateInfo}: Step3Props) {
+function PhotoCheck3({ handleNextClick, handleBackStep, dateInfo }: Step3Props) {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
-  
+
   return (
     <Container>
       <Header>
         <div className="relative flex flex-row w-full justify-center items-center">
           <Title>사진 확인</Title>
-          <button onClick={handleBackStep}>
-            <div className="absolute left-0">
-              <BackIcon color="white" />
-            </div>
+          <button className="absolute left-[10px] top-[35%]" onClick={handleBackStep}>
+            <BackIcon color="white" />
           </button>
         </div>
         <DateText>{dateInfo}</DateText>
-        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-5">
-          <path
-            d="M-6 1C-2.4 1 267.167 1 401.5 1"
-            stroke="#E9EAEE"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </Header>
       <ShareLogo className="mt-3"></ShareLogo>
       <div className="relative mt-6 justify-start items-center gap-2.5 inline-flex">
-        <button
-          className="w-6 h-6 bg-[#e9eaee] rounded-[3px]"
-          onClick={() => setClicked((prev) => !prev)}
-        >
+        <button className="w-6 h-6 bg-[#e9eaee] rounded-[3px]" onClick={() => setClicked((prev) => !prev)}>
           {clicked ? <Checked /> : null}
         </button>
         <div className="text-white text-lg font-normal font-['Pretendard']">해시태그, 사진 기록까지 공유하기</div>
@@ -64,7 +50,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  ${tw`w-full flex flex-col place-items-center p-6`}
+  ${tw`relative w-full flex flex-col items-center justify-center mb-12 h-[80px] border-b-[1.5px] border-b-background`}
 `;
 
 const Title = styled.div`
