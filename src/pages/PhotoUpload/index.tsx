@@ -50,7 +50,7 @@ function PhotoUpload() {
           사진 등록
         </div>
         <CloseButton onClick={handleClose}>
-          <CloseIcon color={"default"}/>
+          <CloseIcon color={"grey"}/>
         </CloseButton>
         <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0">
           <path
