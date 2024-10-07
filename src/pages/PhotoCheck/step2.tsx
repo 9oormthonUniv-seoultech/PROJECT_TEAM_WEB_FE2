@@ -15,7 +15,7 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [countHash, setCountHash] = useState(0);
-  const [records, setRecords] = useState("");
+  const [records, setRecords] = useState("클릭하여 오늘 있었던 일들을 기록해보세요");
   const [hashTags, setHashTags] = useState<string[]>([]);
 
   const openHashModal = () => {
@@ -122,9 +122,8 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
       <div className="mt-8 p-[10px] relative bg-[#e9eaee] rounded-lg inline-flex">
         <button
           className="w-[291px] text-[#676f7b] text-base font-normal font-['Pretendard']"
-          onClick={openRecordModal}
-        >
-          클릭하여 오늘 있었던 일들을 기록해보세요
+          onClick={openRecordModal}>
+          {records}
         </button>
       </div>
       {isRecordModalOpen && <RecordModal closeModal={closeRecordModal} setRecords={setRecords} />}
