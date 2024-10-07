@@ -7,7 +7,7 @@ function CloseIcon({ color }: IconProps) {
         <path
           id="Vector"
           d="M2.5 2.5L21.5 21.5"
-          stroke={color === "default" ? "#676F7B" : "#FFFFFF"}
+          stroke={color === "grey" ? "#676F7B" : "#FFFFFF"}
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
@@ -15,7 +15,7 @@ function CloseIcon({ color }: IconProps) {
         <path
           id="Vector_2"
           d="M21.5 2.5L2.5 21.5"
-          stroke={color === "default" ? "#676F7B" : "#FFFFFF"}
+          stroke={color === "grey" ? "#676F7B" : "#FFFFFF"}
           stroke-width="2"
           stroke-linecap="round"
           stroke-linejoin="round"
