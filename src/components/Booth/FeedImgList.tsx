@@ -21,7 +21,6 @@ function FeedImgList() {
         <div className="img-container"></div>
         <div className="img-container"></div>
         <div className="img-container"></div>
-        <div className="img-container"></div>
       </ImgBox>
     </Container>
   );
@@ -30,7 +29,7 @@ function FeedImgList() {
 export default FeedImgList;
 
 const Container = styled.div`
-  ${tw`flex flex-col w-full h-[360px] px-[18px] py-[30px]`}
+  ${tw`flex flex-col w-full px-[18px] py-[30px]`}
 `;
 
 const RowBox = styled.div`
@@ -49,9 +48,10 @@ const MoreBtn = styled.button`
 `;
 
 const ImgBox = styled.div`
-  ${tw`w-full inline-block mt-[25px]`}
+  ${tw`w-full grid gap-[10px] mt-[25px]`}
+  grid-template-columns: repeat(3, 1fr);
 
   .img-container {
-    ${tw` h-[119px] rounded-[8px] bg-gray200`}
+    ${tw`w-full [aspect-ratio: 1 / 1] rounded-[8px] bg-gray200`}
   }
 `;

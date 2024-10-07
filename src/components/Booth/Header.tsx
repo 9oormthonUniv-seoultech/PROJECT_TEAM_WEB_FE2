@@ -7,12 +7,12 @@ function Header({ name }: { name: string }) {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate(-1);
+    navigate("/home");
   };
   return (
     <Container>
       <div className="back-icon" onClick={handleBackClick}>
-        <BackIcon />
+        <BackIcon color="grey" />
       </div>
       <span className="booth-title">{name}</span>
     </Container>

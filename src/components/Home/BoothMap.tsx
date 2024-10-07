@@ -1,16 +1,15 @@
 import MapContainer from "../Common/MapContainer";
 import { CustomOverlayMap } from "react-kakao-maps-sdk";
 import CustomMarker from "../../assets/icons/booth-marker";
-import { BoothLogoUrl } from "../../data/booth-categories";
 import { useState } from "react";
 import ActiveCustomMarker from "../../assets/icons/active-booth-marker";
 import BoothModal from "./BoothModal";
-import { getLogoUrl } from "../../hooks/getLogoUrl";
+import { getLogoUrl } from "../../hooks/getImageUrl";
 
 function BoothMap() {
   const center = { lat: 37.6315083, lng: 127.0760196 };
   const [activeId, setActiveId] = useState<number>(0);
-  const dummyData = [{ id: 1, type: "PLANB_STUDIO", lat: 37.6315083, lng: 127.0760196 }];
+  const dummyData = [{ id: 1, type: "PLANBSTUDIO", lat: 37.6315083, lng: 127.0760196 }];
 
   const handleClick = (id: number) => {
     if (activeId === id) {

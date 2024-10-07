@@ -4,7 +4,7 @@ import "slick-carousel/slick/slick-theme.css";
 import tw from "twin.macro";
 import styled from "styled-components";
 import DummyImg from "../../assets/images/img_3159.jpg";
-import { getLogoUrl } from "../../hooks/getLogoUrl";
+import { getLogoUrl } from "../../hooks/getImageUrl";
 function ImgSlider() {
   const settings = {
     dots: true,

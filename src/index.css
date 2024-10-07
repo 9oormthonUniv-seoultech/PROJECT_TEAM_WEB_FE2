@@ -25,7 +25,9 @@ body {
   margin: auto; /* 가운데 정렬 */
   background-color: #f2f2f2;
 }
-
+::-webkit-scrollbar {
+  display: none;
+}
 .dots_custom {
   display: inline-block;
   vertical-align: middle;
