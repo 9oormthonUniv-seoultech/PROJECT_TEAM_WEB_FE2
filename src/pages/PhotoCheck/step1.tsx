@@ -1,14 +1,14 @@
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
 
 interface Step1Props {
   handleNextClick: () => void;
-  dateInfo : string;
+  dateInfo: string;
 }
 
-function PhotoCheck1({ handleNextClick, dateInfo } : Step1Props) {
+function PhotoCheck1({ handleNextClick, dateInfo }: Step1Props) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -18,26 +18,14 @@ function PhotoCheck1({ handleNextClick, dateInfo } : Step1Props) {
   return (
     <Container>
       <Header>
-        <div className="relative flex flex-row w-full justify-center items-center">
-          <Title>사진 확인</Title>
-          <button onClick={handleBack}>
-            <div className="absolute left-0">
-              <BackIcon color="white" />
-            </div>
-          </button>
-        </div>
+        <Title>사진 확인</Title>
         <DateText>{dateInfo}</DateText>
-        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-5">
-          <path
-            d="M-6 1C-2.4 1 267.167 1 401.5 1"
-            stroke="#E9EAEE"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <button className="absolute left-[10px] top-[35%]" onClick={handleBack}>
+          <BackIcon color="white" />
+        </button>
       </Header>
-      <img src="https://via.placeholder.com/300x350" alt="QR 사진" height="350" width="300" />
+
+      <img src="https://via.placeholder.com/300x350" alt="QR 사진" height="350" width="300" className="m-auto" />
       <ButtonContainer onClick={handleNextClick}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
@@ -51,7 +39,7 @@ const Container = styled.div`
 `;
 
 const Header = styled.header`
-  ${tw`w-full flex flex-col place-items-center p-6`}
+  ${tw`relative w-full flex flex-col items-center justify-center mb-12 h-[80px] border-b-[1.5px] border-b-background`}
 `;
 
 const Title = styled.div`
@@ -63,7 +51,7 @@ const DateText = styled.div`
 `;
 
 const ButtonContainer = styled.button`
-  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-8 flex justify-center items-center`}
+  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-8 mb-[72px] flex justify-center items-center`}
 `;
 
 export default PhotoCheck1;

@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
-import {useEffect, useState} from 'react';
+import { useEffect, useState } from "react";
 import HashTagModal from "../../components/PhotoCheck/HashModal.tsx";
 import RecordModal from "../../components/PhotoCheck/RecordModal.tsx";
 
 interface Step2Props {
-  handleNextClick : () => void;
-  handleBackStep : () => void;
-  dateInfo : string;
+  handleNextClick: () => void;
+  handleBackStep: () => void;
+  dateInfo: string;
 }
 
 function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) {
@@ -35,31 +35,20 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
   };
 
   useEffect(() => {
-    const count = hashTags.filter(tag => tag.length > 0)
-    setCountHash(count.length)
-  },[hashTags]);
+    const count = hashTags.filter((tag) => tag.length > 0);
+    setCountHash(count.length);
+  }, [hashTags]);
 
   return (
     <Container>
       <Header>
         <div className="relative flex flex-row w-full justify-center items-center">
-          <Title>사진 확인</Title>
-          <button onClick={handleBackStep}>
-            <div className="absolute left-0">
-              <BackIcon color="white" />
-            </div>
+          <Title>사진 기록</Title>
+          <button className="absolute left-[10px] top-[35%]" onClick={handleBackStep}>
+            <BackIcon color="white" />
           </button>
         </div>
         <DateText>{dateInfo}</DateText>
-        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="mt-5">
-          <path
-            d="M-6 1C-2.4 1 267.167 1 401.5 1"
-            stroke="#E9EAEE"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
       </Header>
       <div className="relative left-[-40px] overflow-x-auto">
         {countHash > 0 ? (
@@ -76,9 +65,7 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
                   </TagItem>
                 )
             )}
-            <div className="text-[#c7c9ce] text-xs font-normal font-['Pretendard']">
-              {countHash}/3
-            </div>
+            <div className="text-[#c7c9ce] text-xs font-normal font-['Pretendard']">{countHash}/3</div>
           </div>
         ) : (
           <>
@@ -122,7 +109,8 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
       <div className="mt-8 p-[10px] relative bg-[#e9eaee] rounded-lg inline-flex">
         <button
           className="w-[291px] text-[#676f7b] text-base font-normal font-['Pretendard']"
-          onClick={openRecordModal}>
+          onClick={openRecordModal}
+        >
           {records}
         </button>
       </div>
@@ -135,24 +123,24 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
 }
 
 const Container = styled.div`
-    ${tw`bg-gray600 flex flex-col w-full min-h-screen items-center`}
-    overflow-x: hidden;
+  ${tw`bg-gray600 flex flex-col w-full min-h-screen items-center`}
+  overflow-x: hidden;
 `;
 
 const Header = styled.header`
-    ${tw`w-full flex flex-col place-items-center p-6`}
+  ${tw`relative w-full flex flex-col items-center justify-center mb-12 h-[80px] border-b-[1.5px] border-b-background`}
 `;
 
 const Title = styled.div`
-    ${tw`text-[#FFFFFF] text-2xl font-semibold font-['Pretendard']`}
+  ${tw`text-[#FFFFFF] text-2xl font-semibold font-['Pretendard']`}
 `;
 
 const DateText = styled.div`
-    ${tw`opacity-70 text-[#676f7b] text-xs font-medium font-['Pretendard'] mt-1`}
+  ${tw`opacity-70 text-[#676f7b] text-xs font-medium font-['Pretendard'] mt-1`}
 `;
 
 const ButtonContainer = styled.button`
-    ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-8 flex justify-center items-center`}
+  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-8 flex justify-center items-center`}
 `;
 
 const TagItem = styled.div`

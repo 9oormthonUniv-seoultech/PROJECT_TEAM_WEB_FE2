@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import tw from 'twin.macro';
-import styled from 'styled-components';
+import { useState } from "react";
+import tw from "twin.macro";
+import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../assets/icons/close-icon";
 
@@ -41,26 +41,18 @@ function PhotoUpload() {
 
   const handleClose = () => {
     navigate("/home");
-  }
+  };
 
   return (
     <Container>
-      <header className="w-[390px] h-[146px] relative bg-white mb-12">
-        <div className="left-[150px] top-[82px] absolute text-[#171d24] text-2xl font-semibold font-['Pretendard']">
-          사진 등록
+      <header className="relative w-full  flex flex-col items-center mb-12">
+        <div className="flex items-center h-[60px]">
+          <span className="font-semibold text-gray700 text-[22px]">사진 등록</span>
+          <CloseButton onClick={handleClose}>
+            <CloseIcon color={"grey"} />
+          </CloseButton>
         </div>
-        <CloseButton onClick={handleClose}>
-          <CloseIcon color={"grey"}/>
-        </CloseButton>
-        <svg width="390" height="2" viewBox="0 0 390 2" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute bottom-0">
-          <path
-            d="M-6 1C-2.4 1 267.167 1 401.5 1"
-            stroke="#E9EAEE"
-            stroke-width="1.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          />
-        </svg>
+        <hr className="h-[1.5px] w-full bg-gray200 " />
       </header>
 
       <OptionContainer>
@@ -84,12 +76,12 @@ function PhotoUpload() {
 }
 
 const Container = styled.div`
-  ${tw`bg-background flex flex-col items-center min-h-screen w-full`}
+  ${tw`bg-background flex flex-col items-center min-h-screen w-full max-w-[400px] m-auto`}
   overflow-x: hidden;
 `;
 
 const OptionContainer = styled.div`
-  ${tw`flex flex-col mb-12 items-center`}
+  ${tw`flex flex-col items-center m-auto`}
 `;
 
 const Option = styled.button<OptionProps>`
@@ -110,7 +102,7 @@ const CircleContainer = styled.div`
 
 const CircleBorder = styled.div<{ isActive: boolean }>`
   ${tw`absolute w-full h-full rounded-full border-2`}
-  border-color: ${({ isActive }) => (isActive ? '#5453ee' : '#c7c9ce')};
+  border-color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
 `;
 
 const CircleInner = styled.div`
@@ -121,7 +113,7 @@ const CircleInner = styled.div`
 
 const Label = styled.div<{ isActive: boolean }>`
   ${tw`text-base font-semibold font-['Pretendard']`}
-  color: ${({ isActive }) => (isActive ? '#5453ee' : '#c7c9ce')};
+  color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
 `;
 
 const SubLabel = styled.div`
@@ -129,11 +121,11 @@ const SubLabel = styled.div`
 `;
 
 const ButtonContainer = styled.button`
-  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-12 flex justify-center items-center`}
+  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-12 mb-[88px] flex justify-center items-center`}
 `;
 
 const CloseButton = styled.button`
-  ${tw`w-6 h-6 p-0.5 left-[345px] top-[85px] absolute justify-center items-center gap-2.5 inline-flex`}
+  ${tw` absolute  right-[10px]`}
 `;
 
 export default PhotoUpload;
