@@ -22,7 +22,7 @@ function BoothModal() {
       style={{
         transform: `translateY(${currentY}px)`,
       }}
-      onClick={() => navigate("/home/booth")}
+      onClick={() => navigate("/home/booth/feed")}
     >
       <LayerBar />
       <Container>

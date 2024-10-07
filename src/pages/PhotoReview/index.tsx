@@ -129,8 +129,12 @@ function PhotoReview() {
 }
 
 const Container = styled.div`
-  ${tw`bg-background flex flex-col w-full min-h-screen items-center`}
+  ${tw`bg-background flex flex-col w-full min-h-screen items-center `}
   overflow-x: hidden;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
 `;
 
 const Header = styled.header`

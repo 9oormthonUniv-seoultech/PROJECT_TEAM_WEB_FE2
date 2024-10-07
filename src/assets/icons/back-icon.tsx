@@ -6,13 +6,12 @@ function BackIcon({ color }: IconProps) {
       <path
         d="M17 2L7 11.7561L17 22"
         stroke={color === "grey" ? "#676F7B" : "#FFFFFF"}
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
 }
 
 export default BackIcon;
-

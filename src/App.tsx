@@ -11,8 +11,10 @@ import PhotoCheck from "./pages/PhotoCheck";
 
 import LoginPage from "./pages/LoginPage";
 import Token from "./pages/Token";
-import Booth from "./pages/Booth";
-
+import FeedPage from "./pages/Booth/FeedPage";
+import ReviewPage from "./pages/Booth/ReviewPage";
+import ImagePage from "./pages/Booth/ImagePage";
+import BoothDetail from "./pages/Booth";
 
 function App() {
   return (
@@ -30,8 +32,12 @@ function App() {
 
         <Route path="/login" element={<LoginPage />} />
         <Route path="/token" element={<Token />} />
-        <Route path="/home/booth" element={<Booth />} />
 
+        <Route path="/home/booth" element={<BoothDetail />}>
+          <Route path="feed" element={<FeedPage />} />
+          <Route path="review" element={<ReviewPage />} />
+          <Route path="image" element={<ImagePage />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
