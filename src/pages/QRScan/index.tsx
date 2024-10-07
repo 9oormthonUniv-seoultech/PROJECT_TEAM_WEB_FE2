@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import tw from 'twin.macro';
 import styled from 'styled-components';
@@ -16,7 +16,33 @@ function QRScan() {
   const [captureData, setCaptureData] = useState<CaptureData>({ screenshot: null });
   const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
+  const [percentage, setPercentage] = useState<number>(0);
 
+  useEffect(() => {
+    if (isCaptured){
+      const interval = setInterval(() => {
+        setPercentage((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return prev + 2;
+        });
+      }, 100);
+      return () => clearInterval(interval);
+    }
+  }, [isCaptured]);
+  
+  useEffect(() => {
+    if (percentage === 100) {
+      // 100%가 화면에 렌더링된 후 페이지 이동
+      const timeout = setTimeout(() => {
+        navigate("/photo-review");
+      }, 500); // 약간의 지연 시간(0.5초)을 주어 100%가 표시된 후 페이지 이동
+      return () => clearTimeout(timeout);
+    }
+  }, [percentage]);
+  
   const test = () =>{
     setIsCaptured(true);
   };
@@ -99,7 +125,7 @@ function QRScan() {
           {captureData.screenshot && <CapturedImage src={captureData.screenshot} alt="Captured" />}
           <CapturedText>사진을 불러오는 중...</CapturedText>
           <OtherComponent>
-            <ProgressIcon />
+            <ProgressIcon percentage={percentage} />
           </OtherComponent>
         </CapturedContainer>
       )
