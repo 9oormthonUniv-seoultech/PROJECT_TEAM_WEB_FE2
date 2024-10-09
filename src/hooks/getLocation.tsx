@@ -65,3 +65,24 @@ export const trackCurrentPosition = (
   console.error("Geolocation is not supported by this browser.");
   return () => {};
 };
+
+export const getDistance = (lat1: number, lng1: number, lat2: number, lng2: number): string => {
+  const R = 6371; // Radius of the Earth in kilometers
+  const dLat = (lat2 - lat1) * (Math.PI / 180); // Convert latitude difference to radians
+  const dLon = (lng2 - lng1) * (Math.PI / 180); // Convert longitude difference to radians
+
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distanceInKm = R * c; // Distance in kilometers
+
+  // Convert distance to meters if less than 1 km, otherwise keep it in kilometers
+  if (distanceInKm < 1) {
+    const distanceInMeters = distanceInKm * 1000; // Convert km to meters
+    return `${distanceInMeters.toFixed(0)} m`;
+  } else {
+    return `${distanceInKm.toFixed(2)} km`;
+  }
+};

@@ -16,7 +16,7 @@ export type Category = {
 
 export const BoothCategories: Category[] = [
   { id: "LIFE4CUT", label: "인생네컷", imageUrl: InsaengUrl },
-  { id: "HARUFILM", label: "하루필름", imageUrl: HaruUrl },
+  { id: "HARUFLIM", label: "하루필름", imageUrl: HaruUrl },
   { id: "PHOTOISM", label: "포토이즘", imageUrl: PhotoIsmUrl },
   { id: "PHOTOMATIC", label: "포토매틱", imageUrl: PhotoMaticUrl },
   { id: "PHOTOSIGNATURE", label: "포토시그니처", imageUrl: SignatureUrl },

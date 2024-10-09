@@ -4,6 +4,8 @@ import { BoothTagCategories, PhotoTagCategories } from "../data/review-tag-categ
 // BoothLogoUrl에서 type에 맞는 url 찾기
 export const getLogoUrl = (type: string) => {
   const logo = BoothCategories.find((item) => item.id === type);
+  console.log(type);
+  console.log(logo);
   return logo!.imageUrl; // 해당 type에 맞는 로고 URL 반환
 };
 

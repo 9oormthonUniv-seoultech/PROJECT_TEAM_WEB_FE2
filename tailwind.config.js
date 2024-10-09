@@ -7,7 +7,7 @@ export default {
   theme: {
     colors: {
       main: "#5453EE",
-      purple: "#B0B0EE",
+      purple: "#E1E0FF",
       yellow: "#FCEF7B",
       green: "#9DF4B6",
       blue: "#7DDFF9",

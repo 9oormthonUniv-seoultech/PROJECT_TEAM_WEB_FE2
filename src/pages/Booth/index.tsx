@@ -1,24 +1,37 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import NavBar from "../../components/Common/NavBar";
-import Header from "../../components/Booth/Header";
+import Header from "../../components/Common/Header";
 import ImgSlider from "../../components/Booth/ImgSlider";
-import BoothInfo from "../../components/Booth/BoothInfo";
-import { useState } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
-type BoothPageType = {
-  children?: React.ReactNode;
-};
-function BoothDetail({ children }: BoothPageType) {
+import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
+import BoothInfoSection from "../../components/Booth/BoothInfo";
+import { useQuery } from "@tanstack/react-query";
+import { getBoothInfo } from "../../api/booth";
+
+function BoothDetail() {
   const locationNow = useLocation();
+  const { boothId } = useParams() as { boothId: string };
+  //특정 포토부스 정보 조회 api 호출
+  const { isLoading, data: boothInfo } = useQuery({
+    queryKey: ["getBoothInfo", boothId],
+    queryFn: () => getBoothInfo(boothId),
+  });
 
   const navigate = useNavigate();
   return (
     <Layout>
-      <Header name="하루필름 혜화역점" />
+      {!isLoading && boothInfo && <Header mainText={boothInfo.name} handleBackClick={() => navigate("/home")} />}
       <MainWrapper>
         <ImgSlider />
-        <BoothInfo />
+        {!isLoading && boothInfo && (
+          <BoothInfoSection
+            name={boothInfo.name}
+            road={boothInfo.road}
+            x={boothInfo.x}
+            y={boothInfo.y}
+            photoBoothBrand={""}
+          />
+        )}
         <MenuContainer>
           <MenuBtn $active={locationNow.pathname.endsWith("feed")} onClick={() => navigate("feed")}>
             홈
