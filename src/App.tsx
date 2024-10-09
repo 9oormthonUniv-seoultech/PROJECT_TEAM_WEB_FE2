@@ -16,6 +16,8 @@ import ReviewPage from "./pages/Booth/ReviewPage";
 import ImagePage from "./pages/Booth/ImagePage";
 import BoothDetail from "./pages/Booth";
 import WriteReview from "./pages/WriteReview";
+import Step1 from "./pages/WriteReview/step1";
+import Step2 from "./pages/WriteReview/step2";
 
 function App() {
   return (
@@ -39,7 +41,10 @@ function App() {
           <Route path="review" element={<ReviewPage />} />
           <Route path="image" element={<ImagePage />} />
         </Route>
-        <Route path="/write-review/:boothId" element={<WriteReview />} />
+        <Route path="/write-review/:boothId" element={<WriteReview />}>
+          <Route path="step/1" element={<Step1 />} />
+          <Route path="step/2" element={<Step2 />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
