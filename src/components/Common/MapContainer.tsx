@@ -4,13 +4,12 @@ import { getCurrentLocation, trackCurrentPosition } from "../../hooks/getLocatio
 import PointSVG from "../../assets/images/point.svg?url";
 import HeadingSVG from "../../assets/images/heading.svg?url";
 type MapContainerProps = {
-  lat?: number;
-  lng?: number;
+  lat: number;
+  lng: number;
   children?: React.ReactNode;
 };
 
 function MapContainer({ lat, lng, children }: MapContainerProps) {
-  const [geo, setGeo] = useState({ lat: 0, lng: 0 });
   const [position, setPosition] = useState<{ lat: number; lng: number; heading: number | null }>({
     lat: 0,
     lng: 0,
@@ -26,30 +25,31 @@ function MapContainer({ lat, lng, children }: MapContainerProps) {
     };
   }, []);
 
-  useEffect(() => {
-    //현 위치 받아오기
-    const fetchLocation = async () => {
-      if (lat && lng) {
-        // lat과 lng이 props로 전달되면 해당 값 사용
-        setGeo({ lat, lng });
-      } else {
-        // 전달되지 않으면 현재 위치 가져오기
-        const res = await getCurrentLocation();
-        if (res) {
-          setGeo(res);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   //현 위치 받아오기
+  //   const fetchLocation = async () => {
+  //     if (lat && lng) {
+  //       // lat과 lng이 props로 전달되면 해당 값 사용
+  //       setGeo({ lat, lng });
+  //     } else {
+  //       // 전달되지 않으면 현재 위치 가져오기
+  //       const res = await getCurrentLocation();
+  //       if (res) {
+  //         setGeo(res);
+  //       }
+  //     }
+  //   };
 
-    fetchLocation();
-  }, [lat, lng]);
+  //   fetchLocation();
+  // }, [lat, lng]);
 
   return (
     <Map
       id="map"
       level={3}
-      center={{ lat: geo.lat, lng: geo.lng }}
+      center={{ lat: lat, lng: lng }}
       style={{ width: "100%", height: "calc(100vh - 60px)" }}
+      draggable={true}
     >
       {/* 사용자 위치를 나타내는 원형 마커 */}
       <MapMarker
@@ -63,9 +63,9 @@ function MapContainer({ lat, lng, children }: MapContainerProps) {
         }}
       />
       {/* 방향을 나타내는 화살표 마커 */}
-      {position.heading !== null && (
+      {/* {position.heading !== null && (
         <MapMarker
-          position={{ lat: geo.lat, lng: geo.lng }}
+          position={{ lat: lat, lng: lng }}
           image={{
             src: HeadingSVG,
             size: {
@@ -83,8 +83,8 @@ function MapContainer({ lat, lng, children }: MapContainerProps) {
           // style={{
           //   transform: `rotate(${position.heading}deg)`, // heading 값을 사용해 화살표 회전
           // }}
-        />
-      )}
+        /> */}
+      {/* )} */}
       {children}
     </Map>
   );

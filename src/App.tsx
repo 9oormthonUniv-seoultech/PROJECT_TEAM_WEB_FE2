@@ -33,7 +33,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/token" element={<Token />} />
 
-        <Route path="/home/booth" element={<BoothDetail />}>
+        <Route path="/home/:boothId" element={<BoothDetail />}>
           <Route path="feed" element={<FeedPage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="image" element={<ImagePage />} />
