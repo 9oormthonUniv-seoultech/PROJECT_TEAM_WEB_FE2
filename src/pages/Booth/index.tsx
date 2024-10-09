@@ -1,7 +1,7 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import NavBar from "../../components/Common/NavBar";
-import Header from "../../components/Booth/Header";
+import Header from "../../components/Common/Header";
 import ImgSlider from "../../components/Booth/ImgSlider";
 import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import BoothInfoSection from "../../components/Booth/BoothInfo";
@@ -20,7 +20,7 @@ function BoothDetail() {
   const navigate = useNavigate();
   return (
     <Layout>
-      {!isLoading && boothInfo && <Header name={boothInfo.name} />}
+      {!isLoading && boothInfo && <Header mainText={boothInfo.name} handleBackClick={() => navigate("/home")} />}
       <MainWrapper>
         <ImgSlider />
         {!isLoading && boothInfo && (

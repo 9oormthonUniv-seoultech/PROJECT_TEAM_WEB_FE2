@@ -15,6 +15,7 @@ import FeedPage from "./pages/Booth/FeedPage";
 import ReviewPage from "./pages/Booth/ReviewPage";
 import ImagePage from "./pages/Booth/ImagePage";
 import BoothDetail from "./pages/Booth";
+import WriteReview from "./pages/WriteReview";
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
           <Route path="review" element={<ReviewPage />} />
           <Route path="image" element={<ImagePage />} />
         </Route>
+        <Route path="/write-review/:boothId" element={<WriteReview />} />
       </Routes>
     </BrowserRouter>
   );
