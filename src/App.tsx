@@ -18,6 +18,7 @@ import BoothDetail from "./pages/Booth";
 import WriteReview from "./pages/WriteReview";
 import Step1 from "./pages/WriteReview/step1";
 import Step2 from "./pages/WriteReview/step2";
+import CompleteScreen from "./pages/CompleteScreen";
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
           <Route path="step/1" element={<Step1 />} />
           <Route path="step/2" element={<Step2 />} />
         </Route>
+        <Route path="/write-review/complete" element={<CompleteScreen />} />
       </Routes>
     </BrowserRouter>
   );
