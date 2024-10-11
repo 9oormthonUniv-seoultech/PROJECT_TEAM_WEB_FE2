@@ -4,10 +4,16 @@ import LayerBar from "../../assets/images/layer.svg?react";
 import StarIcon from "../../assets/icons/star-icon";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import haruUrl from "../../assets/images/haru-logo.png?url";
-function BoothModal() {
+import { useQuery } from "@tanstack/react-query";
+import { getBoothInfo } from "../../api/booth";
+import { getLogoUrl } from "../../hooks/getImageUrl";
+import useBoothFilterStore from "../../store/useBoothFilterStore";
+import { getDistance } from "../../hooks/getLocation";
+function BoothModal({ boothId }: { boothId: string }) {
   const [currentY, setCurrentY] = useState(0);
   const navigate = useNavigate();
+
+  const { lat, lng } = useBoothFilterStore();
   // 모달 열리는 애니메이션 실행
   useEffect(() => {
     document.body.style.overflow = "hidden"; // 스크롤 비활성화
@@ -17,31 +23,42 @@ function BoothModal() {
     };
   }, []);
 
+  //특정 포토부스 정보 조회 api 호출
+  const { isLoading: isBoothInfoLoading, data: boothInfo } = useQuery({
+    queryKey: ["getBoothInfo", boothId],
+    queryFn: () => getBoothInfo(boothId),
+  });
+
   return (
     <Wrapper
       style={{
         transform: `translateY(${currentY}px)`,
       }}
-      onClick={() => navigate("/home/booth/feed")}
+      onClick={() => navigate(`/home/${boothId}/feed`)}
     >
       <LayerBar />
-      <Container>
-        <InfoBox>
-          <div className="flex items-center">
-            <span className="title">하루필름 혜화역점</span>
-            <StarIcon />
-            <span className="score">4.5</span>
-          </div>
-          <span className="sub-text">345m 리뷰 567</span>
-          <div className="flex items-center mt-2">
-            <TagBox>깔끔한 소품</TagBox>
-            <TagBox>빛번짐 없음 </TagBox>
-          </div>
-        </InfoBox>
-        <ImgBox $imageurl={haruUrl}>
-          <div className="num-tag">+210</div>
-        </ImgBox>
-      </Container>
+
+      {!isBoothInfoLoading && boothInfo ? (
+        <Container>
+          <InfoBox>
+            <div className="flex items-center">
+              <span className="title">{boothInfo.name}</span>
+              <StarIcon />
+              <span className="score">4.5</span>
+            </div>
+            <span className="sub-text">{`${getDistance(boothInfo.x, boothInfo.y, lat, lng)} 리뷰 567`}</span>
+            <div className="flex items-center mt-2">
+              <TagBox>깔끔한 소품</TagBox>
+              <TagBox>빛번짐 없음 </TagBox>
+            </div>
+          </InfoBox>
+          <ImgBox $imageurl={getLogoUrl(boothInfo.photoBoothBrand)}>
+            <div className="num-tag">+210</div>
+          </ImgBox>
+        </Container>
+      ) : (
+        <div>loading..</div>
+      )}
     </Wrapper>
   );
 }

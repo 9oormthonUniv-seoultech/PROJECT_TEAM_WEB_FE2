@@ -2,29 +2,28 @@ import { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { BoothCategories } from "../../data/booth-categories";
+import useBoothFilterStore from "../../store/useBoothFilterStore";
 
 function BoothSlide() {
   //선택한 포토부스 초기화
-  const [selectedBooth, setSelectedBooth] = useState<string[]>([]);
+  const { selectedBrands, setSelectedBrands } = useBoothFilterStore();
 
   //클릭된 부스의 id를 전달받아, 이미 선택된 부스라면 제거, 아니라면 추가하는 로직
   const handleClick = (boothId: string) => {
-    setSelectedBooth((prevSelectedBooths) => {
-      if (prevSelectedBooths.includes(boothId)) {
-        //이미 선택된 부스면 배열에서 제거
-        return prevSelectedBooths.filter((id) => id !== boothId);
-      } else {
-        //선택되지 않은 부스면 배열에 추가
-        return [...prevSelectedBooths, boothId];
-      }
-    });
+    if (selectedBrands!.includes(boothId)) {
+      //이미 선택된 부스면 배열에서 제거
+      setSelectedBrands(selectedBrands!.filter((id) => id !== boothId));
+    } else {
+      //선택되지 않은 부스면 배열에 추가
+      setSelectedBrands([...selectedBrands!, boothId]);
+    }
   };
 
   return (
     <Container>
       <SlideWrapper>
         {BoothCategories.map((booth, index) => (
-          <BoothBtn key={index} $active={selectedBooth.includes(booth.id)} onClick={() => handleClick(booth.id)}>
+          <BoothBtn key={index} $active={selectedBrands!.includes(booth.id!)} onClick={() => handleClick(booth.id!)}>
             {booth.label}
           </BoothBtn>
         ))}

@@ -15,6 +15,10 @@ import FeedPage from "./pages/Booth/FeedPage";
 import ReviewPage from "./pages/Booth/ReviewPage";
 import ImagePage from "./pages/Booth/ImagePage";
 import BoothDetail from "./pages/Booth";
+import WriteReview from "./pages/WriteReview";
+import Step1 from "./pages/WriteReview/step1";
+import Step2 from "./pages/WriteReview/step2";
+import CompleteScreen from "./pages/CompleteScreen";
 
 function App() {
   return (
@@ -33,11 +37,16 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/token" element={<Token />} />
 
-        <Route path="/home/booth" element={<BoothDetail />}>
+        <Route path="/home/:boothId" element={<BoothDetail />}>
           <Route path="feed" element={<FeedPage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="image" element={<ImagePage />} />
         </Route>
+        <Route path="/write-review/:boothId" element={<WriteReview />}>
+          <Route path="step/1" element={<Step1 />} />
+          <Route path="step/2" element={<Step2 />} />
+        </Route>
+        <Route path="/write-review/complete" element={<CompleteScreen />} />
       </Routes>
     </BrowserRouter>
   );

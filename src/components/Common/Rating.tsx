@@ -8,13 +8,14 @@ type RatingProps = {
   h: string;
   readonly: boolean;
   rate?: number; // Accept ratings with decimals
+  setRate?: React.Dispatch<React.SetStateAction<number>>;
 };
 
-function Rating({ w, h, readonly, rate }: RatingProps) {
-  const [rating, setRating] = useState(rate || 0);
+function Rating({ w, h, readonly, rate, setRate }: RatingProps) {
+  // const [rating, setRating] = useState(rate || 0);
   const handleClickStar = (index: number) => {
-    if (!readonly) {
-      setRating(index + 1);
+    if (!readonly && setRate) {
+      setRate(index + 1);
     }
   };
   const calculateRate = (rate: number, index: number) => {
@@ -34,11 +35,11 @@ function Rating({ w, h, readonly, rate }: RatingProps) {
           <FaStar
             size={w}
             onClick={() => handleClickStar(index)}
-            className={` ${!readonly && rating >= index + 1 ? "text-yellow" : "text-purple"}`}
+            className={` ${!readonly && rate! >= index + 1 ? "text-yellow" : "text-purple"}`}
           />
           {readonly && (
             <span
-              style={rate ? { width: calculateRate(rating, index + 1) } : {}}
+              style={rate ? { width: calculateRate(rate, index + 1) } : {}}
               className={`h-[${h}px] absolute left-0 top-0 overflow-hidden`}
             >
               <FaStar size={w} className={" text-yellow"} />
