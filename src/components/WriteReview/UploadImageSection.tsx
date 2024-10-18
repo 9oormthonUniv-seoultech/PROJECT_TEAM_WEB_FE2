@@ -1,10 +1,12 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import CameraSvg from "../../assets/images/camera.svg?react";
-import { useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
-function UploadImageSection() {
-  const [imageFiles, setImageFiles] = useState<File[]>([]); // 새로 추가된 파일들
+type UploadImageProps = {
+  imageFiles: File[];
+  setImageFiles: React.Dispatch<React.SetStateAction<File[]>>;
+};
+function UploadImageSection({ imageFiles, setImageFiles }: UploadImageProps) {
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
       const filesArray = Array.from(event.target.files);

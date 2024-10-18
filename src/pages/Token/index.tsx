@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
+import { axiosInstance } from "../../api";
 
 function Token() {
   const navigate = useNavigate();
@@ -13,6 +14,7 @@ function Token() {
       if (token) {
         useAuthStore.setState({ accessToken: token });
         login();
+        axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         navigate("/home");
       }
     };

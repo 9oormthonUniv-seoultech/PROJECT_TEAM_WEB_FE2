@@ -1,26 +1,30 @@
-import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { getReviewBoothTagImgUrl, getReviewPhotoTagImgUrl } from "../../hooks/getImageUrl";
+import { TagCnt } from "../../@types/review";
 
 type TagSectionProps = {
   title: string;
   category: string;
-  data: any;
+  data: TagCnt[];
 };
 function FeedTagSection({ title, category, data }: TagSectionProps) {
   return (
     <Container>
       <span className="title">{title}</span>
-
-      {data.map((d: any, index: number) => (
+      {data.map((d, index: number) => (
         <TagWrapper key={index}>
           <Content>
             <div className="flex items-center">
-              <img src={category == "booth" ? getReviewBoothTagImgUrl(d) : getReviewPhotoTagImgUrl(d)} alt="tag img" />
-              <span className="tag-label">{d}</span>
+              <img
+                src={
+                  category == "booth" ? getReviewBoothTagImgUrl(d.featureName) : getReviewPhotoTagImgUrl(d.featureName)
+                }
+                alt="tag img"
+              />
+              <span className="tag-label">{d.featureName}</span>
             </div>
-            <span className="cnt">103</span>
+            <span className="cnt">{d.count}</span>
           </Content>
         </TagWrapper>
       ))}

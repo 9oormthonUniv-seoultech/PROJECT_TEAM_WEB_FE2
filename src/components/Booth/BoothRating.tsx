@@ -7,23 +7,32 @@ import HighSvg from "../../assets/images/high-rate-character.svg?react";
 import CommonSvg from "../../assets/images/common-rate-character.svg?react";
 import LowSvg from "../../assets/images/low-rate-character.svg";
 import LowestSvg from "../../assets/images/lowest-rate-character.svg";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useQuery } from "@tanstack/react-query";
+import { getRating } from "../../api/review";
 function BoothRating() {
-  const score = 3.5;
+  const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
+  const { isLoading, data: score } = useQuery({
+    queryKey: ["getRate", boothId],
+    queryFn: () => getRating(boothId, accessToken!),
+  });
 
   const RenderCharacter = () => {
-    if (score <= 1) return <LowestSvg />;
-    if (score <= 2) return <LowSvg />;
-    if (score <= 3) return <CommonSvg />;
-    if (score <= 4) return <HighSvg />;
-    if (score <= 5) return <HighestSvg />;
+    if (score! <= 1) return <LowestSvg />;
+    if (score! <= 2) return <LowSvg />;
+    if (score! <= 3) return <CommonSvg />;
+    if (score! <= 4) return <HighSvg />;
+    if (score! <= 5) return <HighestSvg />;
   };
 
   const getRatingText = () => {
-    if (score <= 1) return "아쉬워요";
-    if (score <= 2) return "조금 아쉬워요";
-    if (score <= 3) return "무난해요";
-    if (score <= 4) return "만족해요";
-    if (score <= 5) return "완전만족해요";
+    if (score! <= 1) return "아쉬워요";
+    if (score! <= 2) return "조금 아쉬워요";
+    if (score! <= 3) return "무난해요";
+    if (score! <= 4) return "만족해요";
+    if (score! <= 5) return "완전만족해요";
   };
 
   return (
@@ -37,7 +46,7 @@ function BoothRating() {
             <Polygon />
           </div>
         </RatingBox>
-        <RenderCharacter />
+        {score && <RenderCharacter />}
       </div>
     </Wrapper>
   );

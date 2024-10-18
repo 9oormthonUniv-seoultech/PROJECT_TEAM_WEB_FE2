@@ -71,7 +71,11 @@ export const PhotoTagCategories: Category[] = [
     imageUrl: LightPhoto,
   },
   {
-    label: "빚번짐 없음",
+    label: "빛번짐 없음",
     imageUrl: NoLight,
+  },
+  {
+    label: "쿨톤 필터 가능",
+    imageUrl: CleanPhoto,
   },
 ];
