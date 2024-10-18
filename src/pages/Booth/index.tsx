@@ -7,14 +7,16 @@ import { Outlet, useLocation, useNavigate, useParams } from "react-router-dom";
 import BoothInfoSection from "../../components/Booth/BoothInfo";
 import { useQuery } from "@tanstack/react-query";
 import { getBoothInfo } from "../../api/booth";
+import { useAuthStore } from "../../store/useAuthStore";
 
 function BoothDetail() {
   const locationNow = useLocation();
   const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
   //특정 포토부스 정보 조회 api 호출
   const { isLoading, data: boothInfo } = useQuery({
     queryKey: ["getBoothInfo", boothId],
-    queryFn: () => getBoothInfo(boothId),
+    queryFn: () => getBoothInfo(boothId, accessToken!),
   });
 
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ function BoothDetail() {
     <Layout>
       {!isLoading && boothInfo && <Header mainText={boothInfo.name} handleBackClick={() => navigate("/home")} />}
       <MainWrapper>
-        <ImgSlider />
+        {/* <ImgSlider type={boothInfo?.photoBoothBrand!} /> */}
         {!isLoading && boothInfo && (
           <BoothInfoSection
             name={boothInfo.name}

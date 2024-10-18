@@ -12,9 +12,9 @@ function RightArrowIcon({ width, height, color }: IconProps) {
       <path
         d="M1 12.5L6 7L1 1.5"
         stroke={color ? color : "white"}
-        stroke-width="1.5"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );

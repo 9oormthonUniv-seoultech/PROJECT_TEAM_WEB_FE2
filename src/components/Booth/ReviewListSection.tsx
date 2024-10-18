@@ -1,14 +1,36 @@
-import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import ReviewItem from "./ReviewItem";
-function ReviewListSection() {
+
+import { Review } from "../../@types/review";
+function ReviewListSection({
+  data,
+}: {
+  data: {
+    reviewCount: number;
+    reviews: Review[];
+  };
+}) {
   return (
     <Container>
       <span className="title">
-        리뷰 <span className="text-gray400">567</span>
+        리뷰 <span className="text-gray400">{}</span>
       </span>
-      <ReviewItem />
+      {data.reviews.length > 0 &&
+        data.reviews.map((review, index) => (
+          <ReviewItem
+            name={review.name}
+            year={review.year}
+            month={review.month}
+            date={review.date}
+            contents={review.contents}
+            features={review.features}
+            imageUrl={review.imageUrl}
+            imagesCount={review.imagesCount}
+            key={index}
+          />
+        ))}
+
       <hr className="w-full bg-gray300 h-[1px]" />
     </Container>
   );

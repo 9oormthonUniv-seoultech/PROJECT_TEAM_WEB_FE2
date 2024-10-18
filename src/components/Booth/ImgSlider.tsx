@@ -3,9 +3,19 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import tw from "twin.macro";
 import styled from "styled-components";
-import DummyImg from "../../assets/images/img_3159.jpg";
 import { getLogoUrl } from "../../hooks/getImageUrl";
-function ImgSlider() {
+import { getRecentImages } from "../../api/review";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { useAuthStore } from "../../store/useAuthStore";
+
+function ImgSlider({ type }: { type: string }) {
+  const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
+  const { isLoading, data: images } = useQuery({
+    queryKey: ["getRecentImages", boothId],
+    queryFn: () => getRecentImages(boothId, accessToken!),
+  });
   const settings = {
     dots: true,
     infinite: false,
@@ -30,15 +40,12 @@ function ImgSlider() {
     dotsClass: "dots_custom",
   };
 
-  const id = "HARUFILM";
-
-  const images = [DummyImg, DummyImg];
-  if (images.length > 0) {
+  if (!isLoading && images && images.filePaths.length > 0) {
     return (
       <Container>
         <Slider {...settings}>
-          {images.map((image, index) => (
-            <ImgBox src={image} />
+          {images.filePaths.map((image, index) => (
+            <ImgBox src={image} key={index} />
           ))}
         </Slider>
       </Container>
@@ -46,7 +53,7 @@ function ImgSlider() {
   } else {
     return (
       <Container>
-        <ImgBox src={getLogoUrl(id)}></ImgBox>
+        <ImgBox src={getLogoUrl(type)}></ImgBox>
       </Container>
     );
   }
@@ -59,5 +66,5 @@ const Container = styled.div`
 `;
 
 const ImgBox = styled.img`
-  ${tw`h-[320px] rounded-[8px]`}
+  ${tw`w-full [aspect-ratio: 1 / 1] rounded-[8px]`}
 `;

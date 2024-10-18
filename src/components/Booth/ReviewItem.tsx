@@ -1,7 +1,8 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import haruUrl from "../../assets/images/haru-logo.png?url";
-function ReviewItem() {
+import { Review } from "../../@types/review";
+
+function ReviewItem({ name, year, month, date, contents, features, imageUrl, imagesCount }: Review) {
   return (
     <Container>
       <div className="flex gap-[10px]">
@@ -9,23 +10,26 @@ function ReviewItem() {
           <div className="flex gap-[8px] items-center">
             <div className="profile-icon"></div>
             <div className="flex flex-col">
-              <span className="nickname">@닉네임</span>
-              <span className="date">2024.09.30 작성</span>
+              <span className="nickname">{`@${name}`}</span>
+              <span className="date">{`${year}.${month}.${date} 작성`}</span>
             </div>
           </div>
-          <span className="review-text">
-            다양한 소품들이 준비되어 있어, 더욱 개성 있는 사진을 찍을 수 있었어요. 친구들과 함께 찍으니 더욱 즐거웠어요!
-          </span>
+          <span className="review-text">{contents}</span>
         </div>
-        <ImgBox $imageurl={haruUrl}>
-          <div className="num-tag">+2</div>
-        </ImgBox>
+        {imagesCount > 0 && (
+          <ImgBox $imageurl={imageUrl}>
+            {imagesCount - 1 > 0 && <div className="num-tag">{`+${imagesCount - 1}`}</div>}
+          </ImgBox>
+        )}
       </div>
-      <TagList>
-        <TagBox>깔끔한 소품</TagBox>
-        <TagBox>빛번짐 없음</TagBox>
-        <TagBox>+2</TagBox>
-      </TagList>
+      {features?.length > 0 && (
+        <TagList>
+          {features.slice(0, 2).map((feature, index) => (
+            <TagBox key={index}>{feature}</TagBox>
+          ))}
+          {features.length > 2 && <TagBox>{`+${features.length - 2}`}</TagBox>}
+        </TagList>
+      )}
     </Container>
   );
 }

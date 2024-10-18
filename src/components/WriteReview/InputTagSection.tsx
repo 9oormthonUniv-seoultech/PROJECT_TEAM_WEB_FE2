@@ -1,16 +1,16 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import { Category } from "../../data/booth-categories";
+import { Feature } from "../../@types/review";
 
 type InputTagProps = {
   title: string;
-  categories: Category[];
-  selectedTags: string[];
-  setSelectedTags: React.Dispatch<React.SetStateAction<string[]>>;
+  features: Feature[];
+  selectedTags: number[];
+  setSelectedTags: React.Dispatch<React.SetStateAction<number[]>>;
 };
-function InputTagSection({ title, categories, selectedTags, setSelectedTags }: InputTagProps) {
+function InputTagSection({ title, features, selectedTags, setSelectedTags }: InputTagProps) {
   //클릭된 태그를 전달받아, 이미 선택된 태그라면 제거, 아니라면 추가하는 로직
-  const handleClick = (target: string) => {
+  const handleClick = (target: number) => {
     if (selectedTags!.includes(target)) {
       //이미 선택된 태그면 배열에서 제거
       setSelectedTags(selectedTags!.filter((label) => label !== target));
@@ -22,9 +22,9 @@ function InputTagSection({ title, categories, selectedTags, setSelectedTags }: I
   return (
     <Container>
       <label>{title}</label>
-      {categories.map((tag, index) => (
-        <TagBtn key={index} $active={selectedTags.includes(tag.label)} onClick={() => handleClick(tag.label)}>
-          {tag.label}
+      {features.map((tag, index) => (
+        <TagBtn key={index} $active={selectedTags.includes(tag.id)} onClick={() => handleClick(tag.id)}>
+          {tag.featureName}
         </TagBtn>
       ))}
     </Container>

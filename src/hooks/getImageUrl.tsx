@@ -11,10 +11,12 @@ export const getLogoUrl = (type: string) => {
 
 export const getReviewBoothTagImgUrl = (name: string) => {
   const tag = BoothTagCategories.find((item) => item.label === name);
+  console.log(tag);
   return tag!.imageUrl; // 해당 type에 맞는 로고 URL 반환
 };
 
 export const getReviewPhotoTagImgUrl = (name: string) => {
   const tag = PhotoTagCategories.find((item) => item.label === name);
+  console.log(tag);
   return tag!.imageUrl; // 해당 type에 맞는 로고 URL 반환
 };

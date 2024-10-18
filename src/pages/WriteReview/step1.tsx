@@ -6,14 +6,33 @@ import InputTagSection from "../../components/WriteReview/InputTagSection";
 import { BoothTagCategories, PhotoTagCategories } from "../../data/review-tag-categories";
 import NextButton from "../../components/Common/NextButton";
 import { useNavigate, useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { searchPhotoBoothName } from "../../api/booth";
+import { useAuthStore } from "../../store/useAuthStore";
+import { searchBoothFeatures, searchPhotoFeatures } from "../../api/review";
 
 function Step1() {
   const { boothId } = useParams() as { boothId: string };
   const navigate = useNavigate();
   const [rate, setRate] = useState<number>(0);
-  const [selectedBoothTags, setSelectedBoothTags] = useState<string[]>([]);
-  const [selectedPhotoTags, setSelectedPhotoTags] = useState<string[]>([]);
+  const [selectedBoothTags, setSelectedBoothTags] = useState<number[]>([]);
+  const [selectedPhotoTags, setSelectedPhotoTags] = useState<number[]>([]);
+  const { accessToken } = useAuthStore();
+  //포토부스 이름 조회 api 호출
+  const { isLoading, data: boothName } = useQuery({
+    queryKey: ["searchBoothName", boothId],
+    queryFn: () => searchPhotoBoothName(boothId, accessToken!),
+  });
 
+  const { data: BoothFeatures } = useQuery({
+    queryKey: ["searchBoothFeatures"],
+    queryFn: () => searchBoothFeatures(accessToken!),
+  });
+
+  const { data: PhotoFeatures } = useQuery({
+    queryKey: ["searchPhotoFeatures"],
+    queryFn: () => searchPhotoFeatures(accessToken!),
+  });
   const getRatingText = () => {
     if (rate === 0) return "별점을 선택해주세요";
     if (rate <= 1) return "아쉬워요";
@@ -29,12 +48,19 @@ function Step1() {
       alert("태그는 최대 5개 선택 가능합니다.");
       return;
     }
-    navigate(`/write-review/${boothId}/step/2`);
+    navigate(`/write-review/${boothId}/step/2`, {
+      state: {
+        rate: rate,
+        selectedBoothTags: selectedBoothTags,
+        selectedPhotoTags: selectedPhotoTags,
+      },
+    });
   };
 
   return (
     <MainWrapper>
-      <span className="booth-name-box">하루필름 공릉점</span>
+      {!isLoading && boothName && <span className="booth-name-box">{boothName}</span>}
+
       {/* 별점 입력 섹션 */}
       <LabelBox>
         <label className="q-label">매장은 어떠셨나요?</label>
@@ -52,18 +78,22 @@ function Step1() {
       </LabelBox>
       <span className="desc-text">부스에 어울리는 키워드를 골라주세요 (최대 5개)</span>
       <div className="flex m-[20px] gap-[30px]">
-        <InputTagSection
-          title="부스"
-          categories={BoothTagCategories}
-          selectedTags={selectedBoothTags}
-          setSelectedTags={setSelectedBoothTags}
-        />
-        <InputTagSection
-          title="사진"
-          categories={PhotoTagCategories}
-          selectedTags={selectedPhotoTags}
-          setSelectedTags={setSelectedPhotoTags}
-        />
+        {BoothFeatures && (
+          <InputTagSection
+            title="부스"
+            features={BoothFeatures}
+            selectedTags={selectedBoothTags}
+            setSelectedTags={setSelectedBoothTags}
+          />
+        )}
+        {PhotoFeatures && (
+          <InputTagSection
+            title="사진"
+            features={PhotoFeatures}
+            selectedTags={selectedPhotoTags}
+            setSelectedTags={setSelectedPhotoTags}
+          />
+        )}
       </div>
       <NextButton
         text="다음"
