@@ -19,6 +19,8 @@ import WriteReview from "./pages/WriteReview";
 import Step1 from "./pages/WriteReview/step1";
 import Step2 from "./pages/WriteReview/step2";
 import CompleteScreen from "./pages/CompleteScreen";
+import RecordPage from "./pages/My/RecordPage";
+import FavoritesPage from "./pages/My/FavoritesPage";
 
 function App() {
   return (
@@ -27,7 +29,7 @@ function App() {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<Home />} />
         <Route path="/album" element={<Album />} />
-        <Route path="/my" element={<My />} />
+
         <Route path="/photo-upload" element={<PhotoUpload />} />
 
         <Route path="/qr-scan" element={<QRScan />} />
@@ -41,6 +43,10 @@ function App() {
           <Route path="feed" element={<FeedPage />} />
           <Route path="review" element={<ReviewPage />} />
           <Route path="image" element={<ImagePage />} />
+        </Route>
+        <Route path="/my" element={<My />}>
+          <Route path="booth-records" element={<RecordPage />} />
+          <Route path="favorites" element={<FavoritesPage />} />
         </Route>
         <Route path="/write-review/:boothId" element={<WriteReview />}>
           <Route path="step/1" element={<Step1 />} />
