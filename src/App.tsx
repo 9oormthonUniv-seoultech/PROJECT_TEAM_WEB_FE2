@@ -21,6 +21,7 @@ import Step2 from "./pages/WriteReview/step2";
 import CompleteScreen from "./pages/CompleteScreen";
 import RecordPage from "./pages/My/RecordPage";
 import FavoritesPage from "./pages/My/FavoritesPage";
+import MyReviewPage from "./pages/My/MyReviewPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
           <Route path="booth-records" element={<RecordPage />} />
           <Route path="favorites" element={<FavoritesPage />} />
         </Route>
+        <Route path="my-reviews" element={<MyReviewPage />} />
         <Route path="/write-review/:boothId" element={<WriteReview />}>
           <Route path="step/1" element={<Step1 />} />
           <Route path="step/2" element={<Step2 />} />
