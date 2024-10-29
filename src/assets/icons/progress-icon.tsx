@@ -1,4 +1,4 @@
-interface ProgressIconProps {
+type ProgressIconProps = {
     percentage: number;
 }
 
