@@ -1,18 +1,19 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import X from "../../assets/images/X.svg?react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 
-interface ModalProps {
+type ModalProps = {
+  hashTags: string[];
   closeModal: () => void;
-  setHashTags: (tags: string[]) => void;
+  setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
-function HashtagModal({ closeModal, setHashTags }: ModalProps) {
+function HashtagModal({ hashTags, closeModal, setHashTags }: ModalProps) {
   const [countHash, setCountHash] = useState(0);
-  const [hash1, setHash1] = useState("");
-  const [hash2, setHash2] = useState("");
-  const [hash3, setHash3] = useState("");
+  const [hash1, setHash1] = useState(hashTags[0] ?? "");
+  const [hash2, setHash2] = useState(hashTags[1] ?? "");
+  const [hash3, setHash3] = useState(hashTags[2] ?? "");
 
   useEffect(() => {
     // 해시태그가 채워진 것만 카운트
@@ -99,7 +100,7 @@ const HashtagContainer = styled.div`
     ${tw`space-y-4 my-4 flex flex-col items-start`}
 `;
 
-interface HashtagItemProps {
+type HashtagItemProps = {
   hasText: boolean;
 }
 
