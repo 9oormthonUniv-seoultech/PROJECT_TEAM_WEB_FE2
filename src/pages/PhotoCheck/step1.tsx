@@ -3,12 +3,13 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
 
-interface Step1Props {
+type Step1Props = {
   handleNextClick: () => void;
   dateInfo: string;
+  qrLink : string;
 }
 
-function PhotoCheck1({ handleNextClick, dateInfo }: Step1Props) {
+function PhotoCheck1({ handleNextClick, dateInfo, qrLink }: Step1Props) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -25,7 +26,7 @@ function PhotoCheck1({ handleNextClick, dateInfo }: Step1Props) {
         </button>
       </Header>
 
-      <img src="https://via.placeholder.com/300x350" alt="QR 사진" height="350" width="300" className="m-auto" />
+      <img src={qrLink} alt="QR 사진" height="350" width="300" className="m-auto" />
       <ButtonContainer onClick={handleNextClick}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
