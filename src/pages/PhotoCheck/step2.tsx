@@ -1,22 +1,25 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import HashTagModal from "../../components/PhotoCheck/HashModal.tsx";
 import RecordModal from "../../components/PhotoCheck/RecordModal.tsx";
 
-interface Step2Props {
+type Step2Props = {
   handleNextClick: () => void;
   handleBackStep: () => void;
+  hashTags: string[];
+  setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
+  records: string;
+  setRecords: React.Dispatch<React.SetStateAction<string>>;
   dateInfo: string;
+  qrLink: string;
 }
 
-function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) {
+function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, records, setRecords, dateInfo, qrLink }: Step2Props) {
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [countHash, setCountHash] = useState(0);
-  const [records, setRecords] = useState("클릭하여 오늘 있었던 일들을 기록해보세요");
-  const [hashTags, setHashTags] = useState<string[]>([]);
 
   const openHashModal = () => {
     setIsHashModalOpen(true);
@@ -50,13 +53,13 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
         </div>
         <DateText>{dateInfo}</DateText>
       </Header>
-      <div className="relative left-[-40px] overflow-x-auto">
+      <div className="relative items-center overflow-x-auto">
         {countHash > 0 ? (
           <div className="flex flex-wrap gap-2">
             {hashTags.map(
               (tag, index) =>
                 tag && (
-                  <TagItem key={index}>
+                  <TagItem key={index} onClick={() => setIsHashModalOpen(true)}>
                     <div className="px-5 py-2 bg-[#e1e0ff] rounded-3xl border border-[#676f7b] flex justify-center items-center max-w-[200px] overflow-hidden">
                       <div className="text-main text-base font-normal font-['Pretendard'] text-ellipsis overflow-hidden whitespace-nowrap">
                         {tag}
@@ -104,8 +107,8 @@ function PhotoCheck2({ handleNextClick, handleBackStep, dateInfo }: Step2Props) 
           </>
         )}
       </div>
-      {isHashModalOpen && <HashTagModal closeModal={closeHashModal} setHashTags={setHashTags} />}
-      <img className="mt-5" src="https://via.placeholder.com/245x250" alt="QR 사진" height="200" width="245" />
+      {isHashModalOpen && <HashTagModal hashTags = {hashTags} closeModal={closeHashModal} setHashTags={setHashTags} />}
+      <img className="mt-5" src={qrLink} alt="QR 사진" height="200" width="245" />
       <div className="mt-8 p-[10px] relative bg-[#e9eaee] rounded-lg inline-flex">
         <button
           className="w-[291px] text-[#676f7b] text-base font-normal font-['Pretendard']"

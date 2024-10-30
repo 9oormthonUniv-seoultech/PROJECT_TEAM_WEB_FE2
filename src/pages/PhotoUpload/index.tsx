@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../assets/icons/close-icon";
 
-interface OptionProps {
+type OptionProps = {
   onClick: () => void;
   isActive: boolean;
   label: string;

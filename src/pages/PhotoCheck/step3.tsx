@@ -5,17 +5,57 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
 import { useState } from "react";
+import axios from "axios";
 
-interface Step3Props {
+type Step3Props = {
   handleNextClick: () => void;
   handleBackStep: () => void;
   dateInfo: string;
+  records:string;
+  hashtags:string[];
+  year:string;
+  month:string;
+  day:string;
 }
 
-function PhotoCheck3({ handleNextClick, handleBackStep, dateInfo }: Step3Props) {
+function PhotoCheck3({ handleNextClick, handleBackStep, year, month, day, hashtags, records, dateInfo }: Step3Props) {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
-
+  
+  const handleSavePicture = async () => {
+    try {
+      const response = await axios.post('http://pocket4cut.link/api/v1/album', {
+        photoboothId: 0,
+        year: {year},
+        month: {month},
+        date: {day},
+        hashtag: {hashtags},
+        memo: {records},
+        filePath: "string"
+      },{
+          headers : {
+            'Content-Type' : 'application/json'
+          }
+        }
+      )
+      alert(response.data);
+    } catch (error : any) {
+      // 여기 추후에 간소화 필요 2024.10.30
+      if (error.response) {
+        console.log("Data:", error.response.data);
+        console.log("Status:", error.response.status);
+        console.log("Headers:", error.response.headers);
+        alert(`Server responded with status: ${error.response.status}`);
+      } else if (error.request) {
+        console.log("Request:", error.request);
+        alert("No response received from the server.");
+      } else {
+        console.log("Error:", error.message);
+        alert(`Error in setting up the request: ${error.message}`);
+      }
+    }
+  };
+  
   return (
     <Container>
       <Header>
@@ -34,7 +74,11 @@ function PhotoCheck3({ handleNextClick, handleBackStep, dateInfo }: Step3Props) 
         </button>
         <div className="text-white text-lg font-normal font-['Pretendard']">해시태그, 사진 기록까지 공유하기</div>
       </div>
-      <ButtonContainer onClick={() => handleNextClick()}>
+      <ButtonContainer
+        onClick={() => {
+          handleNextClick()
+          handleSavePicture()
+      }}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
       <ButtonContainer2 className="mt-0" onClick={() => navigate("/home")}>
