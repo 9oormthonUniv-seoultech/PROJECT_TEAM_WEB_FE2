@@ -2,7 +2,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import PlanBUrl from "../../assets/images/planb-logo.png?url";
 import StarIcon from "../../assets/icons/star-icon";
-import LikeIcon from "../../assets/icons/like-icon";
+import LikeFilledIcon from "../../assets/icons/like-filled-icon";
 type CardProps = {
   width?: string;
   height?: string;
@@ -23,7 +23,7 @@ function LikeBoothCard({ width, height }: CardProps) {
           <span className="hash-tag"># 선명한 화질 </span>
           <span className="hash-tag">+3</span>
           <button className="like-btn">
-            <LikeIcon width={22} height={22} color="#BOBOEE" />
+            <LikeFilledIcon width={22} height={22} />
           </button>
         </div>
       </div>
