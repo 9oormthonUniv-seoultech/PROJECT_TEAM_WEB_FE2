@@ -1,23 +1,24 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import styled from "styled-components";
-import Webcam from "react-webcam";
 import CloseIcon from "../../assets/icons/close-icon";
 import ProgressIcon from "../../assets/icons/progress-icon";
+import { Scanner } from '@yudiel/react-qr-scanner';
 
-// Webcam 캡처 데이터 타입 정의
-interface CaptureData {
-  screenshot: string | null;
-}
+type ScanResult = {
+  boundingBox: object;
+  cornerPoints: Array<any>;
+  format: string;
+  rawValue: string;
+};
 
 function QRScan() {
   const [isCaptured, setIsCaptured] = useState(false);
-  const [captureData, setCaptureData] = useState<CaptureData>({ screenshot: null });
-  const webcamRef = useRef<Webcam>(null);
   const navigate = useNavigate();
   const [percentage, setPercentage] = useState<number>(0);
-
+  const [qrLink, setQrLink] = useState<string | undefined>(undefined);
+  
   useEffect(() => {
     if (isCaptured) {
       const interval = setInterval(() => {
@@ -37,27 +38,15 @@ function QRScan() {
     if (percentage === 100) {
       // 100%가 화면에 렌더링된 후 페이지 이동
       const timeout = setTimeout(() => {
-        navigate("/photo-review");
+        navigate("/photo-review", {state: {qrLink}});
       }, 500); // 약간의 지연 시간(0.5초)을 주어 100%가 표시된 후 페이지 이동
       return () => clearTimeout(timeout);
     }
   }, [percentage]);
 
-  const test = () => {
-    setIsCaptured(true);
-  };
-
   const handleClose = () => {
     navigate("/photo-upload");
   };
-
-  const handleCapture = useCallback(() => {
-    if (webcamRef.current) {
-      const screenshot = webcamRef.current.getScreenshot();
-      setCaptureData({ screenshot });
-      setIsCaptured(true);
-    }
-  }, []);
 
   return !isCaptured ? (
     <Container>
@@ -70,7 +59,6 @@ function QRScan() {
         </div>
         <hr className="h-[1.5px] w-full bg-[#FFFFFF] " />
       </header>
-
       <InfoBox>
         <InfoText>
           <svg width="20" height="18" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,26 +80,23 @@ function QRScan() {
         </InfoText>
       </InfoBox>
       <CameraBox>
-        <Webcam
-          audio={false}
-          screenshotFormat="image/jpeg"
-          videoConstraints={{
-            facingMode: "environment", // 후면 카메라 사용
+        <Scanner
+          onScan={(result: ScanResult[]) => {
+            if (result.length > 0) {
+              setQrLink(result[0].rawValue);
+              setIsCaptured(true);
+            }
           }}
-          style={{ width: "100%", height: "100%", objectFit: "cover", borderRadius: "19px" }}
-          ref={webcamRef}
         />
       </CameraBox>
-      <button onClick={test}>테스트용으로 다음 화면</button>
       <InstructionText>네모 안에 QR을 인식해주세요</InstructionText>
     </Container>
   ) : (
     <CapturedContainer>
-      {captureData.screenshot && <CapturedImage src={captureData.screenshot} alt="Captured" />}
       <CapturedText>사진을 불러오는 중...</CapturedText>
-      <OtherComponent>
+      <ProgressWrapper>
         <ProgressIcon percentage={percentage} />
-      </OtherComponent>
+      </ProgressWrapper>
     </CapturedContainer>
   );
 }
@@ -133,7 +118,7 @@ const InfoText = styled.div`
 `;
 
 const CameraBox = styled.div`
-  ${tw`w-[270px] h-[270px] rounded-3xl border-4 border-[#5453ee] bg-[#FFFFFF] mb-6`}
+  ${tw`w-[270px] h-[270px] rounded-3xl border-4 border-[#5453ee] bg-[#FFFFFF] mb-6 overflow-hidden`}
 `;
 
 const InstructionText = styled.div`
@@ -151,13 +136,7 @@ const CapturedText = styled.div`
   color: #171d24;
 `;
 
-const CapturedImage = styled.img`
-  ${tw`rounded-lg mb-4`}
-  max-width: 300px;
-  height: auto;
-`;
-
-const OtherComponent = styled.div`
+const ProgressWrapper = styled.div`
   ${tw`p-4 bg-background rounded-lg text-center`}
   font-family: 'Pretendard', sans-serif;
   color: #171d24;

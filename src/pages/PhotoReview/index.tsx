@@ -2,7 +2,7 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import Search from "../../assets/images/search.svg?react";
 import BackIcon from "../../assets/icons/back-icon";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 function PhotoReview() {
@@ -12,6 +12,7 @@ function PhotoReview() {
   const [day, setDay] = useState("");
   const [boothLocation, setBoothLocation] = useState("");
   const navigate = useNavigate();
+  const location = useLocation();
 
   const handleNext = () => {
     navigate("/photo-check", {
@@ -20,6 +21,7 @@ function PhotoReview() {
         month: month,
         day: day,
         boothLocation: boothLocation,
+        qrLink : location.state.qrLink,
       },
     });
   };

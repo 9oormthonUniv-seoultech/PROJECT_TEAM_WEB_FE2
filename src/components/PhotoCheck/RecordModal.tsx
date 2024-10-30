@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import X from "../../assets/images/X.svg?react";
 import { useState } from "react";
 
-interface ModalProps {
+type ModalProps = {
   closeModal: () => void;
   setRecords: (tags: string) => void;
 }

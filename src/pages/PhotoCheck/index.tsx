@@ -6,21 +6,25 @@ import PhotoCheck3 from "./step3.tsx";
 import { useLocation } from "react-router-dom";
 import {useNavigate} from "react-router-dom";
 
-interface InfoState {
+type InfoState = {
   year: string;
   month: string;
   day: string;
   boothLocation: string;
-}
+  qrLink: string;
+};
 
 function PhotoCheck() {
   const location = useLocation();
-  const { year, month, day, boothLocation } = location.state as InfoState || {};
+  const { year, month, day, boothLocation, qrLink } = location.state as InfoState || {};
   const dateInfo = year + "년 " + month + "월 " + day + "일 " + boothLocation;
-  // State to track the current step
   const [step, setStep] = useState(1);
+  const [hashTags, setHashTags] = useState<string[]>([]);
+  const [records, setRecords] = useState("클릭하여 오늘 있었던 일들을 기록해보세요");
   const navigate = useNavigate();
-
+  
+  console.log(qrLink);
+  
   // Function to handle the next button click
   const handleNextClick = () => {
     setStep((prevStep) => prevStep + 1); // Increment the step state
@@ -45,6 +49,7 @@ function PhotoCheck() {
         <PhotoCheck1
           handleNextClick={handleNextClick}
           dateInfo={dateInfo}
+          qrLink={qrLink}
         />
       )}
 
@@ -52,7 +57,12 @@ function PhotoCheck() {
         <PhotoCheck2
           handleNextClick={handleNextClick}
           handleBackStep={handleBackStep}
+          hashTags={hashTags}
+          setHashTags={setHashTags}
+          records={records}
+          setRecords={setRecords}
           dateInfo={dateInfo}
+          qrLink={qrLink}
         />
       )}
 
@@ -60,7 +70,11 @@ function PhotoCheck() {
         <PhotoCheck3
           handleNextClick={handleNextClick}
           handleBackStep={handleBackStep}
-          dateInfo={dateInfo}
+          year={year}
+          month={month}
+          day={day}
+          records={records}
+          hashtags={hashTags}
         />
       )}
 
