@@ -28,7 +28,7 @@ function NavBar() {
         <AlbumIcon color={isActive("/album")} />
         <Text $active={locationNow.pathname.startsWith("/album")}>앨범</Text>
       </MenuBtn>
-      <MenuBtn onClick={() => navigate("/my")} disabled={locationNow.pathname === "/my"}>
+      <MenuBtn onClick={() => navigate("/my/booth-records")} disabled={locationNow.pathname === "/my"}>
         <MyIcon color={isActive("/my")} />
         <Text $active={locationNow.pathname.startsWith("/my")}>MY</Text>
       </MenuBtn>

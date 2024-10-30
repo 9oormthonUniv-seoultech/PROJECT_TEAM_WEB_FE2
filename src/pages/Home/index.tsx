@@ -5,7 +5,6 @@ import Search from "../../components/Home/Search";
 import AddBtn from "../../components/Home/AddBtn";
 import BoothSlide from "../../components/Home/BoothSlide";
 import BoothMap from "../../components/Home/BoothMap";
-import BoothModal from "../../components/Home/BoothModal";
 
 function Home() {
   return (
