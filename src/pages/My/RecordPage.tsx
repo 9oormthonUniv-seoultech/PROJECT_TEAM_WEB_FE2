@@ -4,6 +4,7 @@ import RightArrowIcon from "../../assets/icons/right-arrow";
 import MyReviewCard from "../../components/My/MyReviewCard";
 import { useNavigate } from "react-router-dom";
 import LikeBoothCard from "../../components/My/LikeBoothCard";
+import VisitedBoothCard from "../../components/My/VisitedBoothCard";
 function RecordPage() {
   const navigate = useNavigate();
   return (
@@ -28,17 +29,23 @@ function RecordPage() {
           <RightArrowIcon width={6} color="#676F7B" />
         </button>
       </div>
-      <div className="w-full mt-[10px]">
+      <SlideWrapper>
         <LikeBoothCard width="292px" height="110px" />
-      </div>
+        <LikeBoothCard width="292px" height="110px" />
+      </SlideWrapper>
 
       <div className="flex w-full justify-between items-center mt-[20px]">
         <span className="title">방문한 부스</span>
-        <button className="more-btn">
+        <button className="more-btn" onClick={() => navigate("/visited-booths")}>
           더보기
           <RightArrowIcon width={6} color="#676F7B" />
         </button>
       </div>
+
+      <SlideWrapper>
+        <VisitedBoothCard width="292px" height="110px" />
+        <VisitedBoothCard width="292px" height="110px" />
+      </SlideWrapper>
     </Container>
   );
 }
@@ -46,7 +53,7 @@ function RecordPage() {
 export default RecordPage;
 
 const Container = styled.div`
-  ${tw`w-full flex flex-col font-display p-[16px]`}
+  ${tw`w-full flex flex-col font-display my-[15px] pl-[16px]`}
   .title {
     ${tw`font-semibold text-[18px] text-gray700`}
   }
@@ -56,6 +63,23 @@ const Container = styled.div`
 `;
 
 const ImgBox = styled.div`
-  ${tw`w-full grid gap-[10px] mt-[10px]`}
+  ${tw`w-full grid gap-[10px] mt-[10px] pr-[16px]`}
   grid-template-columns: repeat(2, 1fr);
+`;
+
+const SlideWrapper = styled.div`
+  ${tw`flex gap-2 overflow-x-auto mt-[10px] `}
+  scroll-snap-type: x mandatory; /* 각 버튼이 스냅되게 설정 */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none; /* IE and 엣지 */
+  scrollbar-width: none; /* 파이어폭스 */
+  -webkit-overflow-scrolling: touch; /* 모바일 환경에서 터치 스크롤 부드럽게 처리 */
+
+  /* 자식 카드 크기를 유지하기 위해 min-width 적용 */
+  > div {
+    min-width: 292px; /* 카드의 너비에 맞춰 설정 */
+    scroll-snap-align: start; /* 스냅을 카드 시작 지점에 맞춤 */
+  }
 `;

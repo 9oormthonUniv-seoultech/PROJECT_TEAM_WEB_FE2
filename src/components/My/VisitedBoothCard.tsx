@@ -1,38 +1,30 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import PlanBUrl from "../../assets/images/planb-logo.png?url";
-import StarIcon from "../../assets/icons/star-icon";
-import LikeIcon from "../../assets/icons/like-icon";
+import EditIcon from "../../assets/icons/edit-icon";
 type CardProps = {
   width?: string;
   height?: string;
 };
-function LikeBoothCard({ width, height }: CardProps) {
+function VisitedBoothCard({ width, height }: CardProps) {
   return (
     <CardBox width={width} height={height}>
       <ImgBox $imageurl={PlanBUrl} />
-      <div className="flex flex-col justify-between w-full">
-        <div>
+      <div className=" relative flex flex-col justify-between items-end w-full">
+        <div className="flex flex-col w-full">
           <span className="booth-name">하루필름 건대입구역점</span>
-          <div className="flex gap-[2px] items-center">
-            <StarIcon />
-            <span className="rating">4.5</span>
-          </div>
+          <span className="visited-date">8월 2일 이용</span>
         </div>
-        <div className="flex gap-[2px] items-center">
-          <span className="hash-tag"># 선명한 화질 </span>
-          <span className="hash-tag">+3</span>
-          <button className="like-btn">
-            <LikeIcon width={22} height={22} color="#BOBOEE" />
-          </button>
-        </div>
+        <button className="go-btn">
+          리뷰 쓰러가기
+          <EditIcon />
+        </button>
       </div>
     </CardBox>
   );
 }
 
-export default LikeBoothCard;
-
+export default VisitedBoothCard;
 const CardBox = styled.div<{ width?: string; height?: string }>`
   ${tw`rounded-[8px] bg-gray100 flex gap-[16px] px-[10px] py-[13.5px]`}
 
@@ -45,14 +37,12 @@ const CardBox = styled.div<{ width?: string; height?: string }>`
   .booth-name {
     ${tw`font-display font-medium text-[1em] text-gray700`}
   }
-  .rating {
-    ${tw`font-display font-semibold text-[1em] text-gray700 mt-[0.0625em]`}
+  .visited-date {
+    ${tw`font-display font-medium text-[0.9em] text-gray400 `}
   }
-  .hash-tag {
-    ${tw`flex items-center h-[2.4em] rounded-[1.5em] bg-[white] px-[10px] font-display font-normal text-[0.9em] text-gray400`}
-  }
-  .like-btn {
-    ${tw`w-[2.2em] h-[2.2em] rounded-full bg-[white] flex items-center justify-center`}
+
+  .go-btn {
+    ${tw` flex items-center justify-center gap-[2px] px-[12px] py-[6px] text-[0.9em] text-[white]  bg-main rounded-[24px]`}
   }
 `;
 
