@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import LikeIcon from "../../assets/icons/like-icon";
+import LikeIcon from "../../assets/icons/like-filled-icon";
 import { getDistance } from "../../hooks/getLocation";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { SpecificBoothInfo } from "../../@types/booth";

@@ -9,7 +9,7 @@ function RecordPage() {
   const navigate = useNavigate();
   return (
     <Container>
-      <div className="flex w-full justify-between items-center mt-[20px]">
+      <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">24개의 나의 리뷰</span>
         <button className="more-btn" onClick={() => navigate("/my-reviews")}>
           더보기
@@ -22,7 +22,7 @@ function RecordPage() {
         <MyReviewCard />
       </ImgBox>
 
-      <div className="flex w-full justify-between items-center mt-[20px]">
+      <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">찜해둔 부스</span>
         <button className="more-btn" onClick={() => navigate("/like-booths")}>
           더보기
@@ -34,7 +34,7 @@ function RecordPage() {
         <LikeBoothCard width="292px" height="110px" />
       </SlideWrapper>
 
-      <div className="flex w-full justify-between items-center mt-[20px]">
+      <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">방문한 부스</span>
         <button className="more-btn" onClick={() => navigate("/visited-booths")}>
           더보기
@@ -53,7 +53,7 @@ function RecordPage() {
 export default RecordPage;
 
 const Container = styled.div`
-  ${tw`w-full flex flex-col font-display my-[15px] pl-[16px]`}
+  ${tw`w-full flex flex-col font-display my-[15px]`}
   .title {
     ${tw`font-semibold text-[18px] text-gray700`}
   }
@@ -63,12 +63,12 @@ const Container = styled.div`
 `;
 
 const ImgBox = styled.div`
-  ${tw`w-full grid gap-[10px] mt-[10px] pr-[16px]`}
+  ${tw`w-full grid gap-[10px] mt-[10px] px-[16px]`}
   grid-template-columns: repeat(2, 1fr);
 `;
 
 const SlideWrapper = styled.div`
-  ${tw`flex gap-2 overflow-x-auto mt-[10px] `}
+  ${tw`flex gap-2 overflow-x-auto mt-[10px] ml-[16px]`}
   scroll-snap-type: x mandatory; /* 각 버튼이 스냅되게 설정 */
   &::-webkit-scrollbar {
     display: none;
