@@ -6,7 +6,7 @@ function LikeIcon({ width, height, color }: IconProps) {
       width={width ? width : "30"}
       height={height ? height : "27"}
       viewBox="0 0 30 27"
-      fill="none"
+      fill={color}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path

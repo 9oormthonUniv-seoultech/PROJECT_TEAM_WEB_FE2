@@ -8,7 +8,7 @@ function My() {
   const navigate = useNavigate();
   return (
     <Layout>
-      <main className="w-full">
+      <main className="w-full overflow-auto pb-[80px]">
         <ProfileSection />
         <MenuContainer>
           <MenuBtn

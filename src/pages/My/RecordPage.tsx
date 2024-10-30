@@ -1,9 +1,9 @@
-import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import RightArrowIcon from "../../assets/icons/right-arrow";
 import MyReviewCard from "../../components/My/MyReviewCard";
 import { useNavigate } from "react-router-dom";
+import LikeBoothCard from "../../components/My/LikeBoothCard";
 function RecordPage() {
   const navigate = useNavigate();
   return (
@@ -23,10 +23,13 @@ function RecordPage() {
 
       <div className="flex w-full justify-between items-center mt-[20px]">
         <span className="title">찜해둔 부스</span>
-        <button className="more-btn">
+        <button className="more-btn" onClick={() => navigate("/like-booths")}>
           더보기
           <RightArrowIcon width={6} color="#676F7B" />
         </button>
+      </div>
+      <div className="w-full mt-[10px]">
+        <LikeBoothCard width="292px" height="110px" />
       </div>
 
       <div className="flex w-full justify-between items-center mt-[20px]">
