@@ -10,8 +10,6 @@ WORKDIR /app
 
 COPY package.json package-lock.json*./
 
-RUN npm ci
-
 # Copy source code and set environment variables
 COPY . .
 ENV VITE_KAKAO_MAP_KEY=${VITE_KAKAO_MAP_KEY}
