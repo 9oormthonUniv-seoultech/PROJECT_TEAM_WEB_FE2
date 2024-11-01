@@ -40,4 +40,4 @@ jobs:
 
       - name: Push Docker image
         run: |
-          docker push "${{ secrets.DOCKER_USERNAME }}/react:v1"
+          docker push "${{ secrets.DOCKER_USERNAME }}/pocket4cut:v1"
