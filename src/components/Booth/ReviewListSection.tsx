@@ -38,7 +38,7 @@ function ReviewListSection() {
                 contents={review.contents}
                 features={review.features}
                 imageUrl={review.imageUrl}
-                imagesCount={review.imagesCount}
+                imageCount={review.imageCount}
                 key={index}
               />
             ))

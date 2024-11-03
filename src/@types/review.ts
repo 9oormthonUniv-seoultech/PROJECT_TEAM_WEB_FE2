@@ -7,7 +7,7 @@ export type Review = {
   contents: string;
   features: string[];
   imageUrl: string;
-  imagesCount: number;
+  imageCount: number;
 };
 
 export type Feature = {

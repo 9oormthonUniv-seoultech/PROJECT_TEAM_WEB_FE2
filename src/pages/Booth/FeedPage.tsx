@@ -48,7 +48,7 @@ function FeedPage() {
         {/* 최신 리뷰 */}
         <ReviewContainer>
           <span className="title">
-            리뷰 <span className="text-gray400">{}</span>
+            리뷰 <span className="text-gray400">{data.reviewCount}</span>
           </span>
           {data &&
             data.reviews.map((review, index) => (
@@ -60,7 +60,7 @@ function FeedPage() {
                 contents={review.contents}
                 features={review.features}
                 imageUrl={review.imageUrl}
-                imagesCount={review.imagesCount}
+                imageCount={review.imageCount}
                 key={index}
               />
             ))}
