@@ -9,6 +9,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getBoothInfo } from "../../api/booth";
 import { useAuthStore } from "../../store/useAuthStore";
 
+// 특정 부스 상세 정보 페이지
 function BoothDetail() {
   const locationNow = useLocation();
   const { boothId } = useParams() as { boothId: string };
@@ -24,7 +25,7 @@ function BoothDetail() {
     <Layout>
       {!isLoading && boothInfo && <Header mainText={boothInfo.name} handleBackClick={() => navigate("/home")} />}
       <MainWrapper>
-        {/* <ImgSlider type={boothInfo?.photoBoothBrand!} /> */}
+        <ImgSlider type={boothInfo?.photoBoothBrand!} />
         {!isLoading && boothInfo && (
           <BoothInfoSection
             name={boothInfo.name}

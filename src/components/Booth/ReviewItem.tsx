@@ -2,7 +2,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import { Review } from "../../@types/review";
 
-function ReviewItem({ name, year, month, date, contents, features, imageUrl, imagesCount }: Review) {
+function ReviewItem({ name, year, month, date, contents, features, imageUrl, imageCount }: Review) {
   return (
     <Container>
       <div className="flex gap-[10px]">
@@ -16,9 +16,9 @@ function ReviewItem({ name, year, month, date, contents, features, imageUrl, ima
           </div>
           <span className="review-text">{contents}</span>
         </div>
-        {imagesCount > 0 && (
+        {imageCount > 0 && (
           <ImgBox $imageurl={imageUrl}>
-            {imagesCount - 1 > 0 && <div className="num-tag">{`+${imagesCount - 1}`}</div>}
+            {imageCount - 1 > 0 && <div className="num-tag">{`+${imageCount - 1}`}</div>}
           </ImgBox>
         )}
       </div>
@@ -53,7 +53,7 @@ const Container = styled.div`
 `;
 
 const ImgBox = styled.div<{ $imageurl: string }>`
-  ${tw`w-[94px] h-[94px] relative rounded-[4px] `}
+  ${tw`h-[94px] [aspect-ratio: 1 / 1] relative rounded-[4px] bg-background `}
 
   background-image: url(${(props) => props.$imageurl});
   background-size: cover;
