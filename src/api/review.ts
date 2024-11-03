@@ -142,3 +142,14 @@ export const getSixImages = async (boothId: string) => {
     return res.data.payload;
   } catch (error) {}
 };
+
+export const pagingReviews = async (boothId: string, page: number) => {
+  try {
+    const res = await Get<{
+      reviewCount: number;
+      reviews: Review[];
+    }>(`/api/v1/review/images/${boothId}`);
+
+    return res.data.payload;
+  } catch (error) {}
+};
