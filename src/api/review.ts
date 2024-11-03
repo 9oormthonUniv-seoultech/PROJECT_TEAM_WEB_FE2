@@ -157,3 +157,14 @@ export const pagingReviews = async (boothId: string, page: number, accessToken: 
     return res.data.payload;
   } catch (error) {}
 };
+export const pagingReviewImages = async (boothId: string, page: number, accessToken: string) => {
+  try {
+    const res = await Get<string[]>(`/api/v1/review/allimages/${boothId}?page=${page}&size=10`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.payload;
+  } catch (error) {}
+};

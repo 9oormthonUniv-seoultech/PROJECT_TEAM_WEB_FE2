@@ -1,13 +1,37 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import NoImage from "../../assets/images/no-images.svg?react";
+import { useEffect } from "react";
+import { useInView } from "react-intersection-observer";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useReviewImageInfiniteQuery } from "../../hooks/useReviewQuery";
 function ImagePage() {
-  if (true) {
+  const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
+  const { ref, inView } = useInView();
+  const {
+    data: pages,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useReviewImageInfiniteQuery(boothId, accessToken!);
+  useEffect(() => {
+    if (inView && hasNextPage) {
+      fetchNextPage();
+    }
+  }, [inView, hasNextPage, fetchNextPage]);
+  if (!isLoading && pages && pages?.pages.length! > 0) {
     return (
       <Container>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
+        {pages.pages.map(
+          (page) =>
+            page.data &&
+            page.data.map((imagePath, index) => <img className="img-container" src={imagePath} key={index} />)
+        )}
+
+        <div ref={ref}>{isFetchingNextPage ? "Loading more..." : null}</div>
       </Container>
     );
   } else {

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import ReviewItem from "./ReviewItem";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
-import { Review } from "../../@types/review";
 import { useReviewsInfiniteQuery } from "../../hooks/useReviewQuery";
 import { useParams } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
