@@ -143,12 +143,16 @@ export const getSixImages = async (boothId: string) => {
   } catch (error) {}
 };
 
-export const pagingReviews = async (boothId: string, page: number) => {
+export const pagingReviews = async (boothId: string, page: number, accessToken: string) => {
   try {
     const res = await Get<{
       reviewCount: number;
       reviews: Review[];
-    }>(`/api/v1/review/images/${boothId}`);
+    }>(`/api/v1/review/allreviews/${boothId}?page=${page}&size=10`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     return res.data.payload;
   } catch (error) {}

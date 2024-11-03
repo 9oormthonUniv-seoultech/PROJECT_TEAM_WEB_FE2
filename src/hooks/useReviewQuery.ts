@@ -8,12 +8,12 @@ type UseReviewQueryProps = {
   rowsPerPage: number;
 };
 
-export const useReviewsInfiniteQuery = (boothId: string) => {
+export const useReviewsInfiniteQuery = (boothId: string, accessToken: string) => {
   return useInfiniteQuery({
-    queryKey: ["reviews"],
+    queryKey: ["pagingReviews"],
     initialPageParam: 1,
     queryFn: async ({ pageParam = 1 }) => {
-      const res = await pagingReviews(boothId, pageParam);
+      const res = await pagingReviews(boothId, pageParam, accessToken);
       return {
         data: res?.reviews,
         reviewCount: res?.reviewCount,
