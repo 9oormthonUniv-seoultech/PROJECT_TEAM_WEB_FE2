@@ -1,27 +1,52 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import RightArrowIcon from "../../assets/icons/right-arrow";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { getRecentImages } from "../../api/review";
 
 function FeedImgList() {
+  const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
+  const { isLoading, data: images } = useQuery({
+    queryKey: ["getRecentImages", boothId],
+    queryFn: () => getRecentImages(boothId, accessToken!),
+  });
+
   return (
     <Container>
       <RowBox>
         <RowBox className="w-[63px] gap-[2px]">
           <span className="title">사진</span>
-          <span className="count">60</span>
+          <span className="count">{images && images?.totalImageCount ? images?.totalImageCount : ""}</span>
         </RowBox>
         <MoreBtn>
           더보기
           <RightArrowIcon />
         </MoreBtn>
       </RowBox>
-      <ImgBox>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
-        <div className="img-container"></div>
-      </ImgBox>
+      {!isLoading && images && images.totalImageCount > 0 ? (
+        <ImgBox>
+          {images.filePaths.map((imagePath, index) => {
+            if (index === 5) {
+              const remainingImages = images.totalImageCount - 6;
+
+              return (
+                <OverlayContainer key={index}>
+                  <img className="img-container" src={imagePath} />
+                  <Overlay>
+                    <span>+{remainingImages}</span>
+                  </Overlay>
+                </OverlayContainer>
+              );
+            }
+            return <img className="img-container" src={imagePath} key={index} />;
+          })}
+        </ImgBox>
+      ) : (
+        <div>등록된 이미지가 없어요</div>
+      )}
     </Container>
   );
 }
@@ -52,6 +77,16 @@ const ImgBox = styled.div`
   grid-template-columns: repeat(3, 1fr);
 
   .img-container {
-    ${tw`w-full [aspect-ratio: 1 / 1] rounded-[8px] bg-gray200`}
+    ${tw`w-full [aspect-ratio: 1 / 1] rounded-[8px] bg-gray100`}
+  }
+`;
+const OverlayContainer = styled.div`
+  ${tw`relative w-full h-full`}
+`;
+
+const Overlay = styled.div`
+  ${tw`absolute inset-0 bg-gray600 bg-opacity-40 flex items-center justify-center rounded-[8px]`}
+  span {
+    ${tw`text-[white] text-[16px] font-semibold`}
   }
 `;
