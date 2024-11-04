@@ -27,7 +27,7 @@ import VisitedBoothsPage from "./pages/My/VisitedBoothsPage";
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/page">
       <Routes>
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<Home />} />
