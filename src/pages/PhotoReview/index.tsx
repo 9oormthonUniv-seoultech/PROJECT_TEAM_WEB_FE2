@@ -3,7 +3,7 @@ import tw from "twin.macro";
 import Search from "../../assets/images/search.svg?react";
 import BackIcon from "../../assets/icons/back-icon";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 function PhotoReview() {
   // useState를 사용하여 날짜와 부스 위치 상태 관리
@@ -21,7 +21,8 @@ function PhotoReview() {
         month: month,
         day: day,
         boothLocation: boothLocation,
-        qrLink : location.state.qrLink,
+        qrLink: location.state.qrLink,
+        image: location.state.image,
       },
     });
   };
@@ -43,7 +44,7 @@ function PhotoReview() {
         </div>
         <hr className="h-[1.5px] w-full bg-gray200 " />
       </header>
-
+      <img className="mt-5" src={location.state.image} alt="Photo Check" height="100" width="100" />
       <ContentContainer>
         <LabelContainer>
           <Label>언제 사진을 찍으셨나요?</Label>
@@ -127,18 +128,6 @@ const Container = styled.div`
     display: none;
   }
   -ms-overflow-style: none;
-`;
-
-// const Header = styled.header`
-//   ${tw`w-full flex flex-col place-items-center p-6 relative`}
-// `;
-
-const Title = styled.div`
-  ${tw`text-[#171d24] text-2xl font-semibold font-['Pretendard']`}
-`;
-
-const DateText = styled.div`
-  ${tw`opacity-70 text-[#676f7b] text-xs font-medium font-['Pretendard'] mt-1`}
 `;
 
 const ContentContainer = styled.div`

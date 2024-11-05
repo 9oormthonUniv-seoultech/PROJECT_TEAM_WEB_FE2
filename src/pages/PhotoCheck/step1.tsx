@@ -6,10 +6,10 @@ import BackIcon from "../../assets/icons/back-icon.tsx";
 type Step1Props = {
   handleNextClick: () => void;
   dateInfo: string;
-  qrLink : string;
+  imgSrc : string;
 }
 
-function PhotoCheck1({ handleNextClick, dateInfo, qrLink }: Step1Props) {
+function PhotoCheck1({ handleNextClick, dateInfo, imgSrc }: Step1Props) {
   const navigate = useNavigate();
 
   const handleBack = () => {
@@ -26,7 +26,7 @@ function PhotoCheck1({ handleNextClick, dateInfo, qrLink }: Step1Props) {
         </button>
       </Header>
 
-      <img src={qrLink} alt="QR 사진" height="350" width="300" className="m-auto" />
+      <img src={imgSrc} alt="QR 사진" height="350" width="300" className="m-auto" />
       <ButtonContainer onClick={handleNextClick}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>

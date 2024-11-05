@@ -12,18 +12,18 @@ type InfoState = {
   day: string;
   boothLocation: string;
   qrLink: string;
+  image : File;
 };
 
 function PhotoCheck() {
   const location = useLocation();
-  const { year, month, day, boothLocation, qrLink } = location.state as InfoState || {};
+  const { year, month, day, boothLocation, qrLink, image } = location.state as InfoState || {};
   const dateInfo = year + "년 " + month + "월 " + day + "일 " + boothLocation;
   const [step, setStep] = useState(1);
   const [hashTags, setHashTags] = useState<string[]>([]);
   const [records, setRecords] = useState("클릭하여 오늘 있었던 일들을 기록해보세요");
   const navigate = useNavigate();
-  
-  console.log(qrLink);
+  const imgSrc = qrLink ? qrLink : image;
   
   // Function to handle the next button click
   const handleNextClick = () => {
@@ -49,7 +49,7 @@ function PhotoCheck() {
         <PhotoCheck1
           handleNextClick={handleNextClick}
           dateInfo={dateInfo}
-          qrLink={qrLink}
+          imgSrc={imgSrc}
         />
       )}
 
@@ -62,7 +62,7 @@ function PhotoCheck() {
           records={records}
           setRecords={setRecords}
           dateInfo={dateInfo}
-          qrLink={qrLink}
+          imgSrc={imgSrc}
         />
       )}
 
@@ -75,6 +75,8 @@ function PhotoCheck() {
           day={day}
           records={records}
           hashtags={hashTags}
+          dateInfo={dateInfo}
+          imgSrc={imgSrc}
         />
       )}
 

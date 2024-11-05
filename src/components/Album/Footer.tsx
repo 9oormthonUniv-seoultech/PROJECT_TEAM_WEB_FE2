@@ -1,11 +1,15 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import {useState} from "react";
 import AlbumLikeIcon from "../../assets/icons/album-like-icon.tsx";
 import AlbumDeleteIcon from "../../assets/icons/album-delete-icon.tsx";
 
-export default function Footer() {
-  const [status, setStatus] = useState('initial');
+type FooterProps = {
+  footerStatus: string;
+  setFooterStatus: React.Dispatch<React.SetStateAction<string>>;
+  setIsConfirmModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Footer({ footerStatus, setFooterStatus, setIsConfirmModalOpen}:FooterProps) {
   
   const isActive = (status: boolean) => {
     if (status) {
@@ -15,16 +19,26 @@ export default function Footer() {
     }
   };
   
-  const isLiking = status === 'liking';
-  const isDeleting = status === 'deleting';
+  const isLiking = footerStatus === 'liking';
+  const isDeleting = footerStatus === 'deleting';
   
   return (
     <Container>
-      <MenuBtn onClick={() => setStatus('liking')} disabled={isLiking}>
+      <MenuBtn
+        onClick={() => {
+          setFooterStatus('liking')
+          setIsConfirmModalOpen(true)
+        }}
+        disabled={isLiking}>
         <AlbumLikeIcon color={isActive(isLiking)} />
         <Text $active={isLiking}>좋아요</Text>
       </MenuBtn>
-      <MenuBtn onClick={() => setStatus('deleting')} disabled={isDeleting}>
+      <MenuBtn
+        onClick={() => {
+          setFooterStatus('deleting')
+          setIsConfirmModalOpen(true)
+        }}
+        disabled={isDeleting}>
         <AlbumDeleteIcon color={isActive(isDeleting)} />
         <Text $active={isDeleting}>삭제</Text>
       </MenuBtn>
