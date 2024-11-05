@@ -15,11 +15,13 @@ function ImagePage() {
     isFetchingNextPage,
     isLoading,
   } = useReviewImageInfiniteQuery(boothId);
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
+
   if (!isLoading && pages && pages?.pages[0].data?.length! > 0) {
     return (
       <Container>
