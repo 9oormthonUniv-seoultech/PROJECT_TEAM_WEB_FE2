@@ -5,7 +5,7 @@ import StarIcon from "../../assets/icons/star-icon";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { getBoothInfo } from "../../api/booth";
+import { getBoothInfo, getBoothModalInfo } from "../../api/booth";
 import { getLogoUrl } from "../../hooks/getImageUrl";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { getDistance } from "../../hooks/getLocation";
@@ -30,6 +30,11 @@ function BoothModal({ boothId }: { boothId: string }) {
     queryFn: () => getBoothInfo(boothId),
   });
 
+  //특정 포토부스 리뷰 관련 정보 조회 api 호출
+  const { data: boothReviewInfo } = useQuery({
+    queryKey: ["getBoothReviewInfo", boothId],
+    queryFn: () => getBoothModalInfo(boothId),
+  });
   return (
     <Wrapper
       style={{
@@ -39,22 +44,25 @@ function BoothModal({ boothId }: { boothId: string }) {
     >
       <LayerBar />
 
-      {!isBoothInfoLoading && boothInfo ? (
+      {!isBoothInfoLoading && boothInfo && boothReviewInfo ? (
         <Container>
           <InfoBox>
             <div className="flex items-center">
               <span className="title">{boothInfo.name}</span>
               <StarIcon />
-              <span className="score">4.5</span>
+              <span className="score">{boothReviewInfo.rating}</span>
             </div>
-            <span className="sub-text">{`${getDistance(boothInfo.x, boothInfo.y, lat, lng)} 리뷰 567`}</span>
+            <span className="sub-text">{`${getDistance(boothInfo.x, boothInfo.y, lat, lng)} 리뷰 ${boothReviewInfo.reviewCount}`}</span>
             <div className="flex items-center mt-2">
-              <TagBox>깔끔한 소품</TagBox>
-              <TagBox>빛번짐 없음 </TagBox>
+              {boothReviewInfo.features.length > 0 ? (
+                boothReviewInfo.features.map((tag, index) => <TagBox key={index}>{tag}</TagBox>)
+              ) : (
+                <TagBox>{"#가 없어요"}</TagBox>
+              )}
             </div>
           </InfoBox>
           <ImgBox $imageurl={getLogoUrl(boothInfo.photoBoothBrand)}>
-            <div className="num-tag">+210</div>
+            <div className="num-tag">{boothReviewInfo.imageCount}</div>
           </ImgBox>
         </Container>
       ) : (
@@ -100,7 +108,7 @@ const Container = styled.div`
     ${tw`font-semibold text-[18px] text-gray700 mr-2`}
   }
   .score {
-    ${tw`font-semibold text-[14px] text-gray600 ml-0.5 mt-1`}
+    ${tw`font-semibold text-[14px] text-gray600 ml-0.5 `}
   }
   .sub-text {
     ${tw`font-normal text-[14px] text-gray400`}

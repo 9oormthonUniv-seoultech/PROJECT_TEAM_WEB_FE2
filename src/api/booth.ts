@@ -1,5 +1,5 @@
 import { Get } from ".";
-import { BoothInfo, SpecificBoothInfo } from "../@types/booth";
+import { BoothInfo, BoothModalReviewInfo, SpecificBoothInfo } from "../@types/booth";
 
 export const getBoothLatLng = async (lat: number, lng: number, brands: string[]) => {
   let queryParams;
@@ -26,6 +26,14 @@ export const getBoothInfo = async (id: string) => {
   }
 };
 
+export const getBoothModalInfo = async (id: string) => {
+  try {
+    const res = await Get<BoothModalReviewInfo>(`/api/v1/photobooth/modal/${id}`);
+    return res.data.payload;
+  } catch (error) {
+    console.log(error);
+  }
+};
 export const searchPhotoBoothName = async (id: string) => {
   try {
     const res = await Get<string>(`/api/v1/photobooth/name/${id}`);
