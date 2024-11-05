@@ -6,18 +6,12 @@ import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useReviewsInfiniteQuery } from "../../hooks/useReviewQuery";
 import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
+
 function ReviewListSection() {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
+
   const { ref, inView } = useInView();
-  const {
-    data: pages,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-  } = useReviewsInfiniteQuery(boothId, accessToken!);
+  const { data: pages, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = useReviewsInfiniteQuery(boothId);
 
   useEffect(() => {
     if (inView && hasNextPage) {

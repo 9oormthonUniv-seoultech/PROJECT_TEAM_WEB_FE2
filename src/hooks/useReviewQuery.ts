@@ -2,12 +2,12 @@ import { useMemo } from "react";
 import { QueryFunctionContext, useInfiniteQuery } from "@tanstack/react-query";
 import { pagingReviewImages, pagingReviews } from "../api/review";
 
-export const useReviewsInfiniteQuery = (boothId: string, accessToken: string) => {
+export const useReviewsInfiniteQuery = (boothId: string) => {
   return useInfiniteQuery({
     queryKey: ["pagingReviews"],
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await pagingReviews(boothId, pageParam, accessToken);
+      const res = await pagingReviews(boothId, pageParam);
       return {
         data: res?.reviews,
         reviewCount: res?.reviewCount,
@@ -18,12 +18,12 @@ export const useReviewsInfiniteQuery = (boothId: string, accessToken: string) =>
   });
 };
 
-export const useReviewImageInfiniteQuery = (boothId: string, accessToken: string) => {
+export const useReviewImageInfiniteQuery = (boothId: string) => {
   return useInfiniteQuery({
     queryKey: ["pagingReviewImages"],
     initialPageParam: 0,
     queryFn: async ({ pageParam = 0 }) => {
-      const res = await pagingReviewImages(boothId, pageParam, accessToken);
+      const res = await pagingReviewImages(boothId, pageParam);
       return {
         data: res,
         // 다음 페이지가 없을 경우 nextPage를 undefined로 설정하여 중단

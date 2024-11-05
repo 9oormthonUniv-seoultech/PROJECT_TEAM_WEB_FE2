@@ -81,8 +81,8 @@ export const getDistance = (lat1: number, lng1: number, lat2: number, lng2: numb
   // Convert distance to meters if less than 1 km, otherwise keep it in kilometers
   if (distanceInKm < 1) {
     const distanceInMeters = distanceInKm * 1000; // Convert km to meters
-    return `${distanceInMeters.toFixed(0)} m`;
+    return `${distanceInMeters.toFixed(0)}m`;
   } else {
-    return `${distanceInKm.toFixed(2)} km`;
+    return `${distanceInKm.toFixed(2)}km`;
   }
 };

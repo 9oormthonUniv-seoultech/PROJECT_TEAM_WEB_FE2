@@ -1,9 +1,7 @@
 import BoothRating from "../../components/Booth/BoothRating";
 import FeedImgList from "../../components/Booth/FeedImgList";
 import FeedTagSection from "../../components/Booth/FeedTagSection";
-import ReviewListSection from "../../components/Booth/ReviewListSection";
 import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { getBoothTags, getPhotoTags, getRecentReviews } from "../../api/review";
 import NoImage from "../../assets/images/no-images.svg?react";
@@ -13,21 +11,20 @@ import ReviewItem from "../../components/Booth/ReviewItem";
 function FeedPage() {
   const { boothId } = useParams() as { boothId: string };
 
-  const { accessToken } = useAuthStore();
   //최근 리뷰 조회
   const { isLoading, data } = useQuery({
     queryKey: ["getRecentReviews", boothId],
-    queryFn: () => getRecentReviews(boothId, accessToken!),
+    queryFn: () => getRecentReviews(boothId),
   });
 
   const { data: BoothTags } = useQuery({
     queryKey: ["getBoothTags", boothId],
-    queryFn: () => getBoothTags(boothId, accessToken!),
+    queryFn: () => getBoothTags(boothId),
   });
 
   const { data: PhotoTags } = useQuery({
     queryKey: ["getPhotoTags", boothId],
-    queryFn: () => getPhotoTags(boothId, accessToken!),
+    queryFn: () => getPhotoTags(boothId),
   });
   if (!isLoading && data && data?.reviewCount > 0) {
     return (

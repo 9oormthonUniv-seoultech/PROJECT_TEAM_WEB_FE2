@@ -17,21 +17,21 @@ function Step1() {
   const [rate, setRate] = useState<number>(0);
   const [selectedBoothTags, setSelectedBoothTags] = useState<number[]>([]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState<number[]>([]);
-  const { accessToken } = useAuthStore();
+
   //포토부스 이름 조회 api 호출
   const { isLoading, data: boothName } = useQuery({
     queryKey: ["searchBoothName", boothId],
-    queryFn: () => searchPhotoBoothName(boothId, accessToken!),
+    queryFn: () => searchPhotoBoothName(boothId),
   });
 
   const { data: BoothFeatures } = useQuery({
     queryKey: ["searchBoothFeatures"],
-    queryFn: () => searchBoothFeatures(accessToken!),
+    queryFn: () => searchBoothFeatures(),
   });
 
   const { data: PhotoFeatures } = useQuery({
     queryKey: ["searchPhotoFeatures"],
-    queryFn: () => searchPhotoFeatures(accessToken!),
+    queryFn: () => searchPhotoFeatures(),
   });
   const getRatingText = () => {
     if (rate === 0) return "별점을 선택해주세요";

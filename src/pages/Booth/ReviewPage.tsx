@@ -3,20 +3,18 @@ import ReviewListSection from "../../components/Booth/ReviewListSection";
 import { useQuery } from "@tanstack/react-query";
 import { getBoothTags, getPhotoTags } from "../../api/review";
 import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
 import NoImage from "../../assets/images/no-images.svg?react";
 function ReviewPage() {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
 
   const { isLoading: boothTagLoading, data: BoothTags } = useQuery({
     queryKey: ["getBoothTags", boothId],
-    queryFn: () => getBoothTags(boothId, accessToken!),
+    queryFn: () => getBoothTags(boothId),
   });
 
   const { isLoading: photoTagLoading, data: PhotoTags } = useQuery({
     queryKey: ["getPhotoTags", boothId],
-    queryFn: () => getPhotoTags(boothId, accessToken!),
+    queryFn: () => getPhotoTags(boothId),
   });
   if (
     !boothTagLoading &&

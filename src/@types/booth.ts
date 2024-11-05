@@ -13,3 +13,13 @@ export type SpecificBoothInfo = {
   x: number;
   y: number;
 };
+
+export type BoothModalReviewInfo = {
+  name: string;
+  features: string[];
+  rating: number;
+  imageCount: number;
+  reviewCount: number;
+  x: number;
+  y: number;
+};

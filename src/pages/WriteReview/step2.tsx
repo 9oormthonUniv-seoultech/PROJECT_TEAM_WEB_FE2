@@ -26,7 +26,7 @@ function Step2() {
 
   const getUploadedFilePaths = async (imageFiles: File[], accessToken: string): Promise<string[]> => {
     const uploadPromises = imageFiles.map(async (image) => {
-      const presignedData = await getPresignedUrl("/review", image.name, accessToken);
+      const presignedData = await getPresignedUrl("/images/review", image.name, accessToken);
       if (presignedData) {
         await uploadToS3(presignedData.url, image);
         return presignedData.filePath;
@@ -87,8 +87,10 @@ function Step2() {
         <span className="q-label">부스에 대한 설명을 작성해주세요</span>
         <span className="tag">선택</span>
       </LabelBox>
-      <textarea placeholder="포토부스에 대한 설명을 적어주세요" onChange={(e) => setReviewText(e.target.value)} />
-      <span className="text-cnt">{`${reviewText?.length} / 300`}</span>
+      <div className="relative">
+        <textarea placeholder="포토부스에 대한 설명을 적어주세요" onChange={(e) => setReviewText(e.target.value)} />
+        <span className="text-cnt">{`${reviewText?.length} / 300`}</span>
+      </div>
       <NextButton text="완료하기" onClick={handleSubmit} />
     </MainWrapper>
   );
@@ -114,7 +116,7 @@ const MainWrapper = styled.main`
   }
 
   .text-cnt {
-    ${tw`ml-[90%] font-medium text-[12px] text-gray400`}
+    ${tw`absolute top-[255px] right-1.5 font-medium text-[12px] text-gray400`}
   }
 `;
 const LabelBox = styled.div`
