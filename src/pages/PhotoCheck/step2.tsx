@@ -13,10 +13,10 @@ type Step2Props = {
   records: string;
   setRecords: React.Dispatch<React.SetStateAction<string>>;
   dateInfo: string;
-  qrLink: string;
+  imgSrc: string;
 }
 
-function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, records, setRecords, dateInfo, qrLink }: Step2Props) {
+function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, records, setRecords, dateInfo, imgSrc }: Step2Props) {
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [countHash, setCountHash] = useState(0);
@@ -108,7 +108,7 @@ function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, r
         )}
       </div>
       {isHashModalOpen && <HashTagModal hashTags = {hashTags} closeModal={closeHashModal} setHashTags={setHashTags} />}
-      <img className="mt-5" src={qrLink} alt="QR 사진" height="200" width="245" />
+      <img className="mt-5" src={imgSrc} alt="QR 사진" height="200" width="245" />
       <div className="mt-8 p-[10px] relative bg-[#e9eaee] rounded-lg inline-flex">
         <button
           className="w-[291px] text-[#676f7b] text-base font-normal font-['Pretendard']"
