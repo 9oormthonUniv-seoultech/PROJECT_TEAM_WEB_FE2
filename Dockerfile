@@ -25,7 +25,7 @@ FROM nginx:stable-alpine AS runner
 # Copy nginx configuration (optional, if you have a custom config)
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
 # Copy built files to Nginx for serving
-COPY --from=base /app/dist /usr/share/nginx/html
+COPY --from=base /app/dist /usr/share/nginx/html/page
 
 # Expose port 80 for Nginx
 EXPOSE 3000
