@@ -19,12 +19,16 @@ ENV VITE_KAKAO_REST_API_KEY=${VITE_KAKAO_REST_API_KEY}
 # Build the Vite application
 RUN npm run build # npm run build 명령어로 vite 실행
 
-# Production stage with Nginx
-FROM nginx:stable-alpine AS production
-COPY --from=build /app/dist /usr/share/nginx/html
+# Nginx server to serve static files
+FROM nginx:stable-alpine AS runner
 
-# Nginx configuration to handle all routes with index.html
+# Copy nginx configuration (optional, if you have a custom config)
 COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# Copy built files to Nginx for serving
+COPY --from=base /app/dist /usr/share/nginx/html
 
+# Expose port 80 for Nginx
 EXPOSE 3000
+
+# Start Nginx
 CMD ["nginx", "-g", "daemon off;"]
