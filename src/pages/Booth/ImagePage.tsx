@@ -4,11 +4,9 @@ import NoImage from "../../assets/images/no-images.svg?react";
 import { useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
 import { useReviewImageInfiniteQuery } from "../../hooks/useReviewQuery";
 function ImagePage() {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
   const { ref, inView } = useInView();
   const {
     data: pages,
@@ -16,13 +14,13 @@ function ImagePage() {
     hasNextPage,
     isFetchingNextPage,
     isLoading,
-  } = useReviewImageInfiniteQuery(boothId, accessToken!);
+  } = useReviewImageInfiniteQuery(boothId);
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView, hasNextPage, fetchNextPage]);
-  if (!isLoading && pages && pages?.pages.length! > 0) {
+  if (!isLoading && pages && pages?.pages[0].data?.length! > 0) {
     return (
       <Container>
         {pages.pages.map(
@@ -38,7 +36,7 @@ function ImagePage() {
     return (
       <div className="w-full flex flex-col items-center mx-auto mt-20">
         <NoImage />
-        <p className="text-gray400 mt-4">리뷰를 작성해 보세요</p>
+        <p className="text-gray400 mt-4">이미지를 추가해 보세요</p>
       </div>
     );
   }
