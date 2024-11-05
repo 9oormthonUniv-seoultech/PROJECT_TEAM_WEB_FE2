@@ -1,15 +1,16 @@
 # Base image for building
-FROM node:18-alpine AS base
+FROM node:18-alpine AS build
 
 # Define arguments for environment variables
 ARG VITE_KAKAO_MAP_KEY
 ARG VITE_KAKAO_REST_API_KEY
 
-# Install dependencies
+# Set working directory and copy package files
 WORKDIR /app
 COPY package.json package-lock.json* ./
 
-RUN npm ci # package 설치
+# Install dependencies
+RUN npm ci # Install packages
 
 # Copy source code and set environment variables
 COPY . .
@@ -17,19 +18,19 @@ ENV VITE_KAKAO_MAP_KEY=${VITE_KAKAO_MAP_KEY}
 ENV VITE_KAKAO_REST_API_KEY=${VITE_KAKAO_REST_API_KEY}
 
 # Build the Vite application
-RUN npm run build # npm run build 명령어로 vite 실행
+RUN npm run build # Run the Vite build command
 
-# Nginx server to serve static files
-FROM nginx:stable-alpine AS runner
+# Production stage
+FROM node:18-alpine AS serve
 
-# Copy nginx configuration (optional, if you have a custom config)
-COPY nginx/nginx.conf /etc/nginx/nginx.conf
+# Install serve to serve static files
+RUN npm install -g serve
 
-# Copy built files to Nginx for serving
-COPY --from=base /app/dist /usr/share/nginx/html
+# Copy built files
+COPY --from=build /app/dist /app
 
-# Expose port 80 for Nginx
-EXPOSE 80
+# Expose port 3000 for serve
+EXPOSE 3000
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Serve static files on port 3000
+CMD ["serve", "-s", "/app", "-l", "3000"]
