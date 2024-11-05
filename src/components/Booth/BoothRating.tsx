@@ -8,15 +8,13 @@ import CommonSvg from "../../assets/images/common-rate-character.svg?react";
 import LowSvg from "../../assets/images/low-rate-character.svg";
 import LowestSvg from "../../assets/images/lowest-rate-character.svg";
 import { useParams } from "react-router-dom";
-import { useAuthStore } from "../../store/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
 import { getRating } from "../../api/review";
 function BoothRating() {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
   const { isLoading, data: score } = useQuery({
     queryKey: ["getRate", boothId],
-    queryFn: () => getRating(boothId, accessToken!),
+    queryFn: () => getRating(boothId),
   });
 
   const RenderCharacter = () => {

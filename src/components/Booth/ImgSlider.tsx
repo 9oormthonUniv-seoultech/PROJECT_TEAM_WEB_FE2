@@ -11,10 +11,9 @@ import { useAuthStore } from "../../store/useAuthStore";
 
 function ImgSlider({ type }: { type: string }) {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
   const { isLoading, data: images } = useQuery({
     queryKey: ["getRecentImages", boothId],
-    queryFn: () => getRecentImages(boothId, accessToken!),
+    queryFn: () => getRecentImages(boothId),
   });
   const settings = {
     dots: true,

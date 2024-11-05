@@ -1,19 +1,17 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import RightArrowIcon from "../../assets/icons/right-arrow";
-import { useAuthStore } from "../../store/useAuthStore";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getRecentImages } from "../../api/review";
 
 function FeedImgList() {
   const { boothId } = useParams() as { boothId: string };
-  const { accessToken } = useAuthStore();
   const { isLoading, data: images } = useQuery({
     queryKey: ["getRecentImages", boothId],
-    queryFn: () => getRecentImages(boothId, accessToken!),
+    queryFn: () => getRecentImages(boothId),
   });
-
+  const navigate = useNavigate();
   return (
     <Container>
       <RowBox>
@@ -21,7 +19,7 @@ function FeedImgList() {
           <span className="title">사진</span>
           <span className="count">{images && images?.totalImageCount ? images?.totalImageCount : ""}</span>
         </RowBox>
-        <MoreBtn>
+        <MoreBtn onClick={() => navigate(`/home/${boothId}/image`)}>
           더보기
           <RightArrowIcon />
         </MoreBtn>

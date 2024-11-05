@@ -9,7 +9,7 @@ import { getBoothInfo } from "../../api/booth";
 import { getLogoUrl } from "../../hooks/getImageUrl";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { getDistance } from "../../hooks/getLocation";
-import { useAuthStore } from "../../store/useAuthStore";
+
 function BoothModal({ boothId }: { boothId: string }) {
   const [currentY, setCurrentY] = useState(0);
   const navigate = useNavigate();
@@ -23,11 +23,11 @@ function BoothModal({ boothId }: { boothId: string }) {
       document.body.style.overflow = "auto"; // 모달이 닫힐 때 스크롤 활성화
     };
   }, []);
-  const { accessToken } = useAuthStore();
+
   //특정 포토부스 정보 조회 api 호출
   const { isLoading: isBoothInfoLoading, data: boothInfo } = useQuery({
     queryKey: ["getBoothInfo", boothId],
-    queryFn: () => getBoothInfo(boothId, accessToken!),
+    queryFn: () => getBoothInfo(boothId),
   });
 
   return (
