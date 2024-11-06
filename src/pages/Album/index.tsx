@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import NavBar from "../../components/Common/NavBar";
 import Search from "../../assets/images/search.svg?react";
 import NoImage from "../../assets/images/no-images.svg?react";
+import Loading from "../../assets/images/loading-icon.svg?react";
 import More from "../../assets/images/more.svg?react";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -10,60 +11,44 @@ import DateModal from "../../components/Album/DateModal.tsx";
 import Footer from "../../components/Album/Footer.tsx";
 import ConfirmModal from "../../components/Album/ConfirmModal.tsx";
 import BoothFilterModal from "../../components/Album/BoothFilterModal.tsx";
-
-type Images = {
-  url: string;
-  title: string;
-}
+import {Get, Post} from "../../api";
+import {useAuthStore} from "../../store/useAuthStore.ts";
 
 function Album() {
   const [selectedCategory, setSelectedCategory] = useState<string | null>('날짜별');
   const [isDateModalOpen, setIsDateModalOpen] = useState<boolean>(false);
-  const [imageList, setImageList] = useState<Images[]>([]);
+  const [imageList, setImageList] = useState([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [selectedImages, setSelectedImages] = useState<number[]>([]); // 선택된 이미지 상태
   const [footerStatus, setFooterStatus] = useState('initial');
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false); // 확인 모달 상태
   const [photoBooth,setPhotoBooth] = useState<string>('하루필름');
   const [isBoothFilterModalOpen, setIsBoothFilterModalOpen] = useState<boolean>(false);
-  const [date, setDate] = useState<string>('2024년 9월');
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [year, setYear] = useState<number>(2024);
+  const [month, setMonth] = useState<number>(11);
+  const { accessToken } = useAuthStore();
   
   useEffect(() => {
-    setImageList([
-      {
-        url: "https://example.com/image1.jpg",
-        title: "Sample Image 1",
-      },
-      {
-        url: "https://example.com/image2.jpg",
-        title: "Sample Image 2",
-      },
-      {
-        url: "https://example.com/image3.jpg",
-        title: "Sample Image 3",
-      },
-      {
-        url: "https://example.com/image4.jpg",
-        title: "Sample Image 4",
-      },
-      {
-        url: "https://example.com/image5.jpg",
-        title: "Sample Image 5",
-      },
-      {
-        url: "https://example.com/image6.jpg",
-        title: "Sample Image 6",
-      },
-      {
-        url: "https://example.com/image7.jpg",
-        title: "Sample Image 7",
-      },
-      {
-        url: "https://example.com/image8.jpg",
-        title: "Sample Image 8",
-      },
-    ]);
-  }, []);
+    const getVisitedBooths = async (year:number, month:number, accessToken:string) => {
+      try {
+        setIsLoading(true);  // 요청 시작 시 로딩 상태 활성화
+        const res = await Get(`/api/v1/album/date/${year}/${month}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if(res.status === 200){
+          setImageList(res.data.payload);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);  // 요청 완료 후 로딩 상태 비활성화
+      }
+    };
+    getVisitedBooths(year,month,accessToken);
+  }, [year,month]);
   
   // "선택" 버튼 클릭 핸들러
   const handleSelectClick = () => {
@@ -114,7 +99,7 @@ function Album() {
         </HeaderSection>
 
         <ButtonGroup>
-          {selectedCategory === "날짜별" && <Subtitle onClick={() => setIsDateModalOpen(true)}>{date}</Subtitle>}
+          {selectedCategory === "날짜별" && <Subtitle onClick={() => setIsDateModalOpen(true)}>{year}년 {month}월</Subtitle>}
           {selectedCategory === "포토부스별" &&
               <Subtitle onClick={() => setIsBoothFilterModalOpen(true)}>
                 {photoBooth}
@@ -154,26 +139,39 @@ function Album() {
             )}
           </div>
         </ButtonGroup>
-        {isDateModalOpen && <DateModal closeModal={handleCloseModal} setDate={setDate}/>}
-        <ImageContainer>
-          {imageList.length === 0 ? (
-            <>
-              <NoImage/>
-              <p className="text-gray400 mt-4">사진을 채워보세요</p>
-            </>
-          ) : (
-            <ImageDiv>
-              {imageList.map((image, index) => (
-                <ImageCard
-                  key={index}
-                  isEditing={isEditing}
-                  isSelected={selectedImages.includes(index)} // 선택 상태 전달
-                  onClick={() => handleImageClick(index)} // 클릭 핸들러 전달
-                />
-              ))}
-            </ImageDiv>
-          )}
-        </ImageContainer>
+        {isDateModalOpen &&
+          <DateModal
+            closeModal={handleCloseModal}
+            year={year}
+            month={month}
+            setYear={setYear}
+            setMonth={setMonth}
+          />
+        }
+        
+        {isLoading ? (
+          <Loading/>  // 로딩 중 텍스트 또는 로딩 스피너 컴포넌트를 사용할 수 있음
+        ) : (
+          <ImageContainer>
+            {imageList.length === 0 ? (
+              <>
+                <NoImage/>
+                <p className="text-gray400 mt-4">사진을 채워보세요</p>
+              </>
+            ) : (
+              <ImageDiv>
+                {imageList.map((image, index) => (
+                  <ImageCard
+                    key={index}
+                    isEditing={isEditing}
+                    isSelected={selectedImages.includes(index)} // 선택 상태 전달
+                    onClick={() => handleImageClick(index)} // 클릭 핸들러 전달
+                  />
+                ))}
+              </ImageDiv>
+            )}
+          </ImageContainer>
+        )}
         
         {!isEditing && (
           <CategoryMenu>
@@ -279,7 +277,6 @@ const ActionButton = styled.div`
     font-family: 'Pretendard', sans-serif;
     white-space: nowrap;
 `;
-
 
 const CategoryMenu = styled.div`
     ${tw`flex bg-[#c7c9ce]/80 rounded-full shadow`}
