@@ -83,9 +83,11 @@ function WriteDetail() {
     const res = await uploadPhoto(accessToken, boothId, year, month, day, hashtags, records, filePath);
 
     if (res) {
+      //리뷰 작성을 위해 로컬 스토리지에 부스 아이디 저장
+      localStorage.setItem("boothId", res.photoboothId);
       navigate("/upload-complete", {
         state: {
-          photoboothId: res.photoboothId,
+          albumId: res.albumId,
         },
       });
     }

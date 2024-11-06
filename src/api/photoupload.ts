@@ -17,6 +17,7 @@ export const uploadPhoto = async (
       month: number;
       date: number;
       hashtag: string[];
+      albumId: string;
       memo: string;
       filePath: string;
     }>(
