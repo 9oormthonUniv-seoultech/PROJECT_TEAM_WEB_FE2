@@ -1,17 +1,31 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import EditIcon from "../../assets/icons/edit-icon";
+import { useQuery } from "@tanstack/react-query";
+import { getUserInfo } from "../../api/user";
+import { useAuthStore } from "../../store/useAuthStore";
 function ProfileSection() {
-  return (
-    <Container>
-      <div className="img-wrapper" />
-      <span className="nickname">홍길동</span>
-      <button className="edit-btn">
-        프로필편집
-        <EditIcon />
-      </button>
-    </Container>
-  );
+  const { accessToken } = useAuthStore();
+  //사용자 프로필 정보 조회 api 호출
+  const { isLoading, data } = useQuery({
+    queryKey: ["getUserData"],
+    queryFn: () => getUserInfo(accessToken!),
+  });
+
+  if (!isLoading && data) {
+    return (
+      <Container>
+        <img className="img-wrapper" src={data.image} />
+        <span className="nickname">{data.name}</span>
+        <button className="edit-btn">
+          프로필편집
+          <EditIcon />
+        </button>
+      </Container>
+    );
+  } else {
+    return <Container></Container>;
+  }
 }
 
 export default ProfileSection;

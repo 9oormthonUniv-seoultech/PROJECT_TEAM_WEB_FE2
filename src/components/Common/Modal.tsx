@@ -35,7 +35,7 @@ const Overlay = styled.div`
         w-full h-full bg-[black] bg-opacity-40 
         fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]
         flex justify-center items-center
-        z-[20]
+        z-[30]
     `}
 `;
 const Container = styled.div`

@@ -1,5 +1,5 @@
 import { Get, Post } from ".";
-import { Feature, Review, TagCnt } from "../@types/review";
+import { Feature, MyReview, Review, TagCnt } from "../@types/review";
 
 export const submitReviewData = async (
   accessToken: string,
