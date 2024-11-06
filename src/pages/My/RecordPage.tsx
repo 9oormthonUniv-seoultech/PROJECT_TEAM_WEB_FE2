@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import LikeBoothCard from "../../components/My/LikeBoothCard";
 import VisitedBoothCard from "../../components/My/VisitedBoothCard";
 import { useQuery } from "@tanstack/react-query";
-import { getMyReviews } from "../../api/review";
+import { getMyReviews, getVisitedBooths } from "../../api/my";
 import { useAuthStore } from "../../store/useAuthStore";
 function RecordPage() {
   const navigate = useNavigate();
@@ -16,6 +16,12 @@ function RecordPage() {
   const { data: myReviewData } = useQuery({
     queryKey: ["getMyAllReviews"],
     queryFn: () => getMyReviews(accessToken!),
+  });
+
+  //방문한 부스 조회
+  const { isLoading, data: visitedBoothData } = useQuery<any>({
+    queryKey: ["getVisitedBooths"],
+    queryFn: () => getVisitedBooths(accessToken!),
   });
 
   return (
@@ -62,15 +68,32 @@ function RecordPage() {
 
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">방문한 부스</span>
-        <button className="more-btn" onClick={() => navigate("/visited-booths")}>
-          더보기
-          <RightArrowIcon width={6} color="#676F7B" />
-        </button>
+        {visitedBoothData && visitedBoothData.length > 0 && (
+          <button className="more-btn" onClick={() => navigate("/visited-booths")}>
+            더보기
+            <RightArrowIcon width={6} color="#676F7B" />
+          </button>
+        )}
       </div>
 
       <SlideWrapper>
-        <VisitedBoothCard width="292px" height="110px" />
-        <VisitedBoothCard width="292px" height="110px" />
+        {visitedBoothData && visitedBoothData.length > 0 ? (
+          visitedBoothData
+            .slice(0, 2)
+            .map((item: any, index: number) => (
+              <VisitedBoothCard
+                width="292px"
+                height="110px"
+                name={item.name}
+                photoboothId={item.photoboothId}
+                month={item.month}
+                date={item.date}
+                key={index}
+              />
+            ))
+        ) : (
+          <span>방문한 부스가 없어요</span>
+        )}
       </SlideWrapper>
     </Container>
   );

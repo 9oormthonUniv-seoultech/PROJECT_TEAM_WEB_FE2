@@ -132,18 +132,3 @@ export const pagingReviewImages = async (boothId: string, page: number) => {
     return res.data.payload;
   } catch (error) {}
 };
-
-export const getMyReviews = async (accessToken: string) => {
-  try {
-    const res = await Get<{
-      reviewCount: number;
-      reviewMypageDetailDtoList: MyReview[];
-    }>("/api/v1/review/mypage", {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-
-    return res.data.payload;
-  } catch (error) {}
-};

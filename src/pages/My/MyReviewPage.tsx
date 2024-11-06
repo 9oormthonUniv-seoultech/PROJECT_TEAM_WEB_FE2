@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import MyReviewCard from "../../components/My/MyReviewCard";
 import { useQuery } from "@tanstack/react-query";
-import { getMyReviews } from "../../api/review";
+import { getMyReviews } from "../../api/my";
 import { useAuthStore } from "../../store/useAuthStore";
 function MyReviewPage() {
   const navigate = useNavigate();
