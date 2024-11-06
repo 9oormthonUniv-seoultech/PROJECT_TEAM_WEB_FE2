@@ -27,6 +27,7 @@ import { useAuthStore } from "./store/useAuthStore";
 import UploadComplete from "./pages/PhotoUpload/UploadComplete";
 import CheckPhoto from "./pages/PhotoUpload/CheckPhoto";
 import WriteDetail from "./pages/PhotoUpload/WriteDetail";
+import Share from "./pages/Share";
 
 function App() {
   const { isLoggedIn } = useAuthStore();
@@ -85,6 +86,7 @@ function App() {
           <Route path="/upload-complete" element={<UploadComplete />} />
           <Route path="/album" element={<Album />} />
         </Route>
+        <Route path="/share" element={<Share />} />
       </Routes>
     </BrowserRouter>
   );
