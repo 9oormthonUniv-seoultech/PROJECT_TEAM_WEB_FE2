@@ -7,7 +7,9 @@ type AuthStore = {
   logout: () => void;
 
   accessToken: string | null;
+  refreshToken: string | null;
   setAccessToken: (accessToken: string) => void;
+  setRefreshToken: (refreshToken: string) => void;
 };
 
 export const useAuthStore = create<AuthStore>()(
@@ -19,9 +21,12 @@ export const useAuthStore = create<AuthStore>()(
         set({
           isLoggedIn: false,
           accessToken: null,
+          refreshToken: null,
         }),
       accessToken: "",
       setAccessToken: (accessToken) => set({ accessToken }),
+      refreshToken: "",
+      setRefreshToken: (refreshToken) => set({ refreshToken }),
     }),
     {
       name: "user-storage",

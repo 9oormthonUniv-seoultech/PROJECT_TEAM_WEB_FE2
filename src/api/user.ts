@@ -13,3 +13,18 @@ export const getUserInfo = async (accessToken: string) => {
     console.log(error);
   }
 };
+
+export const reissueToken = async (accessToken: string, refreshToken: string) => {
+  try {
+    const res = await Get<{
+      accessToken: string;
+      refreshToken: string;
+    }>("/v1/api/user/reissue", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "X-Refresh-Token": refreshToken,
+      },
+    });
+    return res.data.payload;
+  } catch (error) {}
+};
