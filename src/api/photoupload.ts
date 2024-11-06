@@ -11,7 +11,15 @@ export const uploadPhoto = async (
   filePath: string
 ) => {
   try {
-    const res = await Post(
+    const res = await Post<{
+      photoboothId: string;
+      year: number;
+      month: number;
+      date: number;
+      hashtag: string[];
+      memo: string;
+      filePath: string;
+    }>(
       "/api/v1/album",
       {
         photoboothId: photoboothId,
@@ -28,7 +36,7 @@ export const uploadPhoto = async (
         },
       }
     );
-    return res.data.result;
+    return res.data.payload;
   } catch (error) {
     console.log(error);
   }

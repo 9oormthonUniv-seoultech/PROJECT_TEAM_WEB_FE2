@@ -6,32 +6,20 @@ import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
 import { useState } from "react";
 
-type Step3Props = {
-  handleNextClick: () => void;
-  handleBackStep: () => void;
-  dateInfo: string;
-  records:string;
-  hashtags:string[];
-  year:string;
-  month:string;
-  day:string;
-  imgSrc : File;
-}
-
-function PhotoCheck3({ handleNextClick, handleBackStep, year, month, day, hashtags, records, dateInfo, imgSrc }: Step3Props) {
+function UploadComplete() {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
-  
+
   return (
     <Container>
       <Header>
         <div className="relative flex flex-row w-full justify-center items-center">
           <Title>사진 확인</Title>
-          <button className="absolute left-[10px] top-[35%]" onClick={handleBackStep}>
+          <button className="absolute left-[10px] top-[35%]" onClick={() => navigate(-1)}>
             <BackIcon color="white" />
           </button>
         </div>
-        <DateText>{dateInfo}</DateText>
+        {/* <DateText>{dateInfo}</DateText> */}
       </Header>
       <ShareLogo className="mt-3"></ShareLogo>
       <div className="relative mt-6 justify-start items-center gap-2.5 inline-flex">
@@ -40,8 +28,7 @@ function PhotoCheck3({ handleNextClick, handleBackStep, year, month, day, hashta
         </button>
         <div className="text-white text-lg font-normal font-['Pretendard']">해시태그, 사진 기록까지 공유하기</div>
       </div>
-      <ButtonContainer
-        onClick={handleNextClick}>
+      <ButtonContainer onClick={() => console.log("click")}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
       <ButtonContainer2 className="mt-0" onClick={() => navigate("/home")}>
@@ -76,4 +63,4 @@ const ButtonContainer2 = styled.button`
   ${tw`w-[280px] h-[62px] bg-[#F9F9FB] rounded-lg mt-3 flex justify-center items-center`}
 `;
 
-export default PhotoCheck3;
+export default UploadComplete;
