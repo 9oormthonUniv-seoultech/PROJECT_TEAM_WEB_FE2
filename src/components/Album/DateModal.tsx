@@ -5,15 +5,19 @@ import { useState } from "react";
 
 type ModalProps = {
   closeModal: () => void;
-  setDate: (tags: string) => void;
+  year:number;
+  month:number;
+  setYear: React.Dispatch<React.SetStateAction<number>>;
+  setMonth: React.Dispatch<React.SetStateAction<number>>;
 }
 
-export default function DateModal({ closeModal, setDate }: ModalProps) {
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
+export default function DateModal({ closeModal, year, month, setYear, setMonth }: ModalProps) {
+  const [tempYear, setTempYear] = useState<number>(year);
+  const [tempMonth, setTempMonth] = useState<number>(month);
   
   const confirm = () => {
-    setDate(year + "년 " + month + "월");
+    setYear(tempYear);
+    setMonth(tempMonth);
     closeModal();
   };
 
@@ -27,9 +31,9 @@ export default function DateModal({ closeModal, setDate }: ModalProps) {
         </CloseButton>
         <DateContainer>
           <div className="h-[49px] p-[5px] bg-background rounded-lg flex items-center gap-[10px]">
-            <StyledInput placeholder="0000" value={year} maxLength={4} onChange={(e) => setYear(e.target.value)} />
+            <StyledInput placeholder="0000" value={tempYear} maxLength={4} onChange={(e) => setTempYear(Number(e.target.value))} />
             <p className="text-gray400 font-bold">년</p>
-            <StyledInput placeholder="00" value={month} maxLength={2} onChange={(e) => setMonth(e.target.value)} />
+            <StyledInput placeholder="00" value={tempMonth} maxLength={2} onChange={(e) => setTempMonth(Number(e.target.value))} />
             <p className="text-gray400 font-bold">월</p>
           </div>
         </DateContainer>
