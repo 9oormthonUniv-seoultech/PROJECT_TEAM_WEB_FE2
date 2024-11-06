@@ -4,6 +4,9 @@ import BackIcon from "../../assets/icons/back-icon.tsx";
 import React, { useEffect, useState } from "react";
 import HashTagModal from "../../components/PhotoCheck/HashModal.tsx";
 import RecordModal from "../../components/PhotoCheck/RecordModal.tsx";
+import {useAuthStore} from "../../store/useAuthStore.ts";
+import {getPresignedUrl, uploadToS3} from "../../api/file.ts";
+import {uploadPhoto} from "../../api/photoupload.ts";
 
 type Step2Props = {
   handleNextClick: () => void;
@@ -12,15 +15,20 @@ type Step2Props = {
   setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
   records: string;
   setRecords: React.Dispatch<React.SetStateAction<string>>;
+  year:string;
+  month:string;
+  day:string;
   dateInfo: string;
-  imgSrc: string;
+  imgSrc: File;
 }
 
-function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, records, setRecords, dateInfo, imgSrc }: Step2Props) {
+function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, records, setRecords, dateInfo, imgSrc, year, month, day }: Step2Props) {
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [countHash, setCountHash] = useState(0);
-
+  const [imageFiles, setImageFiles] = useState<File[]>([imgSrc]);
+  const { accessToken } = useAuthStore();
+  
   const openHashModal = () => {
     setIsHashModalOpen(true);
   };
@@ -41,7 +49,67 @@ function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, r
     const count = hashTags.filter((tag) => tag.length > 0);
     setCountHash(count.length);
   }, [hashTags]);
-
+  
+  const getUploadedFilePaths = async (imageFiles: File[], accessToken: string): Promise<string> => {
+    const uploadPromises = imageFiles.map(async (image) => {
+      const presignedData = await getPresignedUrl("/images/album", image.name, accessToken);
+      if (presignedData) {
+        await uploadToS3(presignedData.url, image);
+        return presignedData.filePath;
+      }
+      return null;
+    });
+    
+    const filePaths = (await Promise.all(uploadPromises)).filter(Boolean).join("");
+    console.log(filePaths);
+    return filePaths;
+  };
+  
+  const uploadImage = async (
+    accessToken: string,
+    boothId: number,
+    year: string,
+    month: string,
+    day: string,
+    hashtags: string[],
+    records: string,
+    filePath: string
+  ) => {
+    const res = await uploadPhoto(
+      accessToken,
+      boothId,
+      year,
+      month,
+      day,
+      hashtags,
+      records,
+      filePath
+    );
+    
+    if (res && res.code === 200) {
+      handleNextClick();
+    }
+  };
+  
+  // 메인 로직
+  const handleUpload = async () => {
+    console.log(imgSrc)
+    // Step 2: 이미지 업로드 및 filePaths 저장
+    const filePath = await getUploadedFilePaths(imageFiles, accessToken!);
+    console.log(filePath);
+    // Step 3: 리뷰등록 api 호출
+    await uploadImage(
+      accessToken!,
+      336, //TODO booth.ts에서 부스 검색하는 api 사용해서 수정하기
+      year,
+      month,
+      day,
+      hashTags,
+      records,
+      filePath,
+    );
+  };
+  
   return (
     <Container>
       <Header>
@@ -118,7 +186,7 @@ function PhotoCheck2({ handleNextClick, handleBackStep, hashTags, setHashTags, r
         </button>
       </div>
       {isRecordModalOpen && <RecordModal closeModal={closeRecordModal} setRecords={setRecords} />}
-      <ButtonContainer onClick={handleNextClick}>
+      <ButtonContainer onClick={handleUpload}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
     </Container>
