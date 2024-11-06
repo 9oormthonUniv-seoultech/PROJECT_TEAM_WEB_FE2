@@ -2,20 +2,26 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import PlanBUrl from "../../assets/images/planb-logo.png?url";
 import EditIcon from "../../assets/icons/edit-icon";
+import { useNavigate } from "react-router-dom";
 type CardProps = {
   width?: string;
   height?: string;
+  photoboothId: number;
+  name: string;
+  month: number;
+  date: number;
 };
-function VisitedBoothCard({ width, height }: CardProps) {
+function VisitedBoothCard({ width, height, photoboothId, name, month, date }: CardProps) {
+  const navigate = useNavigate();
   return (
     <CardBox width={width} height={height}>
       <ImgBox $imageurl={PlanBUrl} />
       <div className=" relative flex flex-col justify-between items-end w-full">
         <div className="flex flex-col w-full">
-          <span className="booth-name">하루필름 건대입구역점</span>
-          <span className="visited-date">8월 2일 이용</span>
+          <span className="booth-name">{name}</span>
+          <span className="visited-date">{`${month}월 ${date}일 이용`}</span>
         </div>
-        <button className="go-btn">
+        <button className="go-btn" onClick={() => navigate(`write-review/${photoboothId}/step/1`)}>
           리뷰 쓰러가기
           <EditIcon />
         </button>

@@ -3,13 +3,36 @@ import styled from "styled-components";
 import Header from "../../components/Common/Header";
 import VisitedBoothCard from "../../components/My/VisitedBoothCard";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getVisitedBooths } from "../../api/my";
+import { useAuthStore } from "../../store/useAuthStore";
 function VisitedBoothsPage() {
   const navigate = useNavigate();
+  const { accessToken } = useAuthStore();
+
+  //최근 리뷰 조회
+  const { isLoading, data } = useQuery<any>({
+    queryKey: ["getVisitedBooths"],
+    queryFn: () => getVisitedBooths(accessToken!),
+  });
+
   return (
     <Layout>
       <Header mainText="방문한 부스" handleBackClick={() => navigate(-1)} />
       <CardContainer>
-        <VisitedBoothCard />
+        {!isLoading && data && data.length > 0 ? (
+          data.map((item: any, index: number) => (
+            <VisitedBoothCard
+              name={item.name}
+              photoboothId={item.photoboothId}
+              month={item.month}
+              date={item.date}
+              key={index}
+            />
+          ))
+        ) : (
+          <div></div>
+        )}
       </CardContainer>
     </Layout>
   );

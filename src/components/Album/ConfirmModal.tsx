@@ -31,30 +31,30 @@ function Modal({ sub, title, option, onClick, onLeftOptionClick, onRightOptionCl
 
 export default Modal;
 const Overlay = styled.div`
-  ${tw`
-        w-full h-full bg-[black] bg-opacity-40 
+    ${tw`
+        w-full h-full bg-[black] bg-opacity-40
         fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]
         flex justify-center items-center
         z-[30]
     `}
 `;
 const Container = styled.div`
-  ${tw`w-[95] h-[170px] flex flex-col  bg-gray100 font-display p-[20px] rounded-[8px]`}
+    ${tw`w-[350px] h-[170px] flex flex-col bg-gray100 font-display p-[20px] rounded-[8px]`}
 
-  .sub {
-    ${tw`font-normal text-[12px] text-gray400`}
-  }
-  .title {
-    ${tw`font-medium text-[18px] text-gray700 mt-1`}
-  }
-  .left-btn {
-    ${tw`w-1/2 h-[50px] rounded-[8px] font-display font-semibold text-[16px] bg-main text-[#FFFFFF]`}
-  }
-  .right-btn {
-    ${tw`w-1/2 h-[50px] rounded-[8px] font-display font-semibold text-[16px] bg-[#FFFFFF] text-gray400`}
-  }
+    .sub {
+        ${tw`font-normal text-[12px] text-gray400`}
+    }
+    .title {
+        ${tw`font-medium text-[18px] text-gray700 mt-5`}
+    }
+    .left-btn {
+        ${tw`w-[150px] h-[50px] rounded-[8px] font-display font-semibold text-[16px] bg-main text-[#FFFFFF]`}
+    }
+    .right-btn {
+        ${tw`w-[150px] h-[50px] rounded-[8px] font-display font-semibold text-[16px] bg-[#FFFFFF] text-gray400`}
+    }
 `;
 
 const RowBox = styled.div`
-  ${tw`w-full flex flex-row items-center gap-[10px] mt-[30px]`}
+    ${tw`w-full flex flex-row items-center gap-[10px] mt-[30px]`}
 `;

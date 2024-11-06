@@ -9,18 +9,15 @@ import { getCurrentLocation } from "../../hooks/getLocation";
 import { useQuery } from "@tanstack/react-query";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { getBoothLatLng } from "../../api/booth";
-import { useAuthStore } from "../../store/useAuthStore";
 
 function BoothMap() {
   const { lat, lng, selectedBrands } = useBoothFilterStore();
   const [activeId, setActiveId] = useState<number>(-1);
 
-  const { accessToken } = useAuthStore();
-
   //전체 포토부스 위치 정보 조회 api 호출
   const { isLoading, data } = useQuery({
     queryKey: ["getBoothLatLng", lat, lng, selectedBrands],
-    queryFn: () => getBoothLatLng(lat, lng, selectedBrands!, accessToken!),
+    queryFn: () => getBoothLatLng(lat, lng, selectedBrands!),
   });
 
   //처음 페이지 접속 시 사용자의 현 위치를 받아와서 center 세팅

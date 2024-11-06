@@ -10,6 +10,14 @@ export type Review = {
   imageCount: number;
 };
 
+export type MyReview = {
+  reviewId: string;
+  imageUrl: string;
+  month: number;
+  date: number;
+  photoboothName: string;
+  rating: number;
+};
 export type Feature = {
   id: number;
   featureName: string;

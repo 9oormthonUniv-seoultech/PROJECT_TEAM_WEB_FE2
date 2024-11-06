@@ -7,6 +7,7 @@ type AuthStore = {
   logout: () => void;
 
   accessToken: string | null;
+
   setAccessToken: (accessToken: string) => void;
 };
 

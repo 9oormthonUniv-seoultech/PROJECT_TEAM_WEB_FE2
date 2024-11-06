@@ -1,4 +1,3 @@
-import { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import { BoothCategories } from "../../data/booth-categories";
