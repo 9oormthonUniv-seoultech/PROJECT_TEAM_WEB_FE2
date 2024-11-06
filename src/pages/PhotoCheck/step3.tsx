@@ -5,9 +5,6 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
 import { useState } from "react";
-import {useAuthStore} from "../../store/useAuthStore.ts";
-import {getPresignedUrl, uploadToS3} from "../../api/file.ts";
-import {uploadPhoto} from "../../api/photoupload.ts";
 
 type Step3Props = {
   handleNextClick: () => void;
@@ -24,68 +21,6 @@ type Step3Props = {
 function PhotoCheck3({ handleNextClick, handleBackStep, year, month, day, hashtags, records, dateInfo, imgSrc }: Step3Props) {
   const navigate = useNavigate();
   const [clicked, setClicked] = useState(false);
-  const [imageFiles, setImageFiles] = useState<File[]>([imgSrc]);
-  const { accessToken } = useAuthStore();
-  
-  const getUploadedFilePaths = async (imageFiles: File[], accessToken: string): Promise<string> => {
-    const uploadPromises = imageFiles.map(async (image) => {
-      const presignedData = await getPresignedUrl("/images/album", image.name, accessToken);
-      if (presignedData) {
-        await uploadToS3(presignedData.url, image);
-        return presignedData.filePath;
-      }
-      return null;
-    });
-    
-    const filePaths = (await Promise.all(uploadPromises)).filter(Boolean).join("");
-    console.log(filePaths);
-    return filePaths;
-  };
-  
-  const uploadImage = async (
-    accessToken: string,
-    boothId: number,
-    year: string,
-    month: string,
-    day: string,
-    hashtags: string[],
-    records: string,
-    filePath: string
-  ) => {
-    const res = await uploadPhoto(
-      accessToken,
-      boothId,
-      year,
-      month,
-      day,
-      hashtags,
-      records,
-      filePath
-    );
-    
-    if (res && res.code === 200) {
-      handleNextClick();
-    }
-  };
-
-  // 메인 로직
-  const handleUpload = async () => {
-    console.log(imgSrc)
-    // Step 2: 이미지 업로드 및 filePaths 저장
-    const filePath = await getUploadedFilePaths(imageFiles, accessToken!);
-    console.log(filePath);
-    // Step 3: 리뷰등록 api 호출
-    await uploadImage(
-      accessToken!,
-      0,
-      year,
-      month,
-      day,
-      hashtags,
-      records,
-      filePath,
-    );
-  };
   
   return (
     <Container>
@@ -106,7 +41,7 @@ function PhotoCheck3({ handleNextClick, handleBackStep, year, month, day, hashta
         <div className="text-white text-lg font-normal font-['Pretendard']">해시태그, 사진 기록까지 공유하기</div>
       </div>
       <ButtonContainer
-        onClick={() => handleUpload()}>
+        onClick={handleNextClick}>
         <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
       </ButtonContainer>
       <ButtonContainer2 className="mt-0" onClick={() => navigate("/home")}>
