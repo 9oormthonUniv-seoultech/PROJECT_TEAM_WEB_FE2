@@ -42,3 +42,12 @@ export const searchPhotoBoothName = async (id: string) => {
     console.log(error);
   }
 };
+
+export const searchBoothId = async (name: string) => {
+  try {
+    const res = await Get<{ id: number; name: string }[]>(`/api/v1/photobooth/search?keyword=${name}`);
+    return res.data.payload;
+  } catch (error) {
+    console.log(error);
+  }
+};

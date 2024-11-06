@@ -1,5 +1,5 @@
 import { Get, Post } from ".";
-import { Feature, Review, TagCnt } from "../@types/review";
+import { Feature, MyReview, Review, TagCnt } from "../@types/review";
 
 export const submitReviewData = async (
   accessToken: string,
@@ -128,6 +128,21 @@ export const pagingReviews = async (boothId: string, page: number) => {
 export const pagingReviewImages = async (boothId: string, page: number) => {
   try {
     const res = await Get<string[]>(`/api/v1/review/allimages/${boothId}?page=${page}&size=10`);
+
+    return res.data.payload;
+  } catch (error) {}
+};
+
+export const getMyReviews = async (accessToken: string) => {
+  try {
+    const res = await Get<{
+      reviewCount: number;
+      reviewMypageDetailDtoList: MyReview[];
+    }>("/api/v1/review/mypage", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
 
     return res.data.payload;
   } catch (error) {}

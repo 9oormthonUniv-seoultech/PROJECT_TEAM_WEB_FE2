@@ -5,12 +5,23 @@ import MyReviewCard from "../../components/My/MyReviewCard";
 import { useNavigate } from "react-router-dom";
 import LikeBoothCard from "../../components/My/LikeBoothCard";
 import VisitedBoothCard from "../../components/My/VisitedBoothCard";
+import { useQuery } from "@tanstack/react-query";
+import { getMyReviews } from "../../api/review";
+import { useAuthStore } from "../../store/useAuthStore";
 function RecordPage() {
   const navigate = useNavigate();
+  const { accessToken } = useAuthStore();
+
+  //리뷰 조회
+  const { data: myReviewData } = useQuery({
+    queryKey: ["getMyAllReviews"],
+    queryFn: () => getMyReviews(accessToken!),
+  });
+
   return (
     <Container>
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
-        <span className="title">24개의 나의 리뷰</span>
+        <span className="title">{`${myReviewData && myReviewData.reviewCount ? myReviewData.reviewCount : "0"}개의 나의 리뷰`}</span>
         <button className="more-btn" onClick={() => navigate("/my-reviews")}>
           더보기
           <RightArrowIcon width={6} color="#676F7B" />
@@ -18,8 +29,23 @@ function RecordPage() {
       </div>
 
       <ImgBox>
-        <MyReviewCard />
-        <MyReviewCard />
+        {myReviewData && myReviewData?.reviewMypageDetailDtoList.length > 0 ? (
+          myReviewData.reviewMypageDetailDtoList
+            .slice(0, 2)
+            .map((item, index) => (
+              <MyReviewCard
+                reviewId={item.reviewId}
+                imageUrl={item.imageUrl}
+                month={item.month}
+                date={item.date}
+                photoboothName={item.photoboothName}
+                rating={item.rating}
+                key={index}
+              />
+            ))
+        ) : (
+          <div>아직 작성한 리뷰가 없어요</div>
+        )}
       </ImgBox>
 
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
