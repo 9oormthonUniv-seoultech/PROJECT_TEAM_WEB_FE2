@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Outlet, Route, Routes, useNavigate } from "react-router-dom";
+import { BrowserRouter, Navigate, Outlet, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import SplashScreen from "./pages/SplashScreen";
 import Album from "./pages/Album";
@@ -6,8 +6,7 @@ import My from "./pages/My";
 import PhotoUpload from "./pages/PhotoUpload";
 
 import QRScan from "./pages/QRScan";
-import PhotoReview from "./pages/PhotoReview";
-import PhotoCheck from "./pages/PhotoCheck";
+import PhotoReview from "./pages/PhotoUpload/ReviewPhoto";
 
 import LoginPage from "./pages/LoginPage";
 import Token from "./pages/Token";
@@ -25,7 +24,9 @@ import MyReviewPage from "./pages/My/MyReviewPage";
 import LikeBoothsPage from "./pages/My/LikeBoothsPage";
 import VisitedBoothsPage from "./pages/My/VisitedBoothsPage";
 import { useAuthStore } from "./store/useAuthStore";
-import Modal from "./components/Common/Modal";
+import UploadComplete from "./pages/PhotoUpload/UploadComplete";
+import CheckPhoto from "./pages/PhotoUpload/CheckPhoto";
+import WriteDetail from "./pages/PhotoUpload/WriteDetail";
 
 function App() {
   const { isLoggedIn } = useAuthStore();
@@ -79,7 +80,9 @@ function App() {
 
           <Route path="/qr-scan" element={<QRScan />} />
           <Route path="/photo-review" element={<PhotoReview />} />
-          <Route path="/photo-check" element={<PhotoCheck />} />
+          <Route path="/photo-check" element={<CheckPhoto />} />
+          <Route path="/write-detail" element={<WriteDetail />} />
+          <Route path="/upload-complete" element={<UploadComplete />} />
           <Route path="/album" element={<Album />} />
         </Route>
       </Routes>

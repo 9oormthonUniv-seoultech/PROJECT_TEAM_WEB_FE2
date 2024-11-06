@@ -16,7 +16,7 @@ function NextButton({ text, onClick, disabled }: ButtonProps) {
 
 export default NextButton;
 const Container = styled.button`
-  ${tw`w-[280px] h-[60px] bg-main rounded-lg mt-12 flex justify-center items-center font-semibold text-[20px] text-[#FFFFFF] mx-auto`}
+  ${tw`w-[280px] h-[60px] bg-main rounded-lg mt-12 flex justify-center items-center font-semibold text-[20px] text-[#FFFFFF] mx-auto fixed bottom-[22px]`}
   &:disabled {
     ${tw`bg-gray400`}
   }

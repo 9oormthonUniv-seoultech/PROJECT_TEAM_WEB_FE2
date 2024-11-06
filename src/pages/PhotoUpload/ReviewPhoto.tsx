@@ -1,50 +1,63 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import Search from "../../assets/images/search.svg?react";
-import BackIcon from "../../assets/icons/back-icon";
+
 import { useNavigate, useLocation } from "react-router-dom";
 import { useState } from "react";
+import Header from "../../components/Common/Header";
+import NextButton from "../../components/Common/NextButton";
+import { searchBoothId } from "../../api/booth";
 
-function PhotoReview() {
+function ReviewPhoto() {
   // useState를 사용하여 날짜와 부스 위치 상태 관리
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [year, setYear] = useState<string | null>(null);
+  const [month, setMonth] = useState<string | null>(null);
+  const [day, setDay] = useState<string | null>(null);
   const [boothLocation, setBoothLocation] = useState("");
+  const [boothId, setBoothId] = useState(0);
+  const [searchData, setSearchData] = useState<
+    | {
+        id: number;
+        name: string;
+      }[]
+    | null
+  >(null);
   const navigate = useNavigate();
   const location = useLocation();
 
+  const { imageFile } = location.state;
+
+  console.log(imageFile);
+
   const handleNext = () => {
-    navigate("/photo-check", {
+    navigate("/write-detail", {
       state: {
         year: year,
         month: month,
         day: day,
-        boothLocation: boothLocation,
         qrLink: location.state.qrLink,
-        image: location.state.image,
+        imageFile: imageFile,
+        boothId: boothId,
       },
     });
   };
 
-  const handleBack = () => {
-    navigate("/qr-scan");
+  const handleSearch = async () => {
+    const res = await searchBoothId(boothLocation);
+    if (res) {
+      setSearchData(res);
+      console.log(searchData);
+    }
   };
-
+  const handleItemClick = (id: number, name: string) => {
+    setBoothId(id);
+    setBoothLocation(name);
+    setSearchData(null);
+  };
   return (
     <Container>
-      <header className="relative w-full  flex flex-col items-center mb-12">
-        <div className="flex items-center h-[60px]">
-          <span className="font-semibold text-gray700 text-[22px]">사진 설명</span>
-          <button onClick={handleBack} className="absolute left-[10px]">
-            <div>
-              <BackIcon color="grey" />
-            </div>
-          </button>
-        </div>
-        <hr className="h-[1.5px] w-full bg-gray200 " />
-      </header>
-      <img className="mt-5" src={location.state.image} alt="Photo Check" height="100" width="100" />
+      <Header mainText="사진 설명" handleBackClick={() => navigate(-1)}></Header>
+
       <ContentContainer>
         <LabelContainer>
           <Label>언제 사진을 찍으셨나요?</Label>
@@ -58,7 +71,7 @@ function PhotoReview() {
               <input
                 className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
                 placeholder="0000"
-                value={year}
+                value={year ? year : ""}
                 onChange={(e) => setYear(e.target.value)}
                 maxLength={4}
               />
@@ -72,7 +85,7 @@ function PhotoReview() {
               <input
                 className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
                 placeholder="00"
-                value={month}
+                value={month ? month : ""}
                 onChange={(e) => setMonth(e.target.value)}
                 maxLength={2}
               />
@@ -86,7 +99,7 @@ function PhotoReview() {
               <input
                 className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
                 placeholder="00"
-                value={day}
+                value={day ? day : ""}
                 onChange={(e) => setDay(e.target.value)}
                 maxLength={2}
               />
@@ -102,27 +115,44 @@ function PhotoReview() {
             <RequiredText>필수</RequiredText>
           </RequiredBadge>
         </LabelContainer>
-        <InputContainer>
-          <SearchIcon>
-            <Search />
-          </SearchIcon>
-          <input
-            className="w-full bg-gray100 pl-2 text-gray400"
-            placeholder="예 : 포토이즘 공릉점"
-            value={boothLocation}
-            onChange={(e) => setBoothLocation(e.target.value)}
-          />
-        </InputContainer>
+        <div className="relative w-full h-full">
+          <InputContainer>
+            <SearchIcon onClick={handleSearch}>
+              <Search />
+            </SearchIcon>
+            <input
+              className="w-full bg-gray100 pl-2 text-gray400"
+              placeholder="예 : 포토이즘 공릉점"
+              value={boothLocation}
+              onChange={(e) => setBoothLocation(e.target.value)}
+            />
+          </InputContainer>
+
+          {searchData && searchData.length > 0 && (
+            <ModalBox>
+              {searchData.map((data, index) => (
+                <div key={data.id} className="p-2">
+                  <li
+                    onClick={() => handleItemClick(data.id, data.name)}
+                    className="text-[14px] font-normal text-gray600 list-none"
+                  >
+                    {data.name}
+                  </li>
+                  {index !== searchData.length - 1 && <hr className="w-full h-[1px] bg-gray200" />}
+                </div>
+              ))}
+            </ModalBox>
+          )}
+        </div>
       </ContentContainer>
-      <ButtonContainer onClick={() => handleNext()}>
-        <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
-      </ButtonContainer>
+
+      <NextButton text="다음" onClick={handleNext} disabled={!year || !month || !day || boothId === 0} />
     </Container>
   );
 }
 
 const Container = styled.div`
-  ${tw`bg-background flex flex-col w-full min-h-screen items-center `}
+  ${tw`bg-background flex flex-col w-full min-h-screen items-center  [max-width: 480px] `}
   overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
@@ -131,7 +161,7 @@ const Container = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  ${tw`flex flex-col items-start w-11/12 mt-10 gap-6`}
+  ${tw`flex flex-col items-start w-full px-[16px] mt-[90px] gap-6`}
 `;
 
 const LabelContainer = styled.div`
@@ -151,15 +181,18 @@ const RequiredText = styled.div`
 `;
 
 const InputContainer = styled.div`
-  ${tw`w-11/12 p-2.5 bg-[#e9eaee] rounded-lg flex justify-end items-center`}
+  ${tw`w-full p-2.5 bg-[#e9eaee] rounded-lg flex justify-end items-center `}
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SearchIcon = styled.div`
   ${tw`w-6 p-px flex justify-center items-center`}
 `;
 
-const ButtonContainer = styled.button`
-  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-20 flex justify-center items-center`}
+const ModalBox = styled.div`
+  ${tw`w-full rounded-[5px] bg-[#FFFFFF] border-[1px] border-gray100 font-display font-medium text-[14px] absolute top-[50px]`}
 `;
 
-export default PhotoReview;
+export default ReviewPhoto;
