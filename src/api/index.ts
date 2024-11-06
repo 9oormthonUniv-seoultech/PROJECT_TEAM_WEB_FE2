@@ -19,15 +19,13 @@ axiosInstance.interceptors.response.use(
     if (error.config && error.response && error.response.data.errorCode in errorCodes) {
       // 토큰 재발급 수행
       const accessToken = useAuthStore((state) => state.accessToken);
-      const refreshToken = useAuthStore((state) => state.refreshToken);
 
       try {
-        const res = await reissueToken(accessToken!, refreshToken!);
+        const res = await reissueToken(accessToken!);
         if (res) {
           useAuthStore.setState({
             isLoggedIn: true,
             accessToken: res.accessToken,
-            refreshToken: res.refreshToken,
           });
 
           // 새로 발급 받은 accessToken을 에러가 발생한 요청의 헤더에 설정

@@ -10,10 +10,8 @@ function Token() {
     const fetchLogin = async () => {
       const query = new URLSearchParams(location.search);
       const token = query.get("accessToken");
-      const refresh = query.get("refreshToken");
       if (token) {
         useAuthStore.setState({ accessToken: token });
-        useAuthStore.setState({ refreshToken: refresh });
         login();
         axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         navigate("/home");
