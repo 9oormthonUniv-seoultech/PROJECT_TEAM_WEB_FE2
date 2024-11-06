@@ -50,12 +50,6 @@ function App() {
         <Route path="/" element={<SplashScreen />} />
         <Route path="/home" element={<Home />} />
 
-        <Route path="/photo-upload" element={<PhotoUpload />} />
-
-        <Route path="/qr-scan" element={<QRScan />} />
-        <Route path="/photo-review" element={<PhotoReview />} />
-        <Route path="/photo-check" element={<PhotoCheck />} />
-
         <Route path="/login" element={<LoginPage />} />
         <Route path="/token" element={<Token />} />
 
@@ -80,8 +74,14 @@ function App() {
             <Route path="step/2" element={<Step2 />} />
           </Route>
           <Route path="/write-review/complete" element={<CompleteScreen />} />
+
+          <Route path="/photo-upload" element={<PhotoUpload />} />
+
+          <Route path="/qr-scan" element={<QRScan />} />
+          <Route path="/photo-review" element={<PhotoReview />} />
+          <Route path="/photo-check" element={<PhotoCheck />} />
+          <Route path="/album" element={<Album />} />
         </Route>
-        <Route path="/album" element={<Album />} />
       </Routes>
     </BrowserRouter>
   );
