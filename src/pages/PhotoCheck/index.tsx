@@ -59,6 +59,9 @@ function PhotoCheck() {
           handleBackStep={handleBackStep}
           hashTags={hashTags}
           setHashTags={setHashTags}
+          year={year}
+          month={month}
+          day={day}
           records={records}
           setRecords={setRecords}
           dateInfo={dateInfo}
