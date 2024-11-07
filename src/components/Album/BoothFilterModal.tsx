@@ -4,6 +4,7 @@ import styled from "styled-components";
 import CloseIcon from "../../assets/icons/close-icon";
 import OptionButton from "../Common/OptionButton.tsx";
 import NextButton from "../Common/NextButton.tsx";
+import {BoothCategories} from "../../data/booth-categories.ts";
 
 type BoothFilterProps = {
   photoBooth: string;
@@ -12,9 +13,7 @@ type BoothFilterProps = {
 };
 
 export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBoothFilterModalOpen }: BoothFilterProps) {
-  const photoBoothOptions = [
-    "하루필름", "포토매틱", "인생네컷", "포토시그니처", "포토이즘", "포토그레이",
-  ];
+  const photoBoothOptions = BoothCategories.map((item) => (item.label));
   
   return (
     <Overlay>
@@ -40,7 +39,9 @@ export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBooth
             />
           ))}
         </OptionContainer>
-        <NextButton text={"확인"} onClick={() => setIsBoothFilterModalOpen(false)}/>
+        <div className="mt-4">
+          <NextButton text={"확인"} onClick={() => setIsBoothFilterModalOpen(false)}/>
+        </div>
       </Container>
     </Overlay>
   );
