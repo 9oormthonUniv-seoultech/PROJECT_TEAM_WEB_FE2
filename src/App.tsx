@@ -28,6 +28,7 @@ import UploadComplete from "./pages/PhotoUpload/UploadComplete";
 import CheckPhoto from "./pages/PhotoUpload/CheckPhoto";
 import WriteDetail from "./pages/PhotoUpload/WriteDetail";
 import Share from "./pages/Share";
+import AlertDialog from "./components/Alert/AlertDialog";
 
 function App() {
   const { isLoggedIn } = useAuthStore();
@@ -47,48 +48,50 @@ function App() {
   };
 
   return (
-    <BrowserRouter basename="/page">
-      <Routes>
-        <Route path="/" element={<SplashScreen />} />
-        <Route path="/home" element={<Home />} />
+    <AlertDialog>
+      <BrowserRouter basename="/page">
+        <Routes>
+          <Route path="/" element={<SplashScreen />} />
+          <Route path="/home" element={<Home />} />
 
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/token" element={<Token />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/token" element={<Token />} />
 
-        <Route path="/home/:boothId" element={<BoothDetail />}>
-          <Route path="feed" element={<FeedPage />} />
-          <Route path="review" element={<ReviewPage />} />
-          <Route path="image" element={<ImagePage />} />
-        </Route>
-
-        <Route element={<PrivateRoute />}>
-          <Route path="/my" element={<My />}>
-            <Route path="booth-records" element={<RecordPage />} />
-            <Route path="favorites" element={<FavoritesPage />} />
+          <Route path="/home/:boothId" element={<BoothDetail />}>
+            <Route path="feed" element={<FeedPage />} />
+            <Route path="review" element={<ReviewPage />} />
+            <Route path="image" element={<ImagePage />} />
           </Route>
 
-          <Route path="my-reviews" element={<MyReviewPage />} />
-          <Route path="like-booths" element={<LikeBoothsPage />} />
-          <Route path="visited-booths" element={<VisitedBoothsPage />} />
+          <Route element={<PrivateRoute />}>
+            <Route path="/my" element={<My />}>
+              <Route path="booth-records" element={<RecordPage />} />
+              <Route path="favorites" element={<FavoritesPage />} />
+            </Route>
 
-          <Route path="/write-review/:boothId" element={<WriteReview />}>
-            <Route path="step/1" element={<Step1 />} />
-            <Route path="step/2" element={<Step2 />} />
+            <Route path="my-reviews" element={<MyReviewPage />} />
+            <Route path="like-booths" element={<LikeBoothsPage />} />
+            <Route path="visited-booths" element={<VisitedBoothsPage />} />
+
+            <Route path="/write-review/:boothId" element={<WriteReview />}>
+              <Route path="step/1" element={<Step1 />} />
+              <Route path="step/2" element={<Step2 />} />
+            </Route>
+            <Route path="/write-review/complete" element={<CompleteScreen />} />
+
+            <Route path="/photo-upload" element={<PhotoUpload />} />
+
+            <Route path="/qr-scan" element={<QRScan />} />
+            <Route path="/photo-review" element={<PhotoReview />} />
+            <Route path="/photo-check" element={<CheckPhoto />} />
+            <Route path="/write-detail" element={<WriteDetail />} />
+            <Route path="/upload-complete" element={<UploadComplete />} />
+            <Route path="/album" element={<Album />} />
           </Route>
-          <Route path="/write-review/complete" element={<CompleteScreen />} />
-
-          <Route path="/photo-upload" element={<PhotoUpload />} />
-
-          <Route path="/qr-scan" element={<QRScan />} />
-          <Route path="/photo-review" element={<PhotoReview />} />
-          <Route path="/photo-check" element={<CheckPhoto />} />
-          <Route path="/write-detail" element={<WriteDetail />} />
-          <Route path="/upload-complete" element={<UploadComplete />} />
-          <Route path="/album" element={<Album />} />
-        </Route>
-        <Route path="/share" element={<Share />} />
-      </Routes>
-    </BrowserRouter>
+          <Route path="/share" element={<Share />} />
+        </Routes>
+      </BrowserRouter>
+    </AlertDialog>
   );
 }
 
