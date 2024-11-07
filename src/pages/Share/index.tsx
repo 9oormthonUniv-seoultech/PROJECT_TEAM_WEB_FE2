@@ -16,8 +16,17 @@ function Share() {
       if (token) {
         if (accessToken) {
           const res = await saveShare(accessToken, token);
-          if (res) {
+          if (res === 200) {
             openAlert("사진 등록이 완료되었습니다.");
+            navigate("/album");
+          } else if (res === 409) {
+            //작성자가 공유링크에 접속하였을 경우
+            navigate("/album");
+          } else if (res === 400) {
+            openAlert("유효하지 않은 공유링크입니다.");
+            navigate("/home");
+          } else {
+            openAlert("잠시후 다시 시도해주세요.");
             navigate("/album");
           }
         } else {

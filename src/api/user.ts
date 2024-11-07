@@ -34,6 +34,6 @@ export const getLogout = async (accessToken: string) => {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-    return res.data.payload;
+    return res.data;
   } catch (error) {}
 };
