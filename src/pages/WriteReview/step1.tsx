@@ -1,6 +1,6 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Rating from "../../components/Common/Rating";
 import InputTagSection from "../../components/WriteReview/InputTagSection";
 import { BoothTagCategories, PhotoTagCategories } from "../../data/review-tag-categories";
@@ -10,6 +10,7 @@ import { useQuery } from "@tanstack/react-query";
 import { searchPhotoBoothName } from "../../api/booth";
 import { useAuthStore } from "../../store/useAuthStore";
 import { searchBoothFeatures, searchPhotoFeatures } from "../../api/review";
+import { useAlertStore } from "../../store/useAlertStore";
 
 function Step1() {
   const { boothId } = useParams() as { boothId: string };
@@ -17,6 +18,7 @@ function Step1() {
   const [rate, setRate] = useState<number>(0);
   const [selectedBoothTags, setSelectedBoothTags] = useState<number[]>([]);
   const [selectedPhotoTags, setSelectedPhotoTags] = useState<number[]>([]);
+  const { openAlert } = useAlertStore();
 
   //포토부스 이름 조회 api 호출
   const { isLoading, data: boothName } = useQuery({
@@ -42,12 +44,18 @@ function Step1() {
     if (rate <= 5) return "완전만족해요";
   };
 
+  useEffect(() => {
+    const checkTags = async () => {
+      const totalSelectedTagsLength = selectedBoothTags.length + selectedPhotoTags.length;
+      if (totalSelectedTagsLength > 5) {
+        await openAlert("태그는 최대 5개만 고를 수 있어요!");
+        return;
+      }
+    };
+    checkTags();
+  }, [selectedBoothTags, selectedPhotoTags]);
+
   const handleNextStep = () => {
-    const totalSelectedTagsLength = selectedBoothTags.length + selectedPhotoTags.length;
-    if (totalSelectedTagsLength > 5) {
-      alert("태그는 최대 5개 선택 가능합니다.");
-      return;
-    }
     navigate(`/write-review/${boothId}/step/2`, {
       state: {
         rate: rate,

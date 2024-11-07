@@ -3,6 +3,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import CloseIcon from "../../assets/icons/close-icon";
+import NextButton from "../../components/Common/NextButton";
 
 type OptionProps = {
   onClick: () => void;
@@ -88,15 +89,13 @@ function PhotoUpload() {
       {/* 파일 입력 요소 */}
       <input type="file" id="file-input" accept="image/*" onChange={handleFileChange} style={{ display: "none" }} />
 
-      <ButtonContainer onClick={handleNext}>
-        <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">다음</div>
-      </ButtonContainer>
+      <NextButton onClick={handleNext} disabled={!activeOption} text="다음" />
     </Container>
   );
 }
 
 const Container = styled.div`
-  ${tw`bg-background flex flex-col items-center min-h-screen w-full [max-width: 480px] m-auto`}
+  ${tw`bg-background flex flex-col items-center min-h-screen w-full [max-width: 480px] m-auto pb-[60px]`}
   overflow-x: hidden;
 `;
 

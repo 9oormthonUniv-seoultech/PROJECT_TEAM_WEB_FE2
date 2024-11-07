@@ -6,15 +6,14 @@ import { useEffect, useState } from "react";
 type ModalProps = {
   closeModal: () => void;
   setRecords: (tags: string) => void;
+  records: string;
 };
 
-function RecordModal({ closeModal, setRecords }: ModalProps) {
+function RecordModal({ closeModal, setRecords, records }: ModalProps) {
   const [keyboardHeight, setKeyboardHeight] = useState(0);
-  const [words, setWords] = useState("");
+  const [words, setWords] = useState(records);
   const confirm = () => {
-    if (words.length > 0) {
-      setRecords(words);
-    }
+    setRecords(words);
 
     closeModal();
   };

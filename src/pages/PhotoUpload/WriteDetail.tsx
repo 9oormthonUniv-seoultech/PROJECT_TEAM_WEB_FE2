@@ -33,7 +33,7 @@ function WriteDetail() {
   const location = useLocation();
 
   const [hashTags, setHashTags] = useState<string[]>([]);
-  const [records, setRecords] = useState("클릭하여 오늘 있었던 일들을 기록해보세요");
+  const [records, setRecords] = useState("");
 
   const navigate = useNavigate();
   const { year, month, day, qrLink, imageFile, boothId } = location.state;
@@ -167,15 +167,15 @@ function WriteDetail() {
 
         {isHashModalOpen && <HashTagModal hashTags={hashTags} closeModal={closeHashModal} setHashTags={setHashTags} />}
         <img className="w-[80%]" src={URL.createObjectURL(imageFile)} alt="QR 사진" />
-        <div className=" p-[10px] relative bg-[#e9eaee] rounded-lg inline-flex">
-          <button
-            className="w-[291px] text-[#676f7b] text-base font-normal font-['Pretendard']"
-            onClick={openRecordModal}
-          >
-            {records}
-          </button>
-        </div>
-        {isRecordModalOpen && <RecordModal closeModal={closeRecordModal} setRecords={setRecords} />}
+
+        <button
+          className="w-[90%] p-[10px] rounded-lg bg-[#e9eaee] text-[#676f7b] text-base font-normal font-['Pretendard']"
+          onClick={openRecordModal}
+        >
+          {records === "" ? "클릭하여 오늘 있었던 일들을 기록해보세요" : records}
+        </button>
+
+        {isRecordModalOpen && <RecordModal closeModal={closeRecordModal} setRecords={setRecords} records={records} />}
         <NextButton text="다음" onClick={handleUpload} />
       </MainWrapper>
     </Container>
@@ -183,16 +183,16 @@ function WriteDetail() {
 }
 
 const Container = styled.div`
-  ${tw`bg-gray600 flex flex-col w-full min-h-screen items-center h-[100vh] [max-width: 480px]`}
+  ${tw`bg-gray600 flex flex-col w-full min-h-screen items-center [max-width: 480px]`}
   overflow-x: hidden;
 `;
 
 const Header = styled.header`
-  ${tw`relative w-full flex flex-col items-center justify-center h-[80px] border-b-[1.5px] border-b-background py-[13px]`}
+  ${tw`w-full flex flex-col items-center justify-center h-[80px] border-b-[1.5px] border-b-background py-[13px] bg-gray600 mb-3`}
 `;
 
 const MainWrapper = styled.div`
-  ${tw`relative w-full h-full flex flex-col px-[30px] items-center mt-5 mb-[100px] justify-between`}
+  ${tw`relative w-full h-full flex flex-col px-[30px] items-center  pb-[60px] gap-8 my-auto `}
 `;
 const Title = styled.div`
   ${tw`text-[#FFFFFF] text-2xl font-semibold font-['Pretendard']`}
