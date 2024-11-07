@@ -25,7 +25,6 @@ type BoothFilterProps = {
 export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps) {
   const [hashTag, setHashTag] = useState<string>("");
   const [imageList, setImageList] = useState<PhotoData[]>([]);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
   const { accessToken } = useAuthStore();
 
   const handleSearchPhotos = async (hashTag: string, accessToken: string) => {
@@ -34,7 +33,6 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
     }
 
     try {
-      setIsLoading(true);
       const res = await Get(`/api/v1/album/hashtag/${hashTag}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -47,7 +45,6 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
       console.log(error);
     } finally {
       setHashTag("");
-      setIsLoading(false); // 요청 완료 후 로딩 상태 비활성화
     }
   };
 
@@ -74,34 +71,44 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
             onChange={(e) => setHashTag(e.target.value)}
           />
         </InputContainer>
+
         {imageList.length === 0 ? (
           <div className="flex flex-col justify-center items-center h-[80vh] mt-4">
             <NoImage />
             <p className="text-gray400 mt-4">해시태그로 검색!</p>
           </div>
         ) : (
-          <ImageContainer>
-            <ImageDiv>
-              {imageList.map((image: PhotoData, index) => (
-                <div key={index} className="rounded-lg bg-gray100">
-                  <div className="pl-[11px] pr-[11px] pt-[10px]">
-                    <ImageCard photoUrl={image.photoUrl} isLiked={image.isLiked} id={index} />
-                  </div>
-                  <div className="pb-[10px] pt-[12px] pr-[11px] pl-[11px]">
-                    {image.hashtags.map((tag, index) => (
-                      <span key={index} className="text-[#5453ee] text-sm font-semibold font-['Pretendard'] ml-1">
-                      #{tag}
-                    </span>
-                    ))}
-                    <div className="text-[#676f7b] text-[10px] font-normal font-['Pretendard']">
-                      {image.year}년 {image.month}월 {image.date}일
+          <>
+            <div className="flex-col justify-start items-start gap-[5px] inline-flex">
+              <div className="text-[#171d24] text-lg font-semibold font-['Pretendard']">{imageList.length}장의 추억</div>
+            </div>
+            <ImageContainer>
+              <ImageDiv>
+                {imageList.map((image: PhotoData, index) => (
+                  <div key={index} className="rounded-lg bg-gray100">
+                    <div className="pl-[11px] pr-[11px] pt-[10px]">
+                      <ImageCard photoUrl={image.photoUrl} isLiked={image.isLiked} id={index} />
                     </div>
-                    <div className="text-[#959ba3] text-[10px] font-normal font-['Pretendard'] leading-[15px]">{image.memo}</div>
+                    <div className="pb-[10px] pt-[12px] pr-[11px] pl-[11px]">
+                      {image.hashtags
+                        .filter((tag) => tag) // 빈 문자열을 제외
+                        .map((tag, index) => (
+                          <span key={index} className="text-[#5453ee] text-sm font-semibold font-['Pretendard'] ml-0.5">
+                            #{tag}
+                          </span>
+                        ))}
+                      <div className="text-[#676f7b] text-[10px] font-normal font-['Pretendard']">
+                        {image.year}년 {image.month}월 {image.date}일
+                      </div>
+                      <div className="text-[#959ba3] text-[10px] font-normal font-['Pretendard'] leading-[15px]">
+                        {image.memo}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </ImageDiv>
-          </ImageContainer>
+                ))}
+              </ImageDiv>
+            </ImageContainer>
+          </>
         )}
       </Container>
     </Overlay>
