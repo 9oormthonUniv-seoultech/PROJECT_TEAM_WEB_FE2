@@ -34,6 +34,11 @@ function Search() {
           placeholder="구, 역, 건물명 등으로 검색해주세요"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              searchAddressLatLng();
+            }
+          }}
         />
         <button onClick={searchAddressLatLng}>
           <SearchIcon />

@@ -97,12 +97,14 @@ function HashtagModal({ hashTags, closeModal, setHashTags }: ModalProps) {
 export default HashtagModal;
 
 const ModalOverlay = styled.div`
-  ${tw`fixed inset-0 flex justify-center items-center bg-opacity-50 z-50`}
+  ${tw`fixed inset-0 flex justify-center items-center bg-opacity-50 z-50 `}
   background-color: rgba(23, 28, 36, 0.8);
 `;
 
 const ModalContent = styled.div`
-  ${tw`w-full h-auto relative bg-background rounded-tl-[26px] rounded-tr-[26px] p-8 flex flex-col items-center max-w-[480px]`}
+  ${tw`w-full h-auto relative bg-background rounded-t-[26px] p-8 flex flex-col items-center max-w-[480px] bottom-0 `}
+  position: fixed;
+  bottom: 0;
 `;
 
 const Title = styled.h2`

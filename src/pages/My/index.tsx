@@ -38,8 +38,8 @@ function My() {
   const handleLogout = async () => {
     const res = await getLogout(accessToken!);
     if (res) {
-      navigate("/home");
       logout();
+      navigate("/home");
     }
   };
   return (
