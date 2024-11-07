@@ -3,13 +3,33 @@ import styled from "styled-components";
 import Header from "../../components/Common/Header";
 import { useNavigate } from "react-router-dom";
 import LikeBoothCard from "../../components/My/LikeBoothCard";
+import { useQuery } from "@tanstack/react-query";
+import { getLikedBooths } from "../../api/my";
+import { useAuthStore } from "../../store/useAuthStore";
 function LikeBoothsPage() {
   const navigate = useNavigate();
+
+  const { accessToken } = useAuthStore();
+  //찜한 부스 조회
+  const { data: likedBoothData } = useQuery({
+    queryKey: ["getLikedBooths"],
+    queryFn: () => getLikedBooths(accessToken!),
+  });
   return (
     <Layout>
       <Header mainText="찜해둔 부스" handleBackClick={() => navigate(-1)} />
       <CardContainer>
-        <LikeBoothCard />
+        {likedBoothData &&
+          likedBoothData.map((item, index) => (
+            <LikeBoothCard
+              photoBoothId={item.photoBoothId}
+              rating={item.rating}
+              name={item.name}
+              feature={item.feature}
+              featureCount={item.featureCount}
+              key={index}
+            />
+          ))}
       </CardContainer>
     </Layout>
   );
