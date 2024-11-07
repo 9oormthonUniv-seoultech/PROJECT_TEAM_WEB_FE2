@@ -10,9 +10,10 @@ import { searchBoothId } from "../../api/booth";
 
 function ReviewPhoto() {
   // useState를 사용하여 날짜와 부스 위치 상태 관리
-  const [year, setYear] = useState<string | null>(null);
-  const [month, setMonth] = useState<string | null>(null);
-  const [day, setDay] = useState<string | null>(null);
+  const today = new Date();
+  const [year, setYear] = useState<string | null>(String(today.getFullYear()));
+  const [month, setMonth] = useState<string | null>(String(today.getMonth() + 1));
+  const [day, setDay] = useState<string | null>(String(today.getDate()));
   const [boothLocation, setBoothLocation] = useState("");
   const [boothId, setBoothId] = useState(0);
   const [searchData, setSearchData] = useState<
