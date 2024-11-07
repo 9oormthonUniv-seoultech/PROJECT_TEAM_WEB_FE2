@@ -12,7 +12,7 @@ export const uploadPhoto = async (
 ) => {
   try {
     const res = await Post<{
-      photoboothId: string;
+      photoboothId: number;
       year: number;
       month: number;
       date: number;

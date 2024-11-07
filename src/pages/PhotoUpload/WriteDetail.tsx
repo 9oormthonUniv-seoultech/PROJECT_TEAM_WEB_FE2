@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import tw from "twin.macro";
 import BackIcon from "../../assets/icons/back-icon.tsx";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HashTagModal from "../../components/PhotoCheck/HashModal.tsx";
 import RecordModal from "../../components/PhotoCheck/RecordModal.tsx";
 import { useAuthStore } from "../../store/useAuthStore.ts";
@@ -9,20 +9,6 @@ import { getPresignedUrl, uploadToS3 } from "../../api/file.ts";
 import { uploadPhoto } from "../../api/photoupload.ts";
 import { useLocation, useNavigate } from "react-router-dom";
 import NextButton from "../../components/Common/NextButton.tsx";
-
-type Step2Props = {
-  handleNextClick: () => void;
-  handleBackStep: () => void;
-  hashTags: string[];
-  setHashTags: React.Dispatch<React.SetStateAction<string[]>>;
-  records: string;
-  setRecords: React.Dispatch<React.SetStateAction<string>>;
-  year: string;
-  month: string;
-  day: string;
-  dateInfo: string;
-  imgSrc: File;
-};
 
 function WriteDetail() {
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
