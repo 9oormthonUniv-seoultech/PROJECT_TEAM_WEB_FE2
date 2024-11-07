@@ -43,7 +43,7 @@ function App() {
     return isLoggedIn ? (
       <Outlet /> //로그인 모달창
     ) : (
-      <Navigate to="/login" />
+      <Navigate to="/home" />
     );
   };
 
