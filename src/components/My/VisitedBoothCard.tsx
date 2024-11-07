@@ -1,8 +1,8 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import PlanBUrl from "../../assets/images/planb-logo.png?url";
 import EditIcon from "../../assets/icons/edit-icon";
 import { useNavigate } from "react-router-dom";
+import { searchLogoUrlByName } from "../../hooks/getImageUrl";
 type CardProps = {
   width?: string;
   height?: string;
@@ -15,13 +15,13 @@ function VisitedBoothCard({ width, height, photoboothId, name, month, date }: Ca
   const navigate = useNavigate();
   return (
     <CardBox width={width} height={height}>
-      <ImgBox $imageurl={PlanBUrl} />
+      <ImgBox $imageurl={searchLogoUrlByName(name)} />
       <div className=" relative flex flex-col justify-between items-end w-full">
         <div className="flex flex-col w-full">
           <span className="booth-name">{name}</span>
           <span className="visited-date">{`${month}월 ${date}일 이용`}</span>
         </div>
-        <button className="go-btn" onClick={() => navigate(`write-review/${photoboothId}/step/1`)}>
+        <button className="go-btn" onClick={() => navigate(`/write-review/${photoboothId}/step/1`)}>
           리뷰 쓰러가기
           <EditIcon />
         </button>

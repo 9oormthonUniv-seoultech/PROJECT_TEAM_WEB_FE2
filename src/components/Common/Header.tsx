@@ -29,7 +29,7 @@ const Container = styled.header`
   }
 
   .booth-title {
-    ${tw`font-display font-semibold text-[22px] text-gray700`}
+    ${tw`font-display font-semibold text-[20px] text-gray700`}
   }
   .sub-text {
     ${tw`font-medium text-[12px] text-gray400`}

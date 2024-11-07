@@ -1,4 +1,5 @@
-import { Get } from ".";
+import { Get, Post } from ".";
+import { MyLikedBooth } from "../@types/my";
 import { MyReview } from "../@types/review";
 
 export const getMyReviews = async (accessToken: string) => {
@@ -24,6 +25,33 @@ export const getVisitedBooths = async (accessToken: string) => {
       },
     });
 
+    return res.data.payload;
+  } catch (error) {}
+};
+
+export const getLikedBooths = async (accessToken: string) => {
+  try {
+    const res = await Get<MyLikedBooth[]>("/api/v1/photobooth/like", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+
+    return res.data.payload;
+  } catch (error) {}
+};
+
+export const postboothLike = async (accessToken: string, boothId: string) => {
+  try {
+    const res = await Post(
+      `/api/v1/photobooth/like/${boothId}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
     return res.data.payload;
   } catch (error) {}
 };
