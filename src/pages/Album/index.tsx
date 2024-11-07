@@ -15,7 +15,7 @@ import {useAuthStore} from "../../store/useAuthStore.ts";
 import { useNavigate } from "react-router-dom";
 import HashtagSearchModal from "../../components/Album/HashtagSearchModal.tsx";
 import {getCurrentLocation} from "../../hooks/getLocation.tsx";
-import useBoothFilterStore from "../../store/useBoothFilterStore.ts";
+import AlbumMap from "../../components/Album/AlbumMap.tsx";
 
 type Image = {
   albumId: number;
@@ -23,15 +23,22 @@ type Image = {
   like: boolean;
 }
 
+type ImageForLocation = {
+  photoUrl: string;
+  x: number;
+  y: number;
+}
+
 function Album() {
   const [searchCategory, setSearchCategory] = useState<string | null>('날짜별');
   const [isDateModalOpen, setIsDateModalOpen] = useState<boolean>(false);
   const [imageList, setImageList] = useState<Image[]>([]);
+  const [imageListForLocation, setImageListForLocation] = useState<ImageForLocation[]>([]);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [selectedImages, setSelectedImages] = useState<number[]>([]); // 선택된 이미지 상태
   const [footerStatus, setFooterStatus] = useState('initial');
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState<boolean>(false); // 확인 모달 상태
-  const [photoBooth,setPhotoBooth] = useState<string>('하루필름');
+  const [photoBooth,setPhotoBooth] = useState<string>('인생네컷');
   const [isBoothFilterModalOpen, setIsBoothFilterModalOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isHashtagSearchModalOpen, setIsHashtagSearchModalOpen] = useState<boolean>(false);
@@ -40,7 +47,6 @@ function Album() {
   const [month, setMonth] = useState<number>(today.getMonth() + 1);
   const { accessToken } = useAuthStore();
   const navigate = useNavigate();
-  const { lat, lng, selectedBrands } = useBoothFilterStore();
   
   const getPhotoByDate = async (year:number, month:number, accessToken:string) => {
     try {
@@ -80,17 +86,17 @@ function Album() {
     }
   };
   
-  const getPhotoByLocation = async (photoBooth:string, accessToken:string) => {
+  const getPhotoByLocation = async (x:number,y:number ,accessToken:string) => {
     try {
       setIsLoading(true);
-      const res = await Get(`/api/v1/album/photobooth/${photoBooth}`, {
+      const res = await Get(`/api/v1/album/location?${x}&${y}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       });
       if(res.status === 200){
         console.log(res.data.payload);
-        setImageList(res.data.payload);
+        setImageListForLocation(res.data.payload);
       }
     } catch (error) {
       console.log(error);
@@ -128,15 +134,12 @@ function Album() {
       const fetchLocation = async () => {
         const res = await getCurrentLocation();
         if (res) {
-          useBoothFilterStore.setState({
-            lat: res.lat,
-            lng: res.lng,
-          });
+          getPhotoByLocation(res.lat,res.lng,accessToken)
         }
       };
       fetchLocation();
     }
-  }, []);
+  }, [searchCategory]);
   
   const deletePhotos = async (albumId:number, accessToken:string) => {
     try {
@@ -212,15 +215,17 @@ function Album() {
   return (
     <Layout>
       <Content>
-        <HeaderSection>
-          <HashtagSearchButton onClick={() => setIsHashtagSearchModalOpen(true)}>
-            <SearchIcon>
-              <Search />
-            </SearchIcon>
-            <span className="w-full bg-gray100 pl-2 text-gray400">해시태그로 사진 검색!</span>
-          </HashtagSearchButton>
-        </HeaderSection>
-
+        {searchCategory != "위치별" && (
+          <HeaderSection>
+            <HashtagSearchButton onClick={() => setIsHashtagSearchModalOpen(true)}>
+              <SearchIcon>
+                <Search />
+              </SearchIcon>
+              <span className="w-full bg-gray100 pl-2 text-gray400">해시태그로 사진 검색!</span>
+            </HashtagSearchButton>
+          </HeaderSection>
+        )}
+        
         <ButtonGroup>
           {searchCategory === "날짜별" && (
             <Subtitle onClick={() => setIsDateModalOpen(true)}>
@@ -277,15 +282,12 @@ function Album() {
         
         {searchCategory === "위치별" ? (
           <>
-          
           </>
         ) : (
           <>
             {isLoading ? (
-              <div className="flex flex-col justify-center items-center h-full mt-4">
-                <NoImage />
-                <p className="text-gray400 mt-4">사진을 채워보세요</p>
-              </div>
+              <>
+              </>
             ) : (
               <>
                 {imageList.length === 0 ? (
@@ -314,8 +316,6 @@ function Album() {
             )}
           </>
         )}
-
-
 
         {!isEditing && (
           <CategoryMenu>
@@ -357,6 +357,7 @@ function Album() {
         />
       )}
       {isHashtagSearchModalOpen && <HashtagSearchModal setIsModalOpen={setIsHashtagSearchModalOpen} />}
+      {searchCategory === "위치별" && <AlbumMap/>}
     </Layout>
   );
 }
