@@ -1,29 +1,37 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import PlanBUrl from "../../assets/images/planb-logo.png?url";
 import StarIcon from "../../assets/icons/star-icon";
 import LikeFilledIcon from "../../assets/icons/like-filled-icon";
+import LikeNotFilledIcon from "../../assets/icons/like-not-filled-icon";
+import { searchLogoUrlByName } from "../../hooks/getImageUrl";
+import { useState } from "react";
 type CardProps = {
   width?: string;
   height?: string;
+  photoBoothId: number;
+  name: string;
+  rating: number;
+  feature: string;
+  featureCount: number;
 };
-function LikeBoothCard({ width, height }: CardProps) {
+function LikeBoothCard({ width, height, photoBoothId, name, rating, feature, featureCount }: CardProps) {
+  const [like, setLike] = useState(true);
   return (
     <CardBox width={width} height={height}>
-      <ImgBox $imageurl={PlanBUrl} />
+      <ImgBox $imageurl={searchLogoUrlByName(name)} />
       <div className="flex flex-col justify-between w-full">
         <div>
-          <span className="booth-name">하루필름 건대입구역점</span>
+          <span className="booth-name">{name}</span>
           <div className="flex gap-[2px] items-center">
             <StarIcon />
-            <span className="rating">4.5</span>
+            <span className="rating">{rating}</span>
           </div>
         </div>
         <div className="flex gap-[2px] items-center">
-          <span className="hash-tag"># 선명한 화질 </span>
-          <span className="hash-tag">+3</span>
+          <span className="hash-tag">{feature}</span>
+          <span className="hash-tag">{`+${featureCount - 1}`}</span>
           <button className="like-btn">
-            <LikeFilledIcon width={22} height={22} />
+            {like ? <LikeFilledIcon width={22} height={22} /> : <LikeNotFilledIcon width={22} height={22} />}
           </button>
         </div>
       </div>

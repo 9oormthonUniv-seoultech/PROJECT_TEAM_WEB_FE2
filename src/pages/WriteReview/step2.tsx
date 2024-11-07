@@ -78,20 +78,24 @@ function Step2() {
 
   return (
     <MainWrapper>
-      <LabelBox>
-        <span className="q-label">사진을 등록해주세요</span>
-        <span className="tag">선택</span>
-      </LabelBox>
-      <UploadImageSection imageFiles={imageFiles} setImageFiles={setImageFiles} />
-      <LabelBox>
-        <span className="q-label">부스에 대한 설명을 작성해주세요</span>
-        <span className="tag">선택</span>
-      </LabelBox>
-      <div className="relative">
-        <textarea placeholder="포토부스에 대한 설명을 적어주세요" onChange={(e) => setReviewText(e.target.value)} />
-        <span className="text-cnt">{`${reviewText?.length} / 300`}</span>
+      <div>
+        <LabelBox>
+          <span className="q-label">사진을 등록해주세요</span>
+          <span className="tag">선택</span>
+        </LabelBox>
+        <UploadImageSection imageFiles={imageFiles} setImageFiles={setImageFiles} />
+        <LabelBox>
+          <span className="q-label">부스에 대한 설명을 작성해주세요</span>
+          <span className="tag">선택</span>
+        </LabelBox>
+        <div className="relative">
+          <textarea placeholder="포토부스에 대한 설명을 적어주세요" onChange={(e) => setReviewText(e.target.value)} />
+          <span className="text-cnt">{`${reviewText?.length} / 300`}</span>
+        </div>
       </div>
-      <NextButton text="완료하기" onClick={handleSubmit} />
+      <div className="mt-5">
+        <NextButton text="완료하기" onClick={handleSubmit} />
+      </div>
     </MainWrapper>
   );
 }
@@ -99,7 +103,7 @@ function Step2() {
 export default Step2;
 
 const MainWrapper = styled.main`
-  ${tw`overflow-auto w-full mt-[80px] pb-[80px] px-[16px] m-auto`}
+  ${tw`overflow-auto w-full h-full mt-[80px] pb-[80px] px-[16px] m-auto flex flex-col justify-between`}
 
   .desc-text {
     ${tw`font-medium text-[12px] text-gray400 mt-[5px]`}

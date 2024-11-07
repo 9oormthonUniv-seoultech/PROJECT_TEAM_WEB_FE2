@@ -26,3 +26,14 @@ export const reissueToken = async (accessToken: string) => {
     return res.data.payload;
   } catch (error) {}
 };
+
+export const getLogout = async (accessToken: string) => {
+  try {
+    const res = await Get("/api/v1/users/logout", {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data.payload;
+  } catch (error) {}
+};

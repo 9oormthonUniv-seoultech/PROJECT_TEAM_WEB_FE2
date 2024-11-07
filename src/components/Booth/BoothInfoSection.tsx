@@ -4,9 +4,26 @@ import LikeIcon from "../../assets/icons/like-filled-icon";
 import { getDistance } from "../../hooks/getLocation";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { SpecificBoothInfo } from "../../@types/booth";
+import { FaHeart } from "react-icons/fa";
+import { useState } from "react";
+import { postboothLike } from "../../api/my";
+import { useParams } from "react-router-dom";
+import { useAuthStore } from "../../store/useAuthStore";
+import LikeFilledIcon from "../../assets/icons/like-filled-icon";
+import LikeNotFilledIcon from "../../assets/icons/like-not-filled-icon";
 function BoothInfoSection({ name, road, x, y }: SpecificBoothInfo) {
   const { lat, lng } = useBoothFilterStore();
 
+  const { boothId } = useParams() as { boothId: string };
+  const { accessToken } = useAuthStore();
+
+  const [like, setLike] = useState<boolean>(false);
+  const handleLike = async () => {
+    const res = await postboothLike(accessToken!, boothId);
+    if (res === "success") {
+      setLike(!like);
+    }
+  };
   return (
     <Container>
       <ColBox>
@@ -22,7 +39,9 @@ function BoothInfoSection({ name, road, x, y }: SpecificBoothInfo) {
         >
           길안내 시작
         </button>
-        <LikeIcon color={"#B0B0EE"} />
+        <button onClick={handleLike}>
+          {like ? <LikeFilledIcon width={30} height={30} /> : <LikeNotFilledIcon width={30} height={30} />}
+        </button>
       </div>
     </Container>
   );
@@ -31,7 +50,7 @@ function BoothInfoSection({ name, road, x, y }: SpecificBoothInfo) {
 export default BoothInfoSection;
 
 const Container = styled.div`
-  ${tw`w-full px-[16px] flex flex-row font-display justify-between items-start`}
+  ${tw`w-full px-[16px] flex flex-row font-display justify-between items-start mb-[30px]`}
 
   .main-text {
     ${tw`font-semibold text-[18px] text-gray700`}

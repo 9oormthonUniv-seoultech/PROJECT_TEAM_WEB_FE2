@@ -55,7 +55,7 @@ function UploadImageSection({ imageFiles, setImageFiles }: UploadImageProps) {
 export default UploadImageSection;
 
 const Container = styled.div`
-  ${tw`flex  my-[25px] gap-[12px] overflow-x-auto`}
+  ${tw`flex  my-[10px] gap-[12px] overflow-x-auto`}
 `;
 
 const UploadButtonWrapper = styled.div`

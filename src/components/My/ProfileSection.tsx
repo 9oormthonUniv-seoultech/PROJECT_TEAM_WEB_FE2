@@ -4,6 +4,7 @@ import EditIcon from "../../assets/icons/edit-icon";
 import { useQuery } from "@tanstack/react-query";
 import { getUserInfo } from "../../api/user";
 import { useAuthStore } from "../../store/useAuthStore";
+import DefaultImg from "../../assets/images/default-profile.svg?url";
 function ProfileSection() {
   const { accessToken } = useAuthStore();
   //사용자 프로필 정보 조회 api 호출
@@ -15,12 +16,12 @@ function ProfileSection() {
   if (!isLoading && data) {
     return (
       <Container>
-        <img className="img-wrapper" src={data.image} />
+        <img className="img-wrapper" src={data.image ? data.image : DefaultImg} />
         <span className="nickname">{data.name}</span>
-        <button className="edit-btn">
+        {/* <button className="edit-btn">
           프로필편집
           <EditIcon />
-        </button>
+        </button> */}
       </Container>
     );
   } else {
