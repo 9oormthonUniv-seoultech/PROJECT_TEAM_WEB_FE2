@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import LikeBoothCard from "../../components/My/LikeBoothCard";
 import VisitedBoothCard from "../../components/My/VisitedBoothCard";
 import { useQuery } from "@tanstack/react-query";
-import { getMyReviews, getVisitedBooths } from "../../api/my";
+import { getLikedBooths, getMyReviews, getVisitedBooths } from "../../api/my";
 import { useAuthStore } from "../../store/useAuthStore";
 function RecordPage() {
   const navigate = useNavigate();
@@ -19,19 +19,27 @@ function RecordPage() {
   });
 
   //방문한 부스 조회
-  const { isLoading, data: visitedBoothData } = useQuery<any>({
+  const { data: visitedBoothData } = useQuery<any>({
     queryKey: ["getVisitedBooths"],
     queryFn: () => getVisitedBooths(accessToken!),
+  });
+
+  //찜한 부스 조회
+  const { data: likedBoothData } = useQuery({
+    queryKey: ["getLikedBooths"],
+    queryFn: () => getLikedBooths(accessToken!),
   });
 
   return (
     <Container>
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">{`${myReviewData && myReviewData.reviewCount ? myReviewData.reviewCount : "0"}개의 나의 리뷰`}</span>
-        <button className="more-btn" onClick={() => navigate("/my-reviews")}>
-          더보기
-          <RightArrowIcon width={6} color="#676F7B" />
-        </button>
+        {myReviewData && myReviewData?.reviewMypageDetailDtoList.length > 2 && (
+          <button className="more-btn" onClick={() => navigate("/my-reviews")}>
+            더보기
+            <RightArrowIcon width={6} color="#676F7B" />
+          </button>
+        )}
       </div>
 
       <ImgBox>
@@ -56,19 +64,37 @@ function RecordPage() {
 
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">찜해둔 부스</span>
-        <button className="more-btn" onClick={() => navigate("/like-booths")}>
-          더보기
-          <RightArrowIcon width={6} color="#676F7B" />
-        </button>
+        {likedBoothData && likedBoothData.length > 2 && (
+          <button className="more-btn" onClick={() => navigate("/like-booths")}>
+            더보기
+            <RightArrowIcon width={6} color="#676F7B" />
+          </button>
+        )}
       </div>
       <SlideWrapper>
-        <LikeBoothCard width="292px" height="110px" />
-        <LikeBoothCard width="292px" height="110px" />
+        {likedBoothData && likedBoothData.length > 0 ? (
+          likedBoothData
+            .slice(0, 2)
+            .map((item, index) => (
+              <LikeBoothCard
+                width="292px"
+                height="110px"
+                photoBoothId={item.photoBoothId}
+                rating={item.rating}
+                name={item.name}
+                feature={item.feature}
+                featureCount={item.featureCount}
+                key={index}
+              />
+            ))
+        ) : (
+          <span>방문한 부스가 없어요</span>
+        )}
       </SlideWrapper>
 
       <div className="flex w-full justify-between items-center mt-[20px] px-[16px]">
         <span className="title">방문한 부스</span>
-        {visitedBoothData && visitedBoothData.length > 0 && (
+        {visitedBoothData && visitedBoothData.length > 2 && (
           <button className="more-btn" onClick={() => navigate("/visited-booths")}>
             더보기
             <RightArrowIcon width={6} color="#676F7B" />

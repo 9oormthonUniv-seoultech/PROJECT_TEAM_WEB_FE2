@@ -1,24 +1,54 @@
 import tw from "twin.macro";
 import styled from "styled-components";
-import DummyImg from "../../assets/images/dummy-photo.jpeg";
 import LikeFilledIcon from "../../assets/icons/like-filled-icon";
 import { useState } from "react";
 import LikeNotFilledIcon from "../../assets/icons/like-not-filled-icon";
 import CheckIcon from "../../assets/images/photo-checked.svg?react";
+import {Post} from "../../api";
+import {useAuthStore} from "../../store/useAuthStore.ts";
 
 type ImageCardProps = {
-  isEditing: boolean;
-  isSelected: boolean;
-  onClick: () => void;
+  id : number;
+  isEditing?: boolean;
+  isSelected?: boolean;
+  onClick?: () => void;
+  photoUrl:string;
+  isLiked: boolean;
 };
 
-function ImageCard({ isEditing, isSelected, onClick }: ImageCardProps) {
-  const [like, setLike] = useState(false);
+function ImageCard({ id, isEditing, isSelected, onClick, photoUrl, isLiked }: ImageCardProps) {
+  const [like, setLike] = useState(isLiked);
+  const { accessToken } = useAuthStore();
+  
+  const likePhotos = async (albumId: number, accessToken: string) => {
+    try {
+      const res = await Post(
+        `/api/v1/album/like/${albumId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (res.status === 200) {
+        console.log(res.data.payload);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+  const handleLikeButtonClick = () => {
+    setLike(!like);
+    console.log(id);
+    likePhotos(id, accessToken);
+  }
   
   return (
-    <ImgBox $imageurl={DummyImg} onClick={isEditing ? onClick : undefined}> {/* 편집 모드에서 클릭 활성화 */}
+    <ImgBox $imageurl={photoUrl} onClick={isEditing ? onClick : undefined}> {/* 편집 모드에서 클릭 활성화 */}
       {!isEditing && (
-        <LikeBtn onClick={() => setLike(!like)}>
+        <LikeBtn onClick={handleLikeButtonClick}>
           {like ? <LikeFilledIcon /> : <LikeNotFilledIcon />}
         </LikeBtn>
       )}

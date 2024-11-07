@@ -2,12 +2,30 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import ImageCard from "../../components/Album/ImageCard";
+import { useQuery } from "@tanstack/react-query";
+import { getPhotoLikes } from "../../api/my";
+import { useAuthStore } from "../../store/useAuthStore";
+import NoImage from "../../assets/images/no-images.svg?react";
 function FavoritesPage() {
+  const { accessToken } = useAuthStore();
+  //찜한 부스 조회
+  const { data: likedPhotoData } = useQuery({
+    queryKey: ["getLikedPhotos"],
+    queryFn: () => getPhotoLikes(accessToken!),
+  });
   return (
     <Container>
-      <ImageCard />
-      <ImageCard />
-      <ImageCard />
+      {likedPhotoData &&
+        (likedPhotoData.length > 0 ? (
+          likedPhotoData.map((item, index) => (
+            <ImageCard id={item.albumId} photoUrl={item.photoUrl} isLiked={item.like} key={index} />
+          ))
+        ) : (
+          <div className="w-full flex flex-col items-center mx-auto mt-20">
+            <NoImage />
+            <p className="text-gray400 mt-4">즐겨찾기한 사진이 없어요</p>
+          </div>
+        ))}
     </Container>
   );
 }

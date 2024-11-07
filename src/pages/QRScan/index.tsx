@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import styled from "styled-components";
 import CloseIcon from "../../assets/icons/close-icon";
 import ProgressIcon from "../../assets/icons/progress-icon";
-import { Scanner } from '@yudiel/react-qr-scanner';
+import { Scanner } from "@yudiel/react-qr-scanner";
 
 type ScanResult = {
   boundingBox: object;
@@ -18,7 +18,7 @@ function QRScan() {
   const navigate = useNavigate();
   const [percentage, setPercentage] = useState<number>(0);
   const [qrLink, setQrLink] = useState<string | undefined>(undefined);
-  
+
   useEffect(() => {
     if (isCaptured) {
       const interval = setInterval(() => {
@@ -38,7 +38,7 @@ function QRScan() {
     if (percentage === 100) {
       // 100%가 화면에 렌더링된 후 페이지 이동
       const timeout = setTimeout(() => {
-        navigate("/photo-review", {state: {qrLink}});
+        navigate("/photo-check", { state: { qrLink } });
       }, 500); // 약간의 지연 시간(0.5초)을 주어 100%가 표시된 후 페이지 이동
       return () => clearTimeout(timeout);
     }

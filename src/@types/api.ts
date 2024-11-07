@@ -7,7 +7,7 @@ export type CommonResponse<T> = {
 };
 
 export type CommonError = {
-  errorCode: string;
+  statusCode: string;
   message: string;
-  success: boolean;
+  content: string;
 };

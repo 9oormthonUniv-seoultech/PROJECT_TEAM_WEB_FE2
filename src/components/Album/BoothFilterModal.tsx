@@ -2,26 +2,9 @@ import React from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import CloseIcon from "../../assets/icons/close-icon";
-
-type OptionProps = {
-  onClick: () => void;
-  isActive: boolean;
-  label: string;
-};
-
-const OptionComponent = ({ onClick, isActive, label }: OptionProps) => {
-  return (
-    <Option onClick={onClick} isActive={isActive}>
-      <div className="flex items-center gap-3">
-        <CircleContainer>
-          <CircleBorder isActive={isActive} />
-          {isActive && <CircleInner />}
-        </CircleContainer>
-        <Label isActive={isActive}>{label}</Label>
-      </div>
-    </Option>
-  );
-};
+import OptionButton from "../Common/OptionButton.tsx";
+import NextButton from "../Common/NextButton.tsx";
+import {BoothCategories} from "../../data/booth-categories.ts";
 
 type BoothFilterProps = {
   photoBooth: string;
@@ -30,10 +13,7 @@ type BoothFilterProps = {
 };
 
 export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBoothFilterModalOpen }: BoothFilterProps) {
-  const photoBoothOptions = [
-    "하루필름", "포토매틱", "인생네컷", "포토시그니처", "셀픽스",
-    "인생사진", "포토이즘", "포토이즘 박스", "포토그레이", "비룸"
-  ];
+  const photoBoothOptions = BoothCategories.map((item) => (item.label));
   
   return (
     <Overlay>
@@ -50,14 +30,18 @@ export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBooth
         
         <OptionContainer>
           {photoBoothOptions.map((booth) => (
-            <OptionComponent
+            <OptionButton
               key={booth}
               onClick={() => setPhotoBooth(booth)}
               isActive={photoBooth === booth}
               label={booth}
+              size={"small"}
             />
           ))}
         </OptionContainer>
+        <div className="mt-4">
+          <NextButton text={"확인"} onClick={() => setIsBoothFilterModalOpen(false)}/>
+        </div>
       </Container>
     </Overlay>
   );
@@ -79,39 +63,6 @@ const Container = styled.div`
 
 const OptionContainer = styled.div`
     ${tw`grid grid-cols-2 gap-4`}
-        /* 한 줄에 두 개씩 배치 */
-`;
-
-const Option = styled.button<OptionProps>`
-    ${tw`w-[150px] h-[90px] rounded-lg border mb-4 cursor-pointer transition-colors duration-200`}
-    padding: ${({ isActive }) => (isActive ? "23px 12px" : "8px 12px")};
-    background-color: ${({ isActive }) => (isActive ? "#e1e0ff" : "transparent")};
-    border-color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
-    display: flex;
-    flex-direction: ${({ isActive }) => (isActive ? "column" : "row")};
-    justify-content: center;
-    align-items: center;
-    gap: ${({ isActive }) => (isActive ? "10px" : "12px")};
-`;
-
-const CircleContainer = styled.div`
-    ${tw`w-[22px] h-[22px] relative`}
-`;
-
-const CircleBorder = styled.div<{ isActive: boolean }>`
-    ${tw`absolute w-full h-full rounded-full border-2`}
-    border-color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
-`;
-
-const CircleInner = styled.div`
-    ${tw`absolute w-2.5 h-2.5 bg-[#5453ee] rounded-full`}
-    left: 6px;
-    top: 6px;
-`;
-
-const Label = styled.div<{ isActive: boolean }>`
-    ${tw`text-base font-semibold font-['Pretendard']`}
-    color: ${({ isActive }) => (isActive ? "#5453ee" : "#c7c9ce")};
 `;
 
 const CloseButton = styled.button`
