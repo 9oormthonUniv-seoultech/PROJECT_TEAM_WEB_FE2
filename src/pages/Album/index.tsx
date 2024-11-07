@@ -178,7 +178,7 @@ function Album() {
     try {
       const res = await Post(
         `/api/v1/album/like/${albumId}`,
-        {},
+        null,
         {
           headers: {
             Authorization: `Bearer ${accessToken}`,
