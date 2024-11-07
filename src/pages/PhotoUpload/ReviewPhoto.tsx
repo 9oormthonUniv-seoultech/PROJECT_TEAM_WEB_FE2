@@ -65,49 +65,32 @@ function ReviewPhoto() {
             <RequiredText>필수</RequiredText>
           </RequiredBadge>
         </LabelContainer>
-        <div className="w-[351.61px] h-[35.05px] relative">
-          <div>
-            <div className="w-24 h-[35.05px] left-0 top-0 absolute bg-[#e9eaee] rounded-md">
-              <input
-                className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
-                placeholder="0000"
-                value={year ? year : ""}
-                onChange={(e) => setYear(e.target.value)}
-                maxLength={4}
-              />
-            </div>
-            <div className="left-[103.64px] top-[8px] absolute text-center text-[#676f7b] text-base font-medium font-['Pretendard']">
-              년
-            </div>
-          </div>
-          <div className="w-[92.61px] h-[35.05px] left-[145px] top-0 absolute">
-            <div className="w-[70.93px] h-[35.05px] left-0 top-0 absolute bg-[#e9eaee] rounded-md">
-              <input
-                className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
-                placeholder="00"
-                value={month ? month : ""}
-                onChange={(e) => setMonth(e.target.value)}
-                maxLength={2}
-              />
-            </div>
-            <div className="left-[78.61px] top-[8px] absolute text-center text-[#676f7b] text-base font-semibold font-['Pretendard']">
-              월
-            </div>
-          </div>
-          <div className="w-[92.61px] h-[35.05px] left-[259px] top-0 absolute">
-            <div className="w-[70.93px] h-[35.05px] left-0 top-0 absolute bg-[#e9eaee] rounded-md">
-              <input
-                className="w-full h-full bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
-                placeholder="00"
-                value={day ? day : ""}
-                onChange={(e) => setDay(e.target.value)}
-                maxLength={2}
-              />
-            </div>
-            <div className="left-[78.61px] top-[8px] absolute text-center text-[#676f7b] text-base font-semibold font-['Pretendard']">
-              일
-            </div>
-          </div>
+        <div className="flex w-full gap-2 items-center">
+          <input
+            className="w-[95px] h-[35px] bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
+            placeholder="0000"
+            value={year ? year : ""}
+            onChange={(e) => setYear(e.target.value)}
+            maxLength={4}
+          />
+          <div className=" text-center text-[#676f7b] text-base font-medium font-['Pretendard']">년</div>
+          <input
+            className="w-[75px]  h-[35px] bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
+            placeholder="00"
+            value={month ? month : ""}
+            onChange={(e) => setMonth(e.target.value)}
+            maxLength={2}
+          />
+
+          <span className="text-center text-[#676f7b] text-base font-semibold font-['Pretendard']">월</span>
+          <input
+            className="w-[75px] h-[35px] bg-[#e9eaee] text-gray400 text-center border-none rounded-md outline-none"
+            placeholder="00"
+            value={day ? day : ""}
+            onChange={(e) => setDay(e.target.value)}
+            maxLength={2}
+          />
+          <span className="text-center text-[#676f7b] text-base font-semibold font-['Pretendard']">일</span>
         </div>
         <LabelContainer>
           <Label>사용하신 부스의 위치는 어딘가요?</Label>
@@ -128,21 +111,28 @@ function ReviewPhoto() {
             />
           </InputContainer>
 
-          {searchData && searchData.length > 0 && (
-            <ModalBox>
-              {searchData.map((data, index) => (
-                <div key={data.id} className="p-2">
-                  <li
-                    onClick={() => handleItemClick(data.id, data.name)}
-                    className="text-[14px] font-normal text-gray600 list-none"
-                  >
-                    {data.name}
-                  </li>
-                  {index !== searchData.length - 1 && <hr className="w-full h-[1px] bg-gray200" />}
-                </div>
-              ))}
-            </ModalBox>
-          )}
+          {searchData &&
+            (searchData.length > 0 ? (
+              <ModalBox>
+                {searchData.map((data, index) => (
+                  <div key={data.id} className="p-2">
+                    <li
+                      onClick={() => handleItemClick(data.id, data.name)}
+                      className="text-[14px] font-normal text-gray600 list-none cursor-default"
+                    >
+                      {data.name}
+                    </li>
+                    {index !== searchData.length - 1 && <hr className="w-full h-[1px] bg-gray200" />}
+                  </div>
+                ))}
+              </ModalBox>
+            ) : (
+              <ModalBox>
+                <li className="text-[14px] font-normal text-gray600 list-none m-2 cursor-default">
+                  {"검색되는 포토부스 정보가 없어요."}
+                </li>
+              </ModalBox>
+            ))}
         </div>
       </ContentContainer>
 
@@ -152,7 +142,7 @@ function ReviewPhoto() {
 }
 
 const Container = styled.div`
-  ${tw`bg-background flex flex-col w-full min-h-screen items-center  [max-width: 480px] `}
+  ${tw`bg-background flex flex-col w-full h-[100vh] items-center  [max-width: 480px] justify-between pb-[60px] `}
   overflow-x: hidden;
   &::-webkit-scrollbar {
     display: none;
@@ -161,11 +151,11 @@ const Container = styled.div`
 `;
 
 const ContentContainer = styled.div`
-  ${tw`flex flex-col items-start w-full px-[16px] mt-[90px] gap-6`}
+  ${tw`flex flex-col items-start w-full px-[16px] mt-[20px] gap-4`}
 `;
 
 const LabelContainer = styled.div`
-  ${tw`flex items-center gap-2.5`}
+  ${tw`flex items-center gap-2.5 mt-[70px]`}
 `;
 
 const Label = styled.div`

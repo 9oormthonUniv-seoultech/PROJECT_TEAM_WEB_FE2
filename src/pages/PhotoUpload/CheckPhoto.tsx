@@ -30,16 +30,16 @@ function CheckPhoto() {
 }
 
 const Container = styled.div`
-  ${tw`bg-gray600 flex flex-col w-full min-h-screen items-center`}
-  overflow-x: hidden;
+  ${tw`bg-gray600 flex flex-col w-full h-[100vh] items-center pb-[60px] justify-between`}
+  // overflow-x: hidden;
 
   .img-container {
-    ${tw`w-[70%]  `}
+    ${tw`w-[70%]`}
   }
 `;
 
 const Header = styled.header`
-  ${tw`relative w-full flex flex-col items-center justify-center mb-12 h-[80px] border-b-[1.5px] border-b-background`}
+  ${tw`relative w-full flex flex-col items-center justify-center h-[80px] border-b-[1.5px] border-b-background`}
 `;
 
 const Title = styled.div`

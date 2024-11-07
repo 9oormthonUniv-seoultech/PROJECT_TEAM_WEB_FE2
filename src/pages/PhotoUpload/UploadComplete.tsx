@@ -4,20 +4,32 @@ import styled from "styled-components";
 import tw from "twin.macro";
 import { createLink } from "../../api/share.ts";
 import { useAuthStore } from "../../store/useAuthStore.ts";
+import CloseIcon from "../../assets/icons/close-icon.tsx";
+import { useAlertStore } from "../../store/useAlertStore.ts";
 
 function UploadComplete() {
   const navigate = useNavigate();
   const { accessToken } = useAuthStore();
+
+  const { openAlert } = useAlertStore();
   const createShareLink = async () => {
     const res = await createLink("13", accessToken!);
     if (res) {
       await navigator.clipboard.writeText(res);
-      alert("공유링크가 클립보드에 복사되었어요!");
+      openAlert("공유링크가 클립보드에 복사되었어요!");
     }
   };
+
+  const handleClose = () => {
+    navigate("/album");
+  };
+
   return (
     <Container>
       <Header>
+        <CloseButton onClick={handleClose}>
+          <CloseIcon />
+        </CloseButton>
         <Title>사진 공유</Title>
       </Header>
       <div className="w-full flex flex-col items-center m-auto gap-4">
@@ -56,5 +68,7 @@ const ButtonContainer = styled.button`
 const ButtonContainer2 = styled.button`
   ${tw`w-[280px] h-[62px] bg-[#F9F9FB] rounded-lg flex justify-center items-center`}
 `;
-
+const CloseButton = styled.button`
+  ${tw` absolute  left-[15px]`}
+`;
 export default UploadComplete;
