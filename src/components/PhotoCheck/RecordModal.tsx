@@ -77,6 +77,8 @@ const ModalOverlay = styled.div`
 
 const ModalContent = styled.div`
   ${tw`w-full h-auto relative bg-background rounded-tl-[26px] rounded-tr-[26px] p-8 flex flex-col items-center max-w-[480px]`}
+  position: fixed;
+  bottom: 0;
 `;
 
 const Title = styled.h2`
