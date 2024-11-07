@@ -44,7 +44,10 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const Get = async <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<CommonResponse<T>>> => {
+export const Get = async <T>(
+  url: string,
+  config?: AxiosRequestConfig
+): Promise<AxiosResponse<CommonResponse<T>>> => {
   const response = await axiosInstance.get(url, config);
   return response;
 };
@@ -55,5 +58,13 @@ export const Post = async <T>(
   config?: AxiosRequestConfig
 ): Promise<AxiosResponse<CommonResponse<T>>> => {
   const response = await axiosInstance.post(url, body, config);
+  return response;
+};
+
+export const Delete = async <T>(
+  url: string,
+  config?: AxiosRequestConfig
+): Promise<AxiosResponse<CommonResponse<T>>> => {
+  const response = await axiosInstance.delete(url, config);
   return response;
 };
