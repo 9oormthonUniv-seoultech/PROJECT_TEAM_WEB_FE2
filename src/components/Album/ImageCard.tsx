@@ -20,14 +20,18 @@ function ImageCard({ id, isEditing, isSelected, onClick, photoUrl, isLiked }: Im
   const [like, setLike] = useState(isLiked);
   const { accessToken } = useAuthStore();
   
-  const likePhotos = async (albumId:number, accessToken:string) => {
+  const likePhotos = async (albumId: number, accessToken: string) => {
     try {
-      const res = await Post(`/api/v1/album/like/${albumId}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if(res.status === 200){
+      const res = await Post(
+        `/api/v1/album/like/${albumId}`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      if (res.status === 200) {
         console.log(res.data.payload);
       }
     } catch (error) {
