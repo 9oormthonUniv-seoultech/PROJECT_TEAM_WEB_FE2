@@ -109,6 +109,11 @@ function ReviewPhoto() {
               placeholder="예 : 포토이즘 공릉점"
               value={boothLocation}
               onChange={(e) => setBoothLocation(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch();
+                }
+              }}
             />
           </InputContainer>
 
