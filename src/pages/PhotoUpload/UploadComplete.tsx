@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import ShareLogo from "../../assets/images/share-logo.svg?react";
 import styled from "styled-components";
 import tw from "twin.macro";
@@ -9,11 +9,14 @@ import { useAlertStore } from "../../store/useAlertStore.ts";
 
 function UploadComplete() {
   const navigate = useNavigate();
+  const location = useLocation();
   const { accessToken } = useAuthStore();
+
+  const { albumId } = location.state;
 
   const { openAlert } = useAlertStore();
   const createShareLink = async () => {
-    const res = await createLink("13", accessToken!);
+    const res = await createLink(albumId, accessToken!);
     if (res) {
       await navigator.clipboard.writeText(res);
       openAlert("공유링크가 클립보드에 복사되었어요!");

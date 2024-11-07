@@ -1,3 +1,4 @@
+import { AxiosError } from "axios";
 import { Post } from ".";
 
 export const createLink = async (albumId: string, accessToken: string) => {
@@ -24,6 +25,10 @@ export const saveShare = async (accessToken: string, shareId: string) => {
       }
     );
 
-    return res.data.payload;
-  } catch (error) {}
+    return res.data;
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      return error.status;
+    }
+  }
 };
