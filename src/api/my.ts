@@ -1,4 +1,4 @@
-import { Get, Post } from ".";
+import { Delete, Get, Post } from ".";
 import { MyLikedBooth } from "../@types/my";
 import { MyReview } from "../@types/review";
 
@@ -46,6 +46,32 @@ export const postboothLike = async (accessToken: string, boothId: string) => {
     const res = await Post(
       `/api/v1/photobooth/like/${boothId}`,
       {},
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    return res.data.payload;
+  } catch (error) {}
+};
+
+export const deleteboothLike = async (accessToken: string, boothId: string) => {
+  try {
+    const res = await Delete(`/api/v1/photobooth/like/${boothId}`, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    });
+    return res.data.payload;
+  } catch (error) {}
+};
+
+export const checkBoothLike = async (accessToken: string, boothId: string) => {
+  try {
+    const res = await Get<boolean>(
+      `/api/v1/photobooth/like/check/${boothId}`,
+
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

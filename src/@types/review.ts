@@ -8,6 +8,7 @@ export type Review = {
   features: string[];
   imageUrl: string;
   imageCount: number;
+  profileUrl: string | null;
 };
 
 export type MyReview = {

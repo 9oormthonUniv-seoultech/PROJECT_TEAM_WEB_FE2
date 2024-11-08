@@ -39,7 +39,6 @@ function My() {
     const res = await getLogout(accessToken!);
     if (res) {
       logout();
-      navigate("/home");
     }
   };
   return (
@@ -80,7 +79,7 @@ const Layout = styled.div`
 
 const MenuContainer = styled.div<{ isSticky: boolean }>`
   ${tw`flex flex-row w-full justify-center h-[35px] border-b-2 border-b-gray100 mt-[10px]  px-[45px] gap-[100px]`}
-  ${({ isSticky }) => isSticky && `position: fixed; top: 0; z-index: 10; background-color: #FFFFFF;`}
+  ${({ isSticky }) => isSticky && `position: fixed; top: 0; z-index: 10; background-color: #FFFFFF; max-width: 480px;`}
 `;
 const MenuBtn = styled.button<{ $active: boolean }>`
   ${tw`w-[105px] h-[35px] font-display font-semibold text-[16px]`}
