@@ -14,19 +14,21 @@ function FavoritesPage() {
     queryFn: () => getPhotoLikes(accessToken!),
   });
   return (
-    <Container>
+    <>
       {likedPhotoData &&
         (likedPhotoData.length > 0 ? (
-          likedPhotoData.map((item, index) => (
-            <ImageCard id={item.albumId} photoUrl={item.photoUrl} isLiked={item.like} key={index} />
-          ))
+          <Container>
+            {likedPhotoData.map((item, index) => (
+              <ImageCard id={item.albumId} photoUrl={item.photoUrl} isLiked={item.like} key={index} />
+            ))}
+          </Container>
         ) : (
-          <div className="w-full flex flex-col items-center mx-auto mt-20">
+          <div className="flex flex-col items-center mx-auto mt-20">
             <NoImage />
             <p className="text-gray400 mt-4">즐겨찾기한 사진이 없어요</p>
           </div>
         ))}
-    </Container>
+    </>
   );
 }
 

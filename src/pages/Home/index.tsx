@@ -23,4 +23,7 @@ function Home() {
 export default Home;
 const Layout = styled.div`
   ${tw`flex flex-col [max-width: 480px] w-full h-[100vh] items-center m-auto`}
+  @supports (-webkit-touch-callout: none) {
+    height: -webkit-fill-available;
+  }
 `;
