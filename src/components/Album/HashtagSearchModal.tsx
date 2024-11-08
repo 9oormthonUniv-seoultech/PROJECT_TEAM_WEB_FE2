@@ -1,10 +1,10 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import tw from "twin.macro";
 import styled from "styled-components";
 import CloseIcon from "../../assets/icons/close-icon";
-import {Get} from "../../api";
+import { Get } from "../../api";
 import Search from "../../assets/images/search.svg?react";
-import {useAuthStore} from "../../store/useAuthStore.ts";
+import { useAuthStore } from "../../store/useAuthStore.ts";
 import ImageCard from "./ImageCard.tsx";
 import NoImage from "../../assets/images/no-images.svg?react";
 
@@ -66,9 +66,14 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
           </SearchIcon>
           <input
             className="w-full bg-gray100 pl-2 text-gray400"
-            placeholder="해시태그를 입력하고 왼쪽에 있는 돋보기 클릭!"
+            placeholder="해시태그를 검색해보세요!"
             value={hashTag}
             onChange={(e) => setHashTag(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleSearchPhotos(hashTag, accessToken);
+              }
+            }}
           />
         </InputContainer>
 
@@ -80,7 +85,9 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
         ) : (
           <>
             <div className="flex-col justify-start items-start gap-[5px] inline-flex">
-              <div className="text-[#171d24] text-lg font-semibold font-['Pretendard']">{imageList.length}장의 추억</div>
+              <div className="text-[#171d24] text-lg font-semibold font-['Pretendard']">
+                {imageList.length}장의 추억
+              </div>
             </div>
             <ImageContainer>
               <ImageDiv>
@@ -144,16 +151,16 @@ const Overlay = styled.div`
 `;
 
 const CloseButton = styled.button`
-    ${tw`absolute right-[10px]`}
+  ${tw`absolute right-[10px]`}
 `;
 
 const InputContainer = styled.div`
-    ${tw`w-10/12 p-2.5 bg-[#e9eaee] rounded-lg flex justify-end items-center `}
-    &:focus {
-        outline: none;
-    }
+  ${tw`w-10/12 p-2.5 bg-[#e9eaee] rounded-lg flex justify-end items-center `}
+  &:focus {
+    outline: none;
+  }
 `;
 
 const SearchIcon = styled.button`
-    ${tw`w-6 p-px flex justify-center items-center`}
+  ${tw`w-6 p-px flex justify-center items-center`}
 `;
