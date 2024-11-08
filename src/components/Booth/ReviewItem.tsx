@@ -1,14 +1,14 @@
 import tw from "twin.macro";
 import styled from "styled-components";
 import { Review } from "../../@types/review";
-
-function ReviewItem({ name, year, month, date, contents, features, imageUrl, imageCount }: Review) {
+import DefaultImg from "../../assets/images/default-profile.svg?url";
+function ReviewItem({ name, year, month, date, contents, features, imageUrl, imageCount, profileUrl }: Review) {
   return (
     <Container>
       <div className="flex gap-[10px]">
         <div className="flex flex-col w-full gap-[10px]">
           <div className="flex gap-[8px] items-center">
-            <div className="profile-icon"></div>
+            <img className="profile-icon" src={profileUrl ? profileUrl : DefaultImg} />
             <div className="flex flex-col">
               <span className="nickname">{`@${name}`}</span>
               <span className="date">{`${year}.${month}.${date} 작성`}</span>
@@ -39,7 +39,7 @@ export default ReviewItem;
 const Container = styled.div`
   ${tw`w-full flex flex-col font-display my-[20px] gap-[10px]`}
   .profile-icon {
-    ${tw`w-[33px] h-[33px] rounded-[50%] bg-gray200`}
+    ${tw`w-[33px] h-[33px] rounded-[50%]`}
   }
   .nickname {
     ${tw`font-semibold text-[16px] text-gray700`}
