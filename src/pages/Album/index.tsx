@@ -250,7 +250,7 @@ function Album() {
               <SearchIcon>
                 <Search />
               </SearchIcon>
-              <span className="w-full bg-gray100 pl-2 text-gray400">해시태그로 사진 검색!</span>
+              <span className=" bg-gray100 text-gray400">해시태그로 사진 검색!</span>
             </HashtagSearchButton>
           </HeaderSection>
         )}
@@ -272,15 +272,15 @@ function Album() {
               <svg width="246" height="34" viewBox="0 0 246 34" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path
                   d="M22.9085 1.09121C23.7089 0.03951 25.2911 0.0395091 26.0915 1.0912L34.6135 12.2888C35.6155 13.6054 34.6765 15.5 33.0219 15.5H15.9781C14.3235 15.5 13.3845 13.6054 14.3865 12.2888L22.9085 1.09121Z"
-                  fill="gray"
+                  fill="#FFFFFF"
                 />
-                <rect y="8" width="200" height="26" rx="13" fill="gray" />
+                <rect y="8" width="200" height="26" rx="13" fill="#FFFFFF" />
                 <text
                   x="42%"
                   y="62%"
                   dominantBaseline="middle"
                   textAnchor="middle"
-                  fill="#FFFFFF"
+                  fill="#676F7B"
                   fontSize="12"
                   fontFamily="Pretendard"
                   fontWeight="normal"
@@ -418,7 +418,7 @@ const Content = styled.div`
 `;
 
 const HeaderSection = styled.div`
-  ${tw`flex flex-col items-center`}
+  ${tw`flex flex-col items-center fixed`}
   position: relative;
   z-index: 10;
 `;
@@ -426,7 +426,7 @@ const HeaderSection = styled.div`
 const ButtonGroup = styled.div`
   ${tw`flex w-full gap-2 justify-between fixed`} // fixed로 위치 고정
     max-width: 480px;
-  top: 100px; // 원하는 위치로 조정
+  top: 85px; // 원하는 위치로 조정
   z-index: 20; // ImageContainer보다 높은 z-index 설정
 `;
 
@@ -437,11 +437,13 @@ const Subtitle = styled.div`
 `;
 
 const PositionedDiv = styled.div`
-  ${tw`absolute mt-2`}
+  ${tw`absolute `}
   top: 100%;
-  left: 50%;
-  transform: translateX(-90%);
+  left: 0px;
+
   margin-top: 1px;
+
+  filter: drop-shadow(3px 3px 10px rgba(0, 0, 0, 0.25));
 `;
 
 const ActionButton = styled.div`
@@ -476,7 +478,7 @@ const CategoryItem = styled.div<{ selected?: boolean }>`
 `;
 
 const HashtagSearchButton = styled.button`
-  ${tw`w-2/3 p-2.5 bg-[#e9eaee] rounded-lg flex justify-end items-center mb-4`}
+  ${tw`w-full p-2.5 bg-[#e9eaee] rounded-lg flex items-center mb-4 gap-2`}
   &:focus {
     outline: none;
   }

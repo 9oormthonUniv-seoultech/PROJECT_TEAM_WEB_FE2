@@ -57,11 +57,13 @@ function PhotoUpload() {
           isActive={activeOption === "QR"}
           label="QR 인식"
           subLabel="QR 인식은 하루필름 매장만 가능해요"
+          size="large"
         />
         <OptionButton
           onClick={() => handleOptionClick("Upload")}
           isActive={activeOption === "Upload"}
           label="내 사진첩 불러오기"
+          size="large"
         />
       </OptionContainer>
 
@@ -80,10 +82,6 @@ const Container = styled.div`
 
 const OptionContainer = styled.div`
   ${tw`flex flex-col items-center m-auto`}
-`;
-
-const ButtonContainer = styled.button`
-  ${tw`w-[280px] h-[62px] bg-[#5453ee] rounded-lg mt-12 mb-[88px] flex justify-center items-center`}
 `;
 
 const CloseButton = styled.button`
