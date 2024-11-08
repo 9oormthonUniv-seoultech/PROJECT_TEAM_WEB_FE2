@@ -6,22 +6,26 @@ import { createLink } from "../../api/share.ts";
 import { useAuthStore } from "../../store/useAuthStore.ts";
 import CloseIcon from "../../assets/icons/close-icon.tsx";
 import { useAlertStore } from "../../store/useAlertStore.ts";
-
+import { CopyToClipboard } from "react-copy-to-clipboard";
+import { useEffect, useState } from "react";
 function UploadComplete() {
   const navigate = useNavigate();
   const location = useLocation();
   const { accessToken } = useAuthStore();
 
   const { albumId } = location.state;
+  const [shareLink, setShareLink] = useState("");
 
-  const { openAlert } = useAlertStore();
-  const createShareLink = async () => {
-    const res = await createLink(albumId, accessToken!);
-    if (res) {
-      await navigator.clipboard.writeText(res);
-      navigate("/share-complete");
-    }
-  };
+  // 컴포넌트가 마운트될 때 링크 자동 생성
+  useEffect(() => {
+    const generateShareLink = async () => {
+      const res = await createLink(albumId, accessToken!);
+      if (res) {
+        setShareLink(res); // 링크를 상태로 저장
+      }
+    };
+    generateShareLink();
+  }, [albumId, accessToken]);
 
   const handleClose = () => {
     navigate("/album");
@@ -40,9 +44,11 @@ function UploadComplete() {
         <span className="text-gray200 text-[14px] font-medium font-display mt-1 w-[220px] text-center">
           공유링크를 통해 같이 찍은 친구, 가족의 앨범에도 자동으로 등록할 수 있어요
         </span>
-        <ButtonContainer onClick={createShareLink}>
-          <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">공유할래요</div>
-        </ButtonContainer>
+        <CopyToClipboard text={shareLink} onCopy={() => navigate("/share-complete")}>
+          <ButtonContainer>
+            <div className="text-center text-white text-[22px] font-semibold font-['Pretendard']">공유할래요</div>
+          </ButtonContainer>
+        </CopyToClipboard>
         <ButtonContainer2 className="mt-0" onClick={() => navigate("/album")}>
           <div className="text-center text-[#676f7b] text-[22px] font-semibold font-['Pretendard']">다음에 할게요</div>
         </ButtonContainer2>
