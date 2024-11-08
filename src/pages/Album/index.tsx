@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import NavBar from "../../components/Common/NavBar";
-import Search from "../../assets/images/search.svg?react";
+import SearchSvg from "../../assets/images/search.svg?react";
 import NoImage from "../../assets/images/no-images.svg?react";
 import More from "../../assets/images/more.svg?react";
 import styled from "styled-components";
@@ -18,6 +18,7 @@ import { getCurrentLocation } from "../../hooks/getLocation.tsx";
 import AlbumMap from "../../components/Album/AlbumMap.tsx";
 import Modal from "../../components/Common/Modal.tsx";
 import { searchPhotoBoothName } from "../../api/booth.ts";
+import Search from "../../components/Home/Search.tsx";
 type Image = {
   albumId: number;
   photoUrl: string;
@@ -248,7 +249,7 @@ function Album() {
           <HeaderSection>
             <HashtagSearchButton onClick={() => setIsHashtagSearchModalOpen(true)}>
               <SearchIcon>
-                <Search />
+                <SearchSvg />
               </SearchIcon>
               <span className=" bg-gray100 text-gray400">해시태그로 사진 검색!</span>
             </HashtagSearchButton>
@@ -290,7 +291,7 @@ function Album() {
               </svg>
             )}
           </PositionedDiv>
-          <div className="flex gap-2 items-center mr-8">
+          <div className="flex gap-2 items-center">
             {isEditing ? (
               <ActionButton onClick={handleCancelClick}>취소</ActionButton>
             ) : (
@@ -310,7 +311,10 @@ function Album() {
         )}
 
         {searchCategory === "위치별" ? (
-          <></>
+          <div className="w-full relative">
+            <Search />
+            <AlbumMap />
+          </div>
         ) : (
           <>
             {isLoading ? (
@@ -397,7 +401,7 @@ const Layout = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  ${tw`flex flex-col w-full`}
+  ${tw`flex flex-col w-full px-4`}
   height: 100vh; /* 높이를 조정하여 다른 UI 요소가 가리지 않도록 */
   overflow-y: auto;
   position: relative;
@@ -413,18 +417,24 @@ const ImageDiv = styled.div`
 `;
 
 const Content = styled.div`
-  ${tw`flex flex-col w-full px-4 py-6 gap-4`}
+  ${tw`flex flex-col w-full  gap-4`}
   height: calc(100vh - 60px);
 `;
 
 const HeaderSection = styled.div`
-  ${tw`flex flex-col items-center fixed`}
+  ${tw`w-full flex flex-col items-center fixed top-0  px-4 mx-auto mt-6 `}
   position: relative;
   z-index: 10;
 `;
 
+const HashtagSearchButton = styled.button`
+  ${tw`w-full p-2.5 bg-[#e9eaee] rounded-lg flex items-center mb-4 gap-2`}
+  &:focus {
+    outline: none;
+  }
+`;
 const ButtonGroup = styled.div`
-  ${tw`flex w-full gap-2 justify-between fixed`} // fixed로 위치 고정
+  ${tw`flex w-full justify-between fixed px-4`} // fixed로 위치 고정
     max-width: 480px;
   top: 85px; // 원하는 위치로 조정
   z-index: 20; // ImageContainer보다 높은 z-index 설정
@@ -439,7 +449,7 @@ const Subtitle = styled.div`
 const PositionedDiv = styled.div`
   ${tw`absolute `}
   top: 100%;
-  left: 0px;
+  left: 5px;
 
   margin-top: 1px;
 
@@ -475,13 +485,6 @@ const CategoryItem = styled.div<{ selected?: boolean }>`
   transition:
     background-color 0.3s ease,
     color 0.3s ease;
-`;
-
-const HashtagSearchButton = styled.button`
-  ${tw`w-full p-2.5 bg-[#e9eaee] rounded-lg flex items-center mb-4 gap-2`}
-  &:focus {
-    outline: none;
-  }
 `;
 
 const SearchIcon = styled.div`

@@ -29,6 +29,7 @@ import CheckPhoto from "./pages/PhotoUpload/CheckPhoto";
 import WriteDetail from "./pages/PhotoUpload/WriteDetail";
 import Share from "./pages/Share";
 import AlertDialog from "./components/Alert/AlertDialog";
+import ShareCompleteScreen from "./pages/PhotoUpload/ShareCompleteScreen";
 
 function App() {
   const { isLoggedIn } = useAuthStore();
@@ -86,6 +87,7 @@ function App() {
             <Route path="/photo-check" element={<CheckPhoto />} />
             <Route path="/write-detail" element={<WriteDetail />} />
             <Route path="/upload-complete" element={<UploadComplete />} />
+            <Route path="/share-complete" element={<ShareCompleteScreen />} />
             <Route path="/album" element={<Album />} />
           </Route>
           <Route path="/share" element={<Share />} />

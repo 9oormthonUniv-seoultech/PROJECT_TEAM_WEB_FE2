@@ -61,7 +61,7 @@ function My() {
         {/* 하위 홈, 리뷰, 사진 영역 컴포넌트 렌더링 */}
         <Outlet />
         <button
-          className="text-gray400 border-b-[1px] border-b-gray400 mx-auto px-1 text-[14px] font-medium"
+          className="text-gray400 border-b-[1px] border-b-gray400 mx-auto px-1 text-[14px] font-medium mt-1"
           onClick={handleLogout}
         >
           로그아웃
