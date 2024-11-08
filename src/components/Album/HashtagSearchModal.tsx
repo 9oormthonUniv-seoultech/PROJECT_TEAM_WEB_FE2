@@ -84,8 +84,8 @@ export default function HashtagSearchModal({ setIsModalOpen }: BoothFilterProps)
           </div>
         ) : (
           <>
-            <div className="flex-col justify-start items-start gap-[5px] inline-flex">
-              <div className="text-[#171d24] text-lg font-semibold font-['Pretendard']">
+            <div className="flex-col justify-start items-start gap-[5px] inline-flex w-full ml-8 mt-3">
+              <div className="text-[#171d24] text-[18px] font-semibold font-['Pretendard']">
                 {imageList.length}장의 추억
               </div>
             </div>
@@ -127,7 +127,7 @@ const Container = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  ${tw`flex flex-col w-full h-[80vh] mt-4`}
+  ${tw`flex flex-col w-full h-[80vh] mt-3`}
   overflow-y: auto;
   position: relative;
   z-index: 1; /* 다른 요소들보다 낮게 설정 */

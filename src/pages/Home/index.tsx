@@ -9,7 +9,7 @@ import BoothMap from "../../components/Home/BoothMap";
 function Home() {
   return (
     <Layout>
-      <main className="w-full relative">
+      <main className="w-full relative h-[calc(100vh-60px)]">
         <BoothMap />
         <Search />
         <BoothSlide />

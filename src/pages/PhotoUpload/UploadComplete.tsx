@@ -19,7 +19,7 @@ function UploadComplete() {
     const res = await createLink(albumId, accessToken!);
     if (res) {
       await navigator.clipboard.writeText(res);
-      openAlert("공유링크가 클립보드에 복사되었어요!");
+      navigate("/share-complete");
     }
   };
 
