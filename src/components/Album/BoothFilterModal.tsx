@@ -4,7 +4,7 @@ import styled from "styled-components";
 import CloseIcon from "../../assets/icons/close-icon";
 import OptionButton from "../Common/OptionButton.tsx";
 import NextButton from "../Common/NextButton.tsx";
-import {BoothCategories} from "../../data/booth-categories.ts";
+import { BoothCategories } from "../../data/booth-categories.ts";
 
 type BoothFilterProps = {
   photoBooth: string;
@@ -13,8 +13,8 @@ type BoothFilterProps = {
 };
 
 export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBoothFilterModalOpen }: BoothFilterProps) {
-  const photoBoothOptions = BoothCategories.map((item) => (item.label));
-  
+  const photoBoothOptions = BoothCategories.map((item) => item.label);
+
   return (
     <Overlay>
       <Container>
@@ -27,7 +27,7 @@ export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBooth
           </div>
           <hr className="h-[1.5px] w-full bg-gray200 " />
         </header>
-        
+
         <OptionContainer>
           {photoBoothOptions.map((booth) => (
             <OptionButton
@@ -35,12 +35,12 @@ export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBooth
               onClick={() => setPhotoBooth(booth)}
               isActive={photoBooth === booth}
               label={booth}
-              size={"small"}
+              // size={"small"}
             />
           ))}
         </OptionContainer>
         <div className="mt-4">
-          <NextButton text={"확인"} onClick={() => setIsBoothFilterModalOpen(false)}/>
+          <NextButton text={"확인"} onClick={() => setIsBoothFilterModalOpen(false)} />
         </div>
       </Container>
     </Overlay>
@@ -48,7 +48,7 @@ export default function BoothFilterModal({ photoBooth, setPhotoBooth, setIsBooth
 }
 
 const Overlay = styled.div`
-    ${tw`
+  ${tw`
     w-full h-full bg-[black] bg-opacity-40
     fixed top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[-50%]
     flex justify-center items-center
@@ -57,14 +57,14 @@ const Overlay = styled.div`
 `;
 
 const Container = styled.div`
-    ${tw`bg-background flex flex-col items-center min-h-screen w-full max-w-[480px] m-auto`}
-    overflow-x: hidden;
+  ${tw`bg-background flex flex-col items-center min-h-screen w-full max-w-[480px] m-auto`}
+  overflow-x: hidden;
 `;
 
 const OptionContainer = styled.div`
-    ${tw`grid grid-cols-2 gap-4`}
+  ${tw`grid grid-cols-2 gap-4`}
 `;
 
 const CloseButton = styled.button`
-    ${tw`absolute right-[10px]`}
+  ${tw`absolute right-[10px]`}
 `;

@@ -92,7 +92,7 @@ const MainWrapper = styled.div`
 
 const MenuContainer = styled.div<{ isSticky: boolean }>`
   ${tw`flex flex-row w-full h-[35px] border-b-2 border-b-gray100  justify-between px-[30px] bg-[white]`}
-  ${({ isSticky }) => isSticky && `position: fixed; top: 58px; z-index: 10;`}
+  ${({ isSticky }) => isSticky && `position: fixed; top: 58px; z-index: 10 ; max-width: 480px;`}
 `;
 const MenuBtn = styled.button<{ $active: boolean }>`
   ${tw`w-[67px] h-[35px] font-display font-semibold text-[16px]`}

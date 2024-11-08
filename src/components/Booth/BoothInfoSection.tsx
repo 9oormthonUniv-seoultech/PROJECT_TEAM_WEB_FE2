@@ -5,25 +5,41 @@ import { getDistance } from "../../hooks/getLocation";
 import useBoothFilterStore from "../../store/useBoothFilterStore";
 import { SpecificBoothInfo } from "../../@types/booth";
 import { FaHeart } from "react-icons/fa";
-import { useState } from "react";
-import { postboothLike } from "../../api/my";
+import { useEffect, useState } from "react";
+import { checkBoothLike, deleteboothLike, postboothLike } from "../../api/my";
 import { useParams } from "react-router-dom";
 import { useAuthStore } from "../../store/useAuthStore";
 import LikeFilledIcon from "../../assets/icons/like-filled-icon";
 import LikeNotFilledIcon from "../../assets/icons/like-not-filled-icon";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 function BoothInfoSection({ name, road, x, y }: SpecificBoothInfo) {
   const { lat, lng } = useBoothFilterStore();
 
   const { boothId } = useParams() as { boothId: string };
   const { accessToken } = useAuthStore();
+  const [like, setLike] = useState(false);
 
-  const [like, setLike] = useState<boolean>(false);
+  // 좋아요 여부 조회 api 호출
+  const { data } = useQuery({
+    queryKey: ["checkLike", boothId],
+    queryFn: () => checkBoothLike(accessToken!, boothId).then((res) => setLike(res!)),
+  });
+
+  // 좋아요 버튼 클릭 핸들러
   const handleLike = async () => {
-    const res = await postboothLike(accessToken!, boothId);
-    if (res === "success") {
-      setLike(!like);
+    if (like) {
+      const res = await deleteboothLike(accessToken!, boothId);
+      if (res) {
+        setLike(false);
+      }
+    } else {
+      const res = await postboothLike(accessToken!, boothId);
+      if (res) {
+        setLike(true);
+      }
     }
   };
+
   return (
     <Container>
       <ColBox>
