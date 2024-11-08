@@ -39,7 +39,6 @@ function My() {
     const res = await getLogout(accessToken!);
     if (res) {
       logout();
-      navigate("/home");
     }
   };
   return (

@@ -5,6 +5,9 @@ import LikeFilledIcon from "../../assets/icons/like-filled-icon";
 import LikeNotFilledIcon from "../../assets/icons/like-not-filled-icon";
 import { searchLogoUrlByName } from "../../hooks/getImageUrl";
 import { useState } from "react";
+import { deleteboothLike, postboothLike } from "../../api/my";
+import { useAuthStore } from "../../store/useAuthStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 type CardProps = {
   width?: string;
   height?: string;
@@ -16,6 +19,26 @@ type CardProps = {
 };
 function LikeBoothCard({ width, height, photoBoothId, name, rating, feature, featureCount }: CardProps) {
   const [like, setLike] = useState(true);
+  const { accessToken } = useAuthStore();
+
+  const queryClient = useQueryClient();
+
+  const deleteData = useMutation({
+    mutationFn: () => deleteboothLike(accessToken!, photoBoothId.toString()),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getLikedBooths"] }); //queryKey는 배열로 전달해야함
+    },
+    onError: () => {
+      console.error("에러 발생");
+    },
+    onSettled: () => {
+      console.log("결과에 관계 없이 무언가 실행됨");
+    },
+  });
+  const deleteFn = () => {
+    deleteData.mutate();
+  };
+
   return (
     <CardBox width={width} height={height}>
       <ImgBox $imageurl={searchLogoUrlByName(name)} />
@@ -28,9 +51,9 @@ function LikeBoothCard({ width, height, photoBoothId, name, rating, feature, fea
           </div>
         </div>
         <div className="flex gap-[2px] items-center">
-          <span className="hash-tag">{feature}</span>
-          <span className="hash-tag">{`+${featureCount - 1}`}</span>
-          <button className="like-btn">
+          <span className="hash-tag">{feature ? feature : "#가 없어요"}</span>
+          {featureCount > 1 && <span className="hash-tag">{`+${featureCount - 1}`}</span>}
+          <button className="like-btn" onClick={deleteFn}>
             {like ? <LikeFilledIcon width={22} height={22} /> : <LikeNotFilledIcon width={22} height={22} />}
           </button>
         </div>
