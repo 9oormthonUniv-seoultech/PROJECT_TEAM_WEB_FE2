@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import tw from "twin.macro";
 import styled from "styled-components";
-import CompleteSvg from "../assets/images/complete-review.svg?react";
-import { useNavigate } from "react-router-dom";
-function CompleteScreen() {
+import CompleteSvg from "../../assets/images/share-complete.svg?react";
+function ShareCompleteScreen() {
   const [opacity, setOpacity] = useState(100);
   const navigate = useNavigate();
   useEffect(() => {
@@ -15,18 +15,18 @@ function CompleteScreen() {
       return () => clearTimeout(timer); // 타이머 정리
     } else {
       // 페이지 이동
-      navigate("/home");
+      navigate("/album");
     }
   }, [opacity]);
   return (
     <Layout>
       <CompleteSvg />
-      <span className=" text-gray400 mt-1">소중한 의견이 등록되었어요!</span>
+      <span className="w-[145px] text-gray400 mt-1">링크가 복사됐어요!</span>
     </Layout>
   );
 }
 
-export default CompleteScreen;
+export default ShareCompleteScreen;
 const Layout = styled.div`
   ${tw`flex flex-col [max-width: 480px] w-full h-[100vh] items-center  justify-center font-display bg-[#FFFFFF]`}
 `;

@@ -86,7 +86,7 @@ export const getPhotoLikes = async (accessToken: string) => {
   try {
     const res = await Get<{ albumId: number; photoUrl: string; like: boolean }[]>("/api/v1/album/favorite", {
       headers: {
-        Authorization: `Bearer: ${accessToken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     });
     return res.data.payload;
