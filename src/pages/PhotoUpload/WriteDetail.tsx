@@ -14,7 +14,6 @@ function WriteDetail() {
   const [isHashModalOpen, setIsHashModalOpen] = useState(false);
   const [isRecordModalOpen, setIsRecordModalOpen] = useState(false);
   const [countHash, setCountHash] = useState(0);
-  // const [imageFiles, setImageFiles] = useState<File[]>([imgSrc]);
   const { accessToken } = useAuthStore();
   const location = useLocation();
 
@@ -46,12 +45,29 @@ function WriteDetail() {
     const count = hashTags.filter((tag) => tag.length > 0);
     setCountHash(count.length);
   }, [hashTags]);
-
+  
   const getUploadedFilePaths = async () => {
-    const presignedData = await getPresignedUrl("/images/album", imageFile.name, accessToken!);
-    if (presignedData) {
-      //s3에 이미지 업로드
-      await uploadToS3(presignedData.url, imageFile);
+    let imageName = "";
+    let imageFileToUpload: File | undefined;
+    
+    if (qrLink) {
+      const url = new URL(qrLink);
+      imageName = url.pathname.split("/").pop() || "qr-photo";
+      // QR URL에서 이미지 Blob 가져오기
+      const response = await fetch(qrLink);
+      const blob = await response.blob();
+      imageFileToUpload = new File([blob], imageName, { type: blob.type }); // Blob을 File 객체로 변환
+      //TODO 인생네컷으로 받아오는 QR 링크가 실제로 blob화가 가능한지 검증이 필요함
+    } else if (imageFile) {
+      imageName = imageFile.name;
+      imageFileToUpload = imageFile;
+    }
+    
+    // presigned URL 가져오기
+    const presignedData = await getPresignedUrl("/images/album", imageName, accessToken!);
+    if (presignedData && imageFileToUpload) {
+      // S3에 이미지 업로드
+      await uploadToS3(presignedData.url, imageFileToUpload);
       return presignedData.filePath;
     }
   };
@@ -81,10 +97,8 @@ function WriteDetail() {
 
   // 메인 로직
   const handleUpload = async () => {
-    console.log(imageFile);
     // Step 2: 이미지 업로드 및 filePaths 저장
     const filePath = await getUploadedFilePaths();
-    console.log(filePath);
     // Step 3: 리뷰등록 api 호출
     if (filePath) {
       await uploadImage(accessToken!, boothId, year, month, day, hashTags, records, filePath);
@@ -152,7 +166,13 @@ function WriteDetail() {
         </div>
 
         {isHashModalOpen && <HashTagModal hashTags={hashTags} closeModal={closeHashModal} setHashTags={setHashTags} />}
-        <img className="w-[80%]" src={URL.createObjectURL(imageFile)} alt="QR 사진" />
+        
+        {!imageFile ? (
+          <img className="w-[80%] h-[400px]" src={qrLink} alt="QR 사진" />
+        ) : (
+          <img className="w-[80%]" src={URL.createObjectURL(imageFile)} alt="업로드 사진" />
+        )}
+        
 
         <button
           className="w-[90%] p-[10px] rounded-lg bg-[#e9eaee] text-[#676f7b] text-base font-normal font-['Pretendard']"

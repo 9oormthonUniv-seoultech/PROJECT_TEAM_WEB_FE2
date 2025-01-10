@@ -26,9 +26,10 @@ function ReviewPhoto() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { imageFile } = location.state;
+  const { imageFile, qrLink } = location.state;
 
   console.log(imageFile);
+  console.log(qrLink);
 
   const handleNext = () => {
     navigate("/write-detail", {
@@ -36,7 +37,7 @@ function ReviewPhoto() {
         year: year,
         month: month,
         day: day,
-        qrLink: location.state.qrLink,
+        qrLink: qrLink,
         imageFile: imageFile,
         boothId: boothId,
       },

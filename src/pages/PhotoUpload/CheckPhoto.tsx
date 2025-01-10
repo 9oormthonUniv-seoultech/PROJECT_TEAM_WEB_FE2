@@ -6,14 +6,31 @@ import NextButton from "../../components/Common/NextButton.tsx";
 
 function CheckPhoto() {
   const navigate = useNavigate();
-
   const location = useLocation();
-  const { imageFile } = location.state;
-
+  const { imageFile, qrLink } = location.state;
+  
   const handleNextClick = () => {
-    navigate("/photo-review", { state: { imageFile: imageFile } });
+    navigate("/photo-review", { state: { imageFile: imageFile , qrLink: qrLink } });
   };
-
+  
+  console.log(qrLink);
+  
+  if (!imageFile) {
+    // imageFile이 없는 경우 처리
+    return (
+      <Container>
+        <Header>
+          <Title>QR 사진 확인</Title>
+          <button className="absolute left-[10px] top-[35%]" onClick={() => navigate(-1)}>
+            <BackIcon color="white" />
+          </button>
+        </Header>
+        <img src={qrLink} alt="QR 사진" className="img-container" />
+        <NextButton onClick={handleNextClick} text="다음" />
+      </Container>
+    );
+  }
+  
   return (
     <Container>
       <Header>
@@ -22,8 +39,7 @@ function CheckPhoto() {
           <BackIcon color="white" />
         </button>
       </Header>
-
-      <img src={URL.createObjectURL(imageFile)} alt="QR 사진" className="img-container" />
+      <img src={URL.createObjectURL(imageFile)} alt="업로드 사진" className="img-container" />
       <NextButton onClick={handleNextClick} text="다음" />
     </Container>
   );
