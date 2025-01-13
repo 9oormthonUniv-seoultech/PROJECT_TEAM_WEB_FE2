@@ -80,7 +80,7 @@ const CircleInner = styled.div<{ size: string }>`
       case "small":
         return tw`w-2 h-2 left-[4px] top-[4px]`;
       case "large":
-        return tw`w-3 h-3 left-[8px] top-[8px]`;
+        return tw`w-3 h-3 left-[9px] top-[9px]`;
       default:
         return tw`w-2.5 h-2.5 left-[6px] top-[6px]`;
     }
